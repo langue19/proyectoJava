@@ -39,8 +39,4 @@ public class Nodo <G> {
     public Object obtenerDato() {
         return getDato();
     }
-    
-    public boolean igualCod(G x){
-        return dato.getCod_ident().equals(x.getCod_ident());
-    }
 }
