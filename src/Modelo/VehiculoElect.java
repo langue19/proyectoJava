@@ -13,6 +13,8 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable {
         this.tiempo_recarga = "";
     }
 
+
+    
     public void setDatosElectrico(double autonomia_km, String tiempo_recarga) {
         setAutonomia_km(autonomia_km);
         setTiempo_recarga(tiempo_recarga);

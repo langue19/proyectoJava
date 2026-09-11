@@ -40,4 +40,3 @@ public class Nodo <G> {
         return getDato();
     }
 }
-/***hhhh

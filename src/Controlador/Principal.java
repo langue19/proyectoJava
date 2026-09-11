@@ -6,7 +6,4 @@ public class Principal {
         ControladorAutoMove controlador = new ControladorAutoMove();
         controlador.iniciar();
     }
-    //aylen gei
-    //ultra gei
-    //Triple gei
 }

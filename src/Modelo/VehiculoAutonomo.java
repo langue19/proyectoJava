@@ -21,6 +21,12 @@ public abstract class VehiculoAutonomo {
         this.km_reco = 0.0;
         this.estado = "";
     }
+public abstract boolean puedeRealizarMision(Mision m);
+
+public void mostrarInformacion() {  }
+
+public void actualizarEstado(String estado) {  }
+
 
     /**
      * Carga los datos comunes a todo vehiculo. El controlador

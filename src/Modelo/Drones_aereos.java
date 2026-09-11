@@ -1,6 +1,8 @@
 package Modelo;
 
-public class Drones_aereos extends VehiculoAutonomo {
+import Interface.Recargable;
+
+public class Drones_aereos extends VehiculoAutonomo implements Recargable {
 
     private double autonomia_vuelo;
     private double altura_max;
@@ -16,8 +18,12 @@ public class Drones_aereos extends VehiculoAutonomo {
         setAltura_max(altura_max);
     }
     
+    @Override
+public boolean puedeRealizarMision(Mision m) {
+  
+}
+
     public int validarAutonomia(Double v){
-        
     }
 
     public double getAutonomia() {
