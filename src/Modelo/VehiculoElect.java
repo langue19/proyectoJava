@@ -2,7 +2,7 @@ package Modelo;
 
 import Interface.Recargable;
 
-public class VehiculoElect extends VehiculoAutonomo implements Recargable {
+public class VehiculoElect extends VehiculoAutonomo {
 
     private double autonomia_km;
     private String tiempo_recarga;
@@ -39,5 +39,10 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable {
 
     private void setTiempo_recarga(String tiempo_recarga) {
         this.tiempo_recarga = tiempo_recarga;
+    }
+
+    @Override
+    public boolean puedeRealizarMision(Mision m) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

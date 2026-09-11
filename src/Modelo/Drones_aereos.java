@@ -2,7 +2,7 @@ package Modelo;
 
 import Interface.Recargable;
 
-public class Drones_aereos extends VehiculoAutonomo implements Recargable {
+public class Drones_aereos extends VehiculoAutonomo {
 
     private double autonomia_vuelo;
     private double altura_max;
