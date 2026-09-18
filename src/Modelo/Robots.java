@@ -15,6 +15,7 @@ public class Robots extends VehiculoAutonomo{
 
 @Override
 public boolean puedeRealizarMision(Mision m) {
+    return false;
 }
 
     public void setearDatosRobot(int tipo_terreno, double velocidad_max) {

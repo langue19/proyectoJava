@@ -20,7 +20,6 @@ public class VehiculoElect extends VehiculoAutonomo {
         setTiempo_recarga(tiempo_recarga);
     }
 
-    @Override
     public void recargar() {
         setNivel_bat(getCapacidad_maxima());
     }

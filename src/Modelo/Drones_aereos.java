@@ -17,13 +17,15 @@ public class Drones_aereos extends VehiculoAutonomo {
         setAutonomia(autonomia_vuelo);
         setAltura_max(altura_max);
     }
-    
-    @Override
-public boolean puedeRealizarMision(Mision m) {
-  
-}
 
-    public int validarAutonomia(Double v){
+    @Override
+    public boolean puedeRealizarMision(Mision m) {
+
+        return false;
+    }
+
+    public int validarAutonomia(Double v) {
+        return 0;
     }
 
     public double getAutonomia() {

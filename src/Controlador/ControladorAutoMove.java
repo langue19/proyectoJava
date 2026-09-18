@@ -1,7 +1,6 @@
 
 package Controlador;
 
-import Vista.GestionAutoMove;
 import Modelo.LSE.ListaS;
 import Modelo.Robots;
 import Modelo.Drones_aereos;
