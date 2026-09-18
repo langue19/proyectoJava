@@ -1,4 +1,4 @@
-package Modelo.LSE;
+package AccesoDatos;
 
 
 public class Nodo <G> {

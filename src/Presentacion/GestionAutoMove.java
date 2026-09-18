@@ -3,17 +3,17 @@
   del usuario. no decide que hacer con esa informacion (eso es del
   Controlador) y no conoce logica de negocio.
  */
-package Controlador;
+package Presentacion;
 
 import Modelo.Robots;
 import Modelo.Drones_aereos;
 import Modelo.VehiculoElect;
 import Modelo.Mision;
-import Modelo.LSE.ListaS;
-import Modelo.LSE.Nodo;
+import AccesoDatos.ListaS;
+import AccesoDatos.Nodo;
 import Modelo.VehiculoAutonomo;
-import Vista.Consola;
-import Vista.Consola;
+import LogicaDeNegocios.Consola;
+import LogicaDeNegocios.Consola;
 
 public class GestionAutoMove {
 

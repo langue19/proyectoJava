@@ -1,7 +1,7 @@
 /*
  Capa VISTA: entrada y salida por consola.
  */
-package Vista;
+package LogicaDeNegocios;
 
 import java.util.Scanner;
 

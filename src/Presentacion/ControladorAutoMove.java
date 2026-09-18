@@ -1,10 +1,9 @@
 
-package Controlador;
+package Presentacion;
 
-import Modelo.LSE.ListaS;
+import AccesoDatos.ListaS;
 import Modelo.Robots;
-import Modelo.Drones_aereos;
-import Modelo.VehiculoElect;
+
 
 public class ControladorAutoMove {
 
@@ -16,7 +15,7 @@ public class ControladorAutoMove {
         int opcion;
         do {
             vista.mostrarMenu();
-            opcion = vista.leerOpcionMenu();
+            opcion = vista.leerOpcionMenu();s
             switch (opcion) {
                 case 1:
                     registrarVehiculo();
