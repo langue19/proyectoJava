@@ -9,7 +9,68 @@ import LogicaNegocios.*;
 import AccesoDatos.*;
 import LogicaNegocios.*;
 
-public class GestionAutoMove {
+public class MenuAutoMove {
+
+    private GestorAutoMove vista = new GestorAutoMove();
+
+    public void iniciar() {
+        mostrarBienvenida();
+        int opcion;
+        do {
+            leerOpcionMenu();
+            switch (opcion) {
+                case 1:
+                    registrarVehiculo();
+                    break;
+                case 2:
+                    registrarMision();
+                    break;
+                case 3:
+                    mostrarListaVehiculos(vehiculos);
+                    break;
+                case 4:
+                    verificarDisponibilidad();
+                    break;
+                case 5:
+                    asignarMision();
+                    break;
+                case 0:
+                    mostrarMensaje("Saliendo...");
+                    break;
+            }
+        } while (opcion != 0);
+    }
+
+    private void registrarVehiculo() {
+        int tipo = leerTipoVehiculo();
+        switch (tipo) {
+            case 1:
+                Robots r = vista.pedirDatosRobot();
+                vehiculos.insertarPri(r);
+                break;
+            case 2:
+                Drones_aereos d = vista.pedirDatosDron();
+                vehiculos.insertarPri(d);
+                break;
+            case 3:
+                VehiculoElect v = vista.pedirDatosVehiculoElectrico();
+                vehiculos.insertarPri(v);
+                break;
+        }
+        vista.mostrarMensaje("Vehiculo registrado correctamente.");
+    }
+
+    private void registrarMision() {
+
+    }
+
+    private void verificarDisponibilidad() {
+
+    }
+
+    private void asignarMision() {
+
+    }
 
     public void mostrarBienvenida() {
         Consola.mostrarMensaje("BIENVENIDO USUARIO! ");
@@ -37,7 +98,6 @@ public class GestionAutoMove {
     }
 
     // --- Recoleccion de datos: la Vista pide los datos crudos y arma el objeto ---
-
     public Robots pedirDatosRobot() {
         Robots r = new Robots();
         r.setDatosBase(
@@ -100,7 +160,6 @@ public class GestionAutoMove {
     }
 
     // --- Presentacion de resultados ---
-
     public void mostrarListaVehiculos(ListaS lista) {
         if (lista.listaVacia()) {
             Consola.mostrarMensaje("No hay vehiculos registrados.");
@@ -109,7 +168,8 @@ public class GestionAutoMove {
         Nodo p = lista.inicio();
         while (p != null) {
             VehiculoAutonomo v = (VehiculoAutonomo) p.getDato();
-            System.out.println(v);     /*<---------Preguntar si usar toString*/
+            System.out.println(v);
+            /*<---------Preguntar si usar toString*/
             p = p.getPs();
         }
     }
