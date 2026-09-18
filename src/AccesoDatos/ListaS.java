@@ -1,14 +1,13 @@
 package AccesoDatos;
 
-
-public class ListaS <G>{
+public class ListaS<G extends Comparable<G>> {
     private Nodo<G> list;
 
     public ListaS() {
         this.list = null;
     }
 
-    public Nodo inicio() {
+    public Nodo<G> inicio() {
         return list;
     }
 
@@ -17,7 +16,7 @@ public class ListaS <G>{
     }
 
     public void insertarPri(G a) {
-        Nodo x = new Nodo(a);
+        Nodo<G> x = new Nodo<>(a);
         if (list == null) {
             list = x;
         } else {
@@ -26,10 +25,10 @@ public class ListaS <G>{
         }
     }
 
-    public Nodo eliminar(G a) {
-        Nodo x = null;
-        Nodo p = list;
-        Nodo ant = null;
+    public Nodo<G> eliminar(G a) {
+        Nodo<G> x = null;
+        Nodo<G> p = list;
+        Nodo<G> ant = null;
         int b = 0;
         while (p != null && b == 0) {
             if (p.igualCod(a)) {
@@ -46,10 +45,10 @@ public class ListaS <G>{
         return x;
     }
 
-    public Nodo quitar(Nodo p, Nodo ant) {
-        Nodo x = p;
-        if (p == list) { //p esta parado en el 1ro 
-            list = p.getPs(); //se desengancha y apunta al siquiente
+    public Nodo<G> quitar(Nodo<G> p, Nodo<G> ant) {
+        Nodo<G> x = p;
+        if (p == list) { 
+            list = p.getPs(); 
         } else {
             ant.enlazar(p.getPs());
         }
@@ -57,8 +56,7 @@ public class ListaS <G>{
     }
 
     public void visualizar() {
-        Nodo p = inicio();
-
+        Nodo<G> p = inicio();
         while (p != null) {
             System.out.println(p.getDato());
             System.out.println();

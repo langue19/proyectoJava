@@ -2,7 +2,7 @@
  * Capa MODELO: solo datos y logica de negocio. Sin Scanner, sin
  * System.out y sin dependencias de Vista/Controlador.
  */
-package Modelo;
+package LogicaNegocios;
 
 public abstract class VehiculoAutonomo {
 

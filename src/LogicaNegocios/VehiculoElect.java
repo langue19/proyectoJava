@@ -1,4 +1,4 @@
-package Modelo;
+package LogicaNegocios;
 
 import Interface.Recargable;
 

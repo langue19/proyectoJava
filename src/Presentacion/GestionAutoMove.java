@@ -5,15 +5,9 @@
  */
 package Presentacion;
 
-import Modelo.Robots;
-import Modelo.Drones_aereos;
-import Modelo.VehiculoElect;
-import Modelo.Mision;
-import AccesoDatos.ListaS;
-import AccesoDatos.Nodo;
-import Modelo.VehiculoAutonomo;
-import LogicaDeNegocios.Consola;
-import LogicaDeNegocios.Consola;
+import LogicaNegocios.*;
+import AccesoDatos.*;
+import LogicaNegocios.*;
 
 public class GestionAutoMove {
 

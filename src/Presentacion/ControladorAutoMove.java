@@ -2,7 +2,7 @@
 package Presentacion;
 
 import AccesoDatos.ListaS;
-import Modelo.Robots;
+import LogicaNegocios.*;
 
 
 public class ControladorAutoMove {
@@ -15,7 +15,7 @@ public class ControladorAutoMove {
         int opcion;
         do {
             vista.mostrarMenu();
-            opcion = vista.leerOpcionMenu();s
+            opcion = vista.leerOpcionMenu();
             switch (opcion) {
                 case 1:
                     registrarVehiculo();

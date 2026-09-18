@@ -1,12 +1,11 @@
 package AccesoDatos;
 
-
-public class Nodo <G> {
+public class Nodo<G extends Comparable<G>> {
 
     private G dato;
     private Nodo<G> ps;
     
-     public Nodo(G dato) {
+    public Nodo(G dato) {
         this.dato = dato;
         this.ps = null;
     }
@@ -19,24 +18,27 @@ public class Nodo <G> {
         this.dato = dato;
     }
 
-    public Nodo getPs() {
+    public Nodo<G> getPs() {
         return ps;
     }
 
-    private void setPs(Nodo ps) {
+    private void setPs(Nodo<G> ps) {
         this.ps = ps;
     }
 
-
-    public void enlazar(Nodo ref) {
+    public void enlazar(Nodo<G> ref) {
         setPs(ref);
     }
 
-    public Nodo obtenerPs() {
+    public Nodo<G> obtenerPs() {
         return getPs();
     }
 
     public Object obtenerDato() {
         return getDato();
+    }
+    
+    public boolean igualCod(G a) {
+        return this.dato.compareTo(a) == 0;
     }
 }
