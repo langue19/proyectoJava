@@ -25,13 +25,30 @@ public class ListaS<G extends Comparable<G>> {
         }
     }
 
+    public void insertarOrdenado(G a) {
+        Nodo<G> nuevo = new Nodo<>(a);
+
+       
+        if (list == null || list.getDato().compareTo(a) > 0) {
+            nuevo.enlazar(list);
+            list = nuevo;
+        } else {
+            Nodo<G> actual = list;
+            while (actual.getPs() != null && actual.getPs().getDato().compareTo(a) <= 0) {
+                actual = actual.getPs();
+            }
+            nuevo.enlazar(actual.getPs());
+            actual.enlazar(nuevo);
+        }
+    }
+
     public Nodo<G> eliminar(G a) {
         Nodo<G> x = null;
         Nodo<G> p = list;
         Nodo<G> ant = null;
         int b = 0;
         while (p != null && b == 0) {
-            if (p.igualCod(a)) {
+        if (p.getDato().compareTo(a) == 0){
                 x = quitar(p, ant);
                 b = 1;
             } else {
@@ -40,15 +57,15 @@ public class ListaS<G extends Comparable<G>> {
             }
         }
         if (b == 0) {
-            System.out.println("No existe el producto");
+            System.out.println("No existe el elemento");
         }
         return x;
     }
 
     public Nodo<G> quitar(Nodo<G> p, Nodo<G> ant) {
         Nodo<G> x = p;
-        if (p == list) { 
-            list = p.getPs(); 
+        if (p == list) {  
+            list = p.getPs();  
         } else {
             ant.enlazar(p.getPs());
         }

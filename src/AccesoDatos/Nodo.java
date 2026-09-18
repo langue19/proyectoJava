@@ -1,6 +1,6 @@
 package AccesoDatos;
 
-public class Nodo<G extends Comparable<G>> {
+public class Nodo<G> {
 
     private G dato;
     private Nodo<G> ps;
@@ -37,8 +37,5 @@ public class Nodo<G extends Comparable<G>> {
     public Object obtenerDato() {
         return getDato();
     }
-    
-    public boolean igualCod(G a) {
-        return this.dato.compareTo(a) == 0;
-    }
+ 
 }

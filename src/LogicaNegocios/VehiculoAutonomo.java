@@ -4,7 +4,7 @@
  */
 package LogicaNegocios;
 
-public abstract class VehiculoAutonomo {
+public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
 
     protected String cod_ident;
     protected String modelo;
@@ -42,6 +42,16 @@ public void actualizarEstado(String estado) {  }
         setCapacidad_maxima(capacidad_maxima);
         setKm_reco(km_reco);
         setEstado(estado);
+    }
+    
+     @Override
+
+    public int compareTo(VehiculoAutonomo otroVehiculo) {
+
+        // Compara los codigos de los vehiculos 
+
+        return this.cod_ident.compareTo(otroVehiculo.cod_ident);
+
     }
 
     public String getCod_ident() {
@@ -94,3 +104,30 @@ public void actualizarEstado(String estado) {  }
     
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,7 +7,6 @@ package Presentacion;
 
 import LogicaNegocios.*;
 import AccesoDatos.*;
-import LogicaNegocios.*;
 
 public class MenuAutoMove {
 
@@ -45,19 +44,16 @@ public class MenuAutoMove {
         int tipo = leerTipoVehiculo();
         switch (tipo) {
             case 1:
-                Robots r = vista.pedirDatosRobot();
-                vehiculos.insertarPri(r);
+                Robots r = pedirDatosRobot();
                 break;
             case 2:
-                Drones_aereos d = vista.pedirDatosDron();
-                vehiculos.insertarPri(d);
+                Drones_aereos d = pedirDatosDron();
                 break;
             case 3:
-                VehiculoElect v = vista.pedirDatosVehiculoElectrico();
-                vehiculos.insertarPri(v);
+                VehiculoElect v = pedirDatosVehiculoElectrico();
                 break;
         }
-        vista.mostrarMensaje("Vehiculo registrado correctamente.");
+        mostrarMensaje("Vehiculo registrado correctamente.");
     }
 
     private void registrarMision() {

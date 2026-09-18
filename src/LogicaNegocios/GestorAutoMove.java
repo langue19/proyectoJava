@@ -4,6 +4,8 @@
  */
 package LogicaNegocios;
 
+import AccesoDatos.*;
+
 public class GestorAutoMove {
-    
+    private ListaS<VehiculoAutonomo> vehiculos; 
 }
