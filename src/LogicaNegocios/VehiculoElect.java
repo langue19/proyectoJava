@@ -12,8 +12,6 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable{
         this.autonomia_km = 0.0;
         this.tiempo_recarga = "";
     }
-
-
     
     public void setDatosElectrico(double autonomia_km, String tiempo_recarga) {
         setAutonomia_km(autonomia_km);
@@ -39,9 +37,5 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable{
     private void setTiempo_recarga(String tiempo_recarga) {
         this.tiempo_recarga = tiempo_recarga;
     }
-
-    @Override
-    public boolean puedeRealizarMision(Mision m) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 }

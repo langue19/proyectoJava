@@ -32,12 +32,6 @@ public class Drones_aereos extends VehiculoAutonomo implements Recargable{
         return(a>0 && a<=500); 
     }
 
-    @Override
-    public boolean puedeRealizarMision(Mision m) {
-        return false;
-    }
-
-
     public double getAutonomia() {
         return autonomia_vuelo;
     }

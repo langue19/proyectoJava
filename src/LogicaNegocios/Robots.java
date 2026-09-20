@@ -2,7 +2,7 @@ package LogicaNegocios;
 
 import Interface.Recargable;
 
-public class Robots extends VehiculoAutonomo implements Recargable{
+public class Robots extends VehiculoAutonomo implements Recargable {
 
     private int tipo_terreno; // 1-Asfalto 2-Mixto 3-Arena
     private double velocidad_max;
@@ -12,11 +12,9 @@ public class Robots extends VehiculoAutonomo implements Recargable{
         this.tipo_terreno = 0;
         this.velocidad_max = 0.0;
     }
-public void recargar(){}
-@Override
-public boolean puedeRealizarMision(Mision m) {
-    return false;
-}
+
+    public void recargar() {
+    }
 
     public void setearDatosRobot(int tipo_terreno, double velocidad_max) {
         setTipo_terreno(tipo_terreno);

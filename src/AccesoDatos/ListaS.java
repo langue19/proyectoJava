@@ -25,23 +25,6 @@ public class ListaS<G extends Comparable<G>> {
         }
     }
 
-    public void insertarOrdenado(G a) {
-        Nodo<G> nuevo = new Nodo<>(a);
-
-       
-        if (list == null || list.getDato().compareTo(a) > 0) {
-            nuevo.enlazar(list);
-            list = nuevo;
-        } else {
-            Nodo<G> actual = list;
-            while (actual.getPs() != null && actual.getPs().getDato().compareTo(a) <= 0) {
-                actual = actual.getPs();
-            }
-            nuevo.enlazar(actual.getPs());
-            actual.enlazar(nuevo);
-        }
-    }
-
     public Nodo<G> eliminar(G a) {
         Nodo<G> x = null;
         Nodo<G> p = list;
