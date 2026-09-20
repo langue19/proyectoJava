@@ -3,14 +3,15 @@ package Presentacion;
 
 import LogicaNegocios.*;
 import AccesoDatos.*;
+import java.util.Scanner;
 
 public class MenuAutoMove {
 
-    private GestorAutoMove vista = new GestorAutoMove();
+    Scanner sc = new Scanner(System.in);
 
     public void iniciar() {
-        mostrarBienvenida();
-        int opcion;
+        System.out.println("BIENVENIDO USUARIO! ");
+        int opcion = 10;
         do {
             leerOpcionMenu();
             switch (opcion) {
@@ -30,26 +31,28 @@ public class MenuAutoMove {
                     asignarMision();
                     break;
                 case 0:
-                    mostrarMensaje("Saliendo...");
+                    System.out.println("Saliendo...");
                     break;
             }
         } while (opcion != 0);
     }
 
-    private void registrarVehiculo() {
+    private VehiculoAutonomo registrarVehiculo() {
         int tipo = leerTipoVehiculo();
+        VehiculoAutonomo vehiculo = null;
         switch (tipo) {
             case 1:
-                Robots r = pedirDatosRobot();
+                vehiculo = pedirDatosRobot();
                 break;
             case 2:
-                Drones_aereos d = pedirDatosDron();
+                vehiculo = pedirDatosDron();
                 break;
             case 3:
-                VehiculoElect v = pedirDatosVehiculoElectrico();
+                vehiculo = pedirDatosVehiculoElectrico();
                 break;
         }
-        mostrarMensaje("Vehiculo registrado correctamente.");
+        System.out.println("Vehiculo registrado correctamente.");
+        return vehiculo;
     }
 
     private void registrarMision() {
@@ -64,17 +67,13 @@ public class MenuAutoMove {
 
     }
 
-    public void mostrarBienvenida() {
-        Consola.mostrarMensaje("BIENVENIDO USUARIO! ");
-    }
-
     public void mostrarMenu() {
-        Consola.mostrarMensaje("1 - Registrar vehiculos de los diferentes tipos previstos.");
-        Consola.mostrarMensaje("2 - Registrar misiones de traslado.");
-        Consola.mostrarMensaje("3 - Consultar y mostrar la informacion de los vehiculos registrados.");
-        Consola.mostrarMensaje("4 - Determinar si un vehiculo se encuentra en condiciones de realizar una mision.");
-        Consola.mostrarMensaje("5 - Asignar una mision a un vehiculo disponible y actualizar los estados correspondientes.");
-        Consola.mostrarMensaje("0 - Salir.");
+        System.out.println("1 - Registrar vehiculos de los diferentes tipos previstos."
+                + "\n2 - Registrar misiones de traslado."
+                + "\n3 - Consultar y mostrar la informacion de los vehiculos registrados."
+                + "\n4 - Determinar si un vehiculo se encuentra en condiciones de realizar una mision."
+                + "\n5 - Asignar una mision a un vehiculo disponible y actualizar los estados correspondientes."
+                + "\n0 - Salir.");
     }
 
     public int leerOpcionMenu() {
@@ -82,14 +81,14 @@ public class MenuAutoMove {
     }
 
     public int leerTipoVehiculo() {
-        Consola.mostrarMensaje("Seleccione el tipo de vehiculo:");
-        Consola.mostrarMensaje("1 - Robot");
-        Consola.mostrarMensaje("2 - Dron aereo");
-        Consola.mostrarMensaje("3 - Vehiculo electrico");
+        System.out.println("Seleccione el tipo de vehiculo:"
+                + "\n1 - Robot"
+                + "\n2 - Dron aereo"
+                + "\n3 - Vehiculo electrico");
         return Consola.leerOpcion("----> ", 1, 2, 3);
     }
 
-    // --- Recoleccion de datos: la Vista pide los datos crudos y arma el objeto ---
+    // --- Recoleccion de datos---
     public Robots pedirDatosRobot() {
         Robots r = new Robots();
         r.setDatosBase(
@@ -108,6 +107,8 @@ public class MenuAutoMove {
 
     public Drones_aereos pedirDatosDron() {
         Drones_aereos d = new Drones_aereos();
+        Double autonomia;
+        Double alturaMax;
         d.setDatosBase(
                 Consola.leerString("Codigo de identificacion: "),
                 Consola.leerString("Modelo: "),
@@ -115,8 +116,19 @@ public class MenuAutoMove {
                 Consola.leerInt("Capacidad maxima de bateria: "),
                 Consola.leerDouble("Kilometros recorridos: "),
                 Consola.leerString("Estado: "));
-        double autonomia = Consola.leerDouble("Autonomia de vuelo: ");
-        double alturaMax = Consola.leerDouble("Altura maxima: ");
+        do {
+            autonomia = Consola.leerDouble("Autonomia de vuelo: ");
+            if (!d.validarAutonomia(autonomia)) {
+                System.out.println("Error: La autonomía ingresada está fuera del rango permitido.");
+            }
+        } while (!d.validarAutonomia(autonomia));
+
+        do {
+            alturaMax = Consola.leerDouble("Altura máxima: ");
+            if (!d.validarAltura(alturaMax)) {
+                System.out.println("Error: La altura máxima está fuera del rango permitido.");
+            }
+        } while (!d.validarAltura(alturaMax));
         d.setDatosDron(autonomia, alturaMax);
         return d;
     }
@@ -151,10 +163,10 @@ public class MenuAutoMove {
         return m;
     }
 
-    // --- Presentacion de resultados ---
+    // --- Presentacion de resultados --- ESTO NO VA AQUI
     public void mostrarListaVehiculos(ListaS lista) {
         if (lista.listaVacia()) {
-            Consola.mostrarMensaje("No hay vehiculos registrados.");
+            System.out.println("No hay vehiculos registrados.");
             return;
         }
         Nodo p = lista.inicio();
@@ -166,7 +178,4 @@ public class MenuAutoMove {
         }
     }
 
-    public void mostrarMensaje(String msg) {
-        Consola.mostrarMensaje(msg);
-    }
 }

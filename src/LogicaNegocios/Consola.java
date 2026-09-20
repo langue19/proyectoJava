@@ -6,10 +6,6 @@ public class Consola {
 
     private static Scanner sc = new Scanner(System.in);
 
-    public static void mostrarMensaje(String msg) {
-        System.out.println(msg);
-    }
-
     public static int leerInt(String mensaje) {
         System.out.print(mensaje);
         int valor = sc.nextInt();
