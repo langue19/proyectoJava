@@ -18,10 +18,14 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
         this.km_reco = 0.0;
         this.estado = 0;
     }
-
-    //public abstract boolean puedeRealizarMision(Mision m){
-        
     
+    protected abstract double baterianecesaria(double distancia);  //porque la formula depende de datos que la clase base no tiene, (necesitamos de la autonomia)
+    
+    protected abstract boolean cumpleRestriccionPropia(Mision m); 
+
+    public boolean puedeRealizarMision(Mision m){
+        return estado==1 && nivel_bat >=bateriaNecesaria(m.getDistancia())&& capacidad_maxima>=m.getPeso(); 
+    }
 
     public void actualizarEstado(String estado) {
     }
