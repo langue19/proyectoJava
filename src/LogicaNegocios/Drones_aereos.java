@@ -13,20 +13,28 @@ public class Drones_aereos extends VehiculoAutonomo {
         this.altura_max = 0.0;
     }
 
-    public void setDatosDron(double autonomia_vuelo, double altura_max) {
-        setAutonomia(autonomia_vuelo);
-        setAltura_max(altura_max);
+    public boolean setDatosDron(double autonomia_vuelo, double altura_max) {
+        if(validarAutonomia(autonomia_vuelo) && validarAltura(altura_max)){
+            setAutonomia(autonomia_vuelo);
+            setAltura_max(altura_max); 
+        }
+        
+        return true; 
+    }
+    
+    public boolean validarAutonomia(Double v) {
+        return (v>0 && v<=120.0); 
+    }
+    
+    public boolean validarAltura(Double a){
+        return(a>0 && a<=500); 
     }
 
     @Override
     public boolean puedeRealizarMision(Mision m) {
-
         return false;
     }
 
-    public int validarAutonomia(Double v) {
-        return 0;
-    }
 
     public double getAutonomia() {
         return autonomia_vuelo;

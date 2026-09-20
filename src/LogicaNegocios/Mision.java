@@ -1,8 +1,3 @@
-/*
- * Antes esta clase declaraba "package Mision;" aunque el archivo
- * fisicamente estaba dentro de la carpeta Modelo. Se corrige para que
- * coincida con su ubicacion real dentro de la capa Modelo.
- */
 package LogicaNegocios;
 
 public class Mision {

@@ -30,8 +30,7 @@ public void actualizarEstado(String estado) {  }
 
     /**
      * Carga los datos comunes a todo vehiculo. El controlador
-       llama a este metodo con datos ya recolectados por la Vista) es
-     * responsable de haberlos validado.
+       llama a este metodo con datos ya recolectados por la Presentacións
      */
     public void setDatosBase(String cod_ident, String modelo, int nivel_bat,
             int capacidad_maxima, double km_reco, String estado) {

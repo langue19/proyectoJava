@@ -4,10 +4,6 @@
  */
 package AccesoDatos;
 
-/**
- *
- * @author aylen
- */
 public class Cola {
-    
+    //asdsad
 }
