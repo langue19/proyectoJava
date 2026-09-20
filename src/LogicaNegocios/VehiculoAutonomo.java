@@ -1,4 +1,3 @@
-
 package LogicaNegocios;
 
 public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
@@ -18,14 +17,14 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
         this.km_reco = 0.0;
         this.estado = 0;
     }
-    
-     
-    protected abstract double bateriaNecesaria(int distancia);  //porque la formula depende de datos que la clase base no tiene, (necesitamos de la autonomia)
-    
-    protected abstract boolean cumpleRestriccionPropia(Mision m); 
 
-    public boolean puedeRealizarMision(Mision m){
-        return estado==1 && nivel_bat >=bateriaNecesaria(m.getDistancia())&& capacidad_maxima>=m.getPeso() && cumpleRestriccionPropia(m); 
+    protected abstract double bateriaNecesaria(int distancia);
+//porque la formula depende de datos que la clase base no tiene, (necesitamos de la autonomia)
+
+    protected abstract boolean cumpleRestriccionPropia(Mision m);
+
+    public boolean puedeRealizarMision(Mision m) {
+        return estado == 1 && nivel_bat >= bateriaNecesaria(m.getDistancia()) && capacidad_maxima >= m.getPeso() && cumpleRestriccionPropia(m);
     }
 
     public void actualizarEstado(String estado) {
@@ -105,15 +104,13 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
 
     @Override
     public String toString() {
-        return "____Vehiculo____" +
-                "\nCódigo identificador:"+ cod_ident +  
-                "\nModelo: " + modelo + 
-                "\nNivel de bateria:" + nivel_bat + 
-                "\nCapacidad maxima de carga:" + capacidad_maxima + 
-                "\nKilometros recorridos:" + km_reco + 
-                "\nEstado:" + estado;
+        return "____Vehiculo____"
+                + "\nCódigo identificador:" + cod_ident
+                + "\nModelo: " + modelo
+                + "\nNivel de bateria:" + nivel_bat
+                + "\nCapacidad maxima de carga:" + capacidad_maxima
+                + "\nKilometros recorridos:" + km_reco
+                + "\nEstado:" + estado;
     }
-    
-    
 
 }

@@ -5,12 +5,15 @@ import AccesoDatos.*;
 public class GestorAutoMove {
 
     private ListaS<VehiculoAutonomo> vehiculos;
+    private ListaS<VehiculoAutonomo> vehidisp;
     private Cola<Mision> misiones;
     private Cola<Mision> aux;
 
     public GestorAutoMove() {
         vehiculos = new ListaS<>();
         misiones = new Cola<>();
+        vehidisp = new ListaS<>();
+        aux = new Cola<>();
     }
 
     public void registrarVehiculo(VehiculoAutonomo vehiculo) {
@@ -49,6 +52,8 @@ public class GestorAutoMove {
         while (p != null) {
             VehiculoAutonomo v = p.getDato();
             if (v.puedeRealizarMision(aux)) {
+                vehidisp.insertarPri(v);
+                vehidisp.toString();
                 return true;
             }
             p = p.getPs();
