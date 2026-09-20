@@ -7,5 +7,35 @@ package LogicaNegocios;
 import AccesoDatos.*;
 
 public class GestorAutoMove {
-    private ListaS<VehiculoAutonomo> vehiculos; 
+
+    private ListaS<VehiculoAutonomo> vehiculos;
+    //private ListaS<Mision> misiones;
+//
+    public void registrarVehiculo(VehiculoAutonomo vehiculo){
+        
+    }
+
+    public void registrarMision(Mision mision){
+        
+    }
+
+    public void consultarVehiculos(){
+        
+    }
+
+    public boolean vehiculoDisponible(VehiculoAutonomo vehiculo, Mision mision){
+        
+        return false;
+    }
+
+    public boolean asignarVehiculo(String codigoVehiculo, String codigoMision){
+        
+        
+        return false;
+    }
+    
+    
+    public void actualizarEstadoVehiculo(){
+        
+    }
 }

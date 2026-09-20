@@ -1,4 +1,3 @@
-
 package Presentacion;
 
 import LogicaNegocios.*;
@@ -22,7 +21,7 @@ public class MenuAutoMove {
                     registrarMision();
                     break;
                 case 3:
-                    mostrarListaVehiculos(vehiculos);
+                    //mostrarListaVehiculos(vehiculos);
                     break;
                 case 4:
                     verificarDisponibilidad();

@@ -2,7 +2,7 @@ package LogicaNegocios;
 
 import Interface.Recargable;
 
-public class Drones_aereos extends VehiculoAutonomo {
+public class Drones_aereos extends VehiculoAutonomo implements Recargable{
 
     private double autonomia_vuelo;
     private double altura_max;
@@ -13,10 +13,12 @@ public class Drones_aereos extends VehiculoAutonomo {
         this.altura_max = 0.0;
     }
 
+    public void recargar(){}
+    
     public boolean setDatosDron(double autonomia_vuelo, double altura_max) {
         if(validarAutonomia(autonomia_vuelo) && validarAltura(altura_max)){
             setAutonomia(autonomia_vuelo);
-            setAltura_max(altura_max);   ////NUEVO   2 2 2 2
+            setAltura_max(altura_max); 
         }
         
         return true; 

@@ -2,7 +2,7 @@ package LogicaNegocios;
 
 import Interface.Recargable;
 
-public class VehiculoElect extends VehiculoAutonomo {
+public class VehiculoElect extends VehiculoAutonomo implements Recargable{
 
     private double autonomia_km;
     private String tiempo_recarga;
