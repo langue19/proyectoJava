@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package LogicaNegocios;
 
 import AccesoDatos.*;
@@ -10,9 +6,11 @@ public class GestorAutoMove {
 
     private ListaS<VehiculoAutonomo> vehiculos;
     //private ListaS<Mision> misiones;
-//
+    ListaS lista = new ListaS();
+
+
     public void registrarVehiculo(VehiculoAutonomo vehiculo){
-        
+        lista.insertarPri(vehiculo);
     }
 
     public void registrarMision(Mision mision){
@@ -20,7 +18,7 @@ public class GestorAutoMove {
     }
 
     public void consultarVehiculos(){
-        
+        lista.visualizar();
     }
 
     public boolean vehiculoDisponible(VehiculoAutonomo vehiculo, Mision mision){

@@ -5,7 +5,7 @@ import AccesoDatos.*;
 import java.util.Scanner;
 
 public class MenuAutoMove {
-
+    GestorAutoMove gs = new GestorAutoMove();
     Scanner sc = new Scanner(System.in);
 
     public void iniciar() {
@@ -22,7 +22,7 @@ public class MenuAutoMove {
                     registrarMision();
                     break;
                 case 3:
-                    //mostrarListaVehiculos(vehiculos);
+                    gs.consultarVehiculos();
                     break;
                 case 4:
                     verificarDisponibilidad();
@@ -37,7 +37,7 @@ public class MenuAutoMove {
         } while (opcion != 0);
     }
 
-    private VehiculoAutonomo registrarVehiculo() {
+    private void registrarVehiculo() {
         int tipo = leerTipoVehiculo();
         VehiculoAutonomo vehiculo = null;
         switch (tipo) {
@@ -52,7 +52,7 @@ public class MenuAutoMove {
                 break;
         }
         System.out.println("Vehiculo registrado correctamente.");
-        return vehiculo;
+        gs.registrarVehiculo(vehiculo);
     }
 
     private void registrarMision() {
@@ -162,20 +162,4 @@ public class MenuAutoMove {
                 estado);
         return m;
     }
-
-    // --- Presentacion de resultados --- ESTO NO VA AQUI
-    public void mostrarListaVehiculos(ListaS lista) {
-        if (lista.listaVacia()) {
-            System.out.println("No hay vehiculos registrados.");
-            return;
-        }
-        Nodo p = lista.inicio();
-        while (p != null) {
-            VehiculoAutonomo v = (VehiculoAutonomo) p.getDato();
-            System.out.println(v);
-            /*<---------Preguntar si usar toString*/
-            p = p.getPs();
-        }
-    }
-
 }
