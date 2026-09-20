@@ -14,7 +14,7 @@ public class Robots extends VehiculoAutonomo implements Recargable {
     }
     
     protected double bateriaNecesaria(int distancia){
-        return 20; 
+        return 20; //el robot necesita al menos 20% de bateria para salir.
     }
 
     public void recargar() {

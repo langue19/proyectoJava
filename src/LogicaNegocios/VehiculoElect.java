@@ -7,7 +7,7 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable{
     private String tiempo_recarga;
 
     public VehiculoElect() {
-        super();
+        super(); 
         this.autonomia_km = 0.0;
         this.tiempo_recarga = "";
     }
