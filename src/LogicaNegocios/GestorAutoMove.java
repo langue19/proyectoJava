@@ -53,9 +53,11 @@ public class GestorAutoMove {
             VehiculoAutonomo v = p.getDato();
             if (v.puedeRealizarMision(aux)) {
                 vehidisp.insertarPri(v);
-                vehidisp.toString();
+                System.out.println("pasa");
+                vehidisp.visualizar();
                 return true;
             }
+            System.out.println("no pasa");
             p = p.getPs();
         }
         return false;
