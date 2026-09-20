@@ -43,22 +43,23 @@ public class GestorAutoMove {
     }
 
     public void vehiculoDisponible() {
-        if (misiones.colaVacia()) {
+        if (!misiones.colaVacia()) {
+            Mision aux = misiones.getFrente().getDato();
+            Nodo<VehiculoAutonomo> p = vehiculos.inicio();
+            while (p != null) {
+                VehiculoAutonomo v = p.getDato();
+                if (v.puedeRealizarMision(aux)) {
+                    vehidisp.insertarPri(v);
+                    vehidisp.visualizar();
+                }
+                p = p.getPs();
+            }
+
+        } else {
             System.out.println("No hay misiones registradas.");
 
         }
-        Mision aux = misiones.getFrente().getDato();
-        Nodo<VehiculoAutonomo> p = vehiculos.inicio();
-        while (p != null) {
-            VehiculoAutonomo v = p.getDato();
-            if (v.puedeRealizarMision(aux)) {
-                vehidisp.insertarPri(v);
-                System.out.println("pasa");
-                vehidisp.visualizar();
-            }
-            System.out.println("no pasa");
-            p = p.getPs();
-        }
+
     }
 
     public boolean asignarVehiculo(String codigoVehiculo,
