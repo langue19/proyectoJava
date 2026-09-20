@@ -62,7 +62,7 @@ public class MenuAutoMove {
     }
 
     private void verificarDisponibilidad() {
-        gs.vehiculoDisponible();
+        //gs.vehiculoDisponible();
     }
 
     private void asignarMision() {

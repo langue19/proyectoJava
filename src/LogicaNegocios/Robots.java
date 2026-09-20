@@ -12,12 +12,17 @@ public class Robots extends VehiculoAutonomo implements Recargable {
         this.tipo_terreno = 0;
         this.velocidad_max = 0.0;
     }
-    
-    protected double bateriaNecesaria(int distancia){
+
+    protected double bateriaNecesaria(int distancia) {
         return 20; //el robot necesita al menos 20% de bateria para salir.
     }
 
     public void recargar() {
+    }
+
+    @Override
+    protected boolean cumpleRestriccionPropia(Mision m) {
+        return true;
     }
 
     public void setearDatosRobot(int tipo_terreno, double velocidad_max) {
@@ -43,10 +48,9 @@ public class Robots extends VehiculoAutonomo implements Recargable {
 
     @Override
     public String toString() {
-        return super.toString()+
-                "\nTipo de terreno:" + tipo_terreno +
-                "\nVelocidad máxima:" + velocidad_max;
+        return super.toString()
+                + "\nTipo de terreno:" + tipo_terreno
+                + "\nVelocidad máxima:" + velocidad_max;
     }
-    
-    
+
 }

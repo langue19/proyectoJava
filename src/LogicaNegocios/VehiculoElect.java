@@ -2,20 +2,26 @@ package LogicaNegocios;
 
 import Interface.Recargable;
 
-public class VehiculoElect extends VehiculoAutonomo implements Recargable{
+public class VehiculoElect extends VehiculoAutonomo implements Recargable {
+
     private double autonomia_km;
     private String tiempo_recarga;
 
     public VehiculoElect() {
-        super(); 
+        super();
         this.autonomia_km = 0.0;
         this.tiempo_recarga = "";
     }
-    
-    protected double bateriaNecesaria(int distancia){
-        return distancia/autonomia_km * 100; 
+
+    protected double bateriaNecesaria(int distancia) {
+        return distancia / autonomia_km * 100;
     }
-    
+
+    @Override
+    protected boolean cumpleRestriccionPropia(Mision m) {
+        return true;
+    }
+
     public void setDatosElectrico(double autonomia_km, String tiempo_recarga) {
         setAutonomia_km(autonomia_km);
         setTiempo_recarga(tiempo_recarga);
@@ -43,11 +49,9 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable{
 
     @Override
     public String toString() {
-        return super.toString()+
-                "\nAutonomia en Km:" + autonomia_km +
-                "\nTiempo estimado de recarga: " + tiempo_recarga;
+        return super.toString()
+                + "\nAutonomia en Km:" + autonomia_km
+                + "\nTiempo estimado de recarga: " + tiempo_recarga;
     }
-    
-    
-    
+
 }
