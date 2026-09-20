@@ -10,9 +10,10 @@ public class MenuAutoMove {
 
     public void iniciar() {
         System.out.println("BIENVENIDO USUARIO! ");
+        mostrarMenu();
         int opcion = 10;
         do {
-            leerOpcionMenu();
+            opcion = leerOpcionMenu();
             switch (opcion) {
                 case 1:
                     registrarVehiculo();
