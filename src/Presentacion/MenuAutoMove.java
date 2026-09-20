@@ -1,8 +1,4 @@
-/*
-  Capa VISTA: unicamente muestra menus/datos y captura la entrada cruda
-  del usuario. no decide que hacer con esa informacion (eso es del
-  Controlador) y no conoce logica de negocio.
- */
+
 package Presentacion;
 
 import LogicaNegocios.*;
