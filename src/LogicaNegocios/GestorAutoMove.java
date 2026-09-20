@@ -42,10 +42,10 @@ public class GestorAutoMove {
         vehiculos.visualizar();
     }
 
-    public boolean vehiculoDisponible() {
+    public void vehiculoDisponible() {
         if (misiones.colaVacia()) {
             System.out.println("No hay misiones registradas.");
-            return false;
+
         }
         Mision aux = misiones.getFrente().getDato();
         Nodo<VehiculoAutonomo> p = vehiculos.inicio();
@@ -55,12 +55,10 @@ public class GestorAutoMove {
                 vehidisp.insertarPri(v);
                 System.out.println("pasa");
                 vehidisp.visualizar();
-                return true;
             }
             System.out.println("no pasa");
             p = p.getPs();
         }
-        return false;
     }
 
     public boolean asignarVehiculo(String codigoVehiculo,
