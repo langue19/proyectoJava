@@ -150,8 +150,8 @@ public class MenuAutoMove {
                 Consola.leerString("Codigo de mision: "),
                 Consola.leerString("Origen: "),
                 Consola.leerString("Destino: "),
-                Consola.leerString("Distancia: "),
-                Consola.leerString("Peso: "),
+                Consola.leerInt("Distancia: "),
+                Consola.leerDouble("Peso: "),
                 Consola.leerString("Prioridad: "),
                 estado);
         return m;
