@@ -2,7 +2,7 @@ package LogicaNegocios;
 
 import Interface.Recargable;
 
-public class Drones_aereos extends VehiculoAutonomo implements Recargable{
+public class Drones_aereos extends VehiculoAutonomo implements Recargable {
 
     private double autonomia_vuelo;
     private double altura_max;
@@ -13,23 +13,24 @@ public class Drones_aereos extends VehiculoAutonomo implements Recargable{
         this.altura_max = 0.0;
     }
 
-    public void recargar(){}
-    
+    public void recargar() {
+    }
+
     public boolean setDatosDron(double autonomia_vuelo, double altura_max) {
-        if(validarAutonomia(autonomia_vuelo) && validarAltura(altura_max)){
+        if (validarAutonomia(autonomia_vuelo) && validarAltura(altura_max)) {
             setAutonomia(autonomia_vuelo);
-            setAltura_max(altura_max); 
+            setAltura_max(altura_max);
+            return true;
         }
-        
-        return true; 
+        return false;
     }
-    
+
     public boolean validarAutonomia(Double v) {
-        return (v>0 && v<=120.0); 
+        return (v > 0 && v <= 120.0);
     }
-    
-    public boolean validarAltura(Double a){
-        return(a>0 && a<=500); 
+
+    public boolean validarAltura(Double a) {
+        return (a > 0 && a <= 500);
     }
 
     public double getAutonomia() {
@@ -50,10 +51,9 @@ public class Drones_aereos extends VehiculoAutonomo implements Recargable{
 
     @Override
     public String toString() {
-        return super.toString()+
-                "Autonomia de vuelo:" + autonomia_vuelo +
-                "Altura máxima:" + altura_max;
+        return super.toString()
+                + "Autonomia de vuelo:" + autonomia_vuelo
+                + "Altura máxima:" + altura_max;
     }
-    
-    
+
 }

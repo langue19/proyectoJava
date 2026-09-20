@@ -9,10 +9,11 @@ public class MenuAutoMove {
     Scanner sc = new Scanner(System.in);
 
     public void iniciar() {
-        System.out.println("BIENVENIDO USUARIO! ");
-        mostrarMenu();
+        System.out.println("----------------------------BIENVENIDO USUARIO!----------------------------");
         int opcion = 10;
         do {
+            System.out.println("\n");
+            mostrarMenu();
             opcion = leerOpcionMenu();
             switch (opcion) {
                 case 1:
@@ -56,15 +57,16 @@ public class MenuAutoMove {
     }
 
     private void registrarMision() {
-
+        gs.registrarMision(pedirDatosMision());
+        System.out.println("Mision registrada correctamente.");
     }
 
     private void verificarDisponibilidad() {
-
+        gs.vehiculoDisponible();
     }
 
     private void asignarMision() {
-
+        
     }
 
     public void mostrarMenu() {
@@ -97,7 +99,7 @@ public class MenuAutoMove {
                 Consola.leerInt("Bateria: "),
                 Consola.leerInt("Capacidad maxima de bateria: "),
                 Consola.leerDouble("Kilometros recorridos: "),
-                Consola.leerString("Estado: "));
+                Consola.leerString("Estado(Activo, Inactivo): "));
         int terreno = Consola.leerOpcion(
                 "Tipo de terreno:\n 1-Asfalto\n 2-Mixto\n 3-Arena\n----> ", 1, 2, 3);
         double velMax = Consola.leerDouble("Velocidad maxima: ");

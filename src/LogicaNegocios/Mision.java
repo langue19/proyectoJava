@@ -1,6 +1,7 @@
 package LogicaNegocios;
 
 public class Mision {
+
     private String cod_mision;
     private String origen;
     private String destino;
@@ -84,5 +85,17 @@ public class Mision {
 
     public void setEstado(int estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public String toString() {
+        return "Misión: " + cod_mision
+                + " | Origen: " + origen
+                + " | Destino: " + destino
+                + " | Distancia: " + distancia
+                + " km"
+                + " | Peso: " + peso + " kg"
+                + " | Prioridad: " + prioridad
+                + " | Estado: " + estado;
     }
 }
