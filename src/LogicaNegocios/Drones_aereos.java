@@ -16,7 +16,7 @@ public class Drones_aereos extends VehiculoAutonomo {
     public boolean setDatosDron(double autonomia_vuelo, double altura_max) {
         if(validarAutonomia(autonomia_vuelo) && validarAltura(altura_max)){
             setAutonomia(autonomia_vuelo);
-            setAltura_max(altura_max); 
+            setAltura_max(altura_max);   ////NUEVO
         }
         
         return true; 
