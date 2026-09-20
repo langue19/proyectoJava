@@ -5,6 +5,7 @@ import AccesoDatos.*;
 import java.util.Scanner;
 
 public class MenuAutoMove {
+
     GestorAutoMove gs = new GestorAutoMove();
     Scanner sc = new Scanner(System.in);
 
@@ -156,8 +157,8 @@ public class MenuAutoMove {
                 Consola.leerString("Codigo de mision: "),
                 Consola.leerString("Origen: "),
                 Consola.leerString("Destino: "),
-                Consola.leerString("Distancia: "),
-                Consola.leerString("Peso: "),
+                Consola.leerDouble("Distancia: "),
+                Consola.leerDouble("Peso: "),
                 Consola.leerString("Prioridad: "),
                 estado);
         return m;

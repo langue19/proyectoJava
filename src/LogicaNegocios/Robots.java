@@ -16,10 +16,29 @@ public class Robots extends VehiculoAutonomo implements Recargable {
     public void recargar() {
     }
 
-    public void setearDatosRobot(int tipo_terreno, double velocidad_max) {
-        setTipo_terreno(tipo_terreno);
-        setVelocidad_max(velocidad_max);
+   public void setearDatosRobot(int tipo_terreno, double velocidad_max) {
+        ingresarTipo_terreno(tipo_terreno);
+        ingresarVelocidad_max(velocidad_max);
     }
+    
+    public void ingresarTipo_terreno(int tipo_terreno) {
+
+        if (tipo_terreno < 1 || tipo_terreno > 3) {
+            throw new IllegalArgumentException("El tipo de terreno debe ser 1, 2 o 3.");
+        }
+
+        this.tipo_terreno = tipo_terreno;
+    }
+
+    public void ingresarVelocidad_max(double velocidad_max) {
+
+        if (velocidad_max <= 0) {
+            throw new IllegalArgumentException("La velocidad maxima debe ser mayor a 0.");
+        }
+
+        this.velocidad_max = velocidad_max;
+    }    
+
 
     public int getTipo_terreno() {
         return tipo_terreno;

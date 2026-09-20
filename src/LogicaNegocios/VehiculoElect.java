@@ -14,8 +14,30 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable{
     }
     
     public void setDatosElectrico(double autonomia_km, String tiempo_recarga) {
-        setAutonomia_km(autonomia_km);
-        setTiempo_recarga(tiempo_recarga);
+        ingresarAutonomia_km(autonomia_km);
+        ingresarTiempo_recarga(tiempo_recarga);
+    }
+    
+    public void ingresarAutonomia_km(double autonomia_km) {
+
+        if (autonomia_km <= 0) {
+            throw new IllegalArgumentException(
+                    "La autonomia debe ser mayor a 0.");
+        }
+
+        this.autonomia_km = autonomia_km;
+    }
+
+    public void ingresarTiempo_recarga(String tiempo_recarga) {
+
+        if (tiempo_recarga == null
+                || tiempo_recarga.trim().isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "El tiempo de recarga no puede estar vacio.");
+        }
+
+        this.tiempo_recarga = tiempo_recarga;
     }
 
     public void recargar() {
