@@ -25,7 +25,7 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
     protected abstract boolean cumpleRestriccionPropia(Mision m); 
 
     public boolean puedeRealizarMision(Mision m){
-        return estado==1 && nivel_bat >=bateriaNecesaria(m.getDistancia())&& capacidad_maxima>=m.getPeso(); 
+        return estado==1 && nivel_bat >=bateriaNecesaria(m.getDistancia())&& capacidad_maxima>=m.getPeso() && cumpleRestriccionPropia(m); 
     }
 
     public void actualizarEstado(String estado) {
