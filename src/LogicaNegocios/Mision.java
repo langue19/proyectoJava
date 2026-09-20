@@ -7,7 +7,7 @@ public class Mision {
     private String destino;
     private int distancia;
     private double peso;
-    private String prioridad;
+    private String prioridad; //1-Alta 2-Media 3-Baja 
     private int estado; // 1-Pendiente 2-Asignado 3-Finalizado
 
     public Mision() {
