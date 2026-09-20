@@ -19,7 +19,7 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable {
 
     @Override
     protected boolean cumpleRestriccionPropia(Mision m) {
-        return true;
+        return m.getDistancia()<=autonomia_km;
     }
 
     public void setDatosElectrico(double autonomia_km, String tiempo_recarga) {

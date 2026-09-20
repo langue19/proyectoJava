@@ -22,7 +22,7 @@ public class Drones_aereos extends VehiculoAutonomo implements Recargable {
 
     @Override
     protected boolean cumpleRestriccionPropia(Mision m) {
-        return true;
+        return m.getDistancia()<=autonomia_vuelo;
     }
 
     public boolean setDatosDron(double autonomia_vuelo, double altura_max) {
