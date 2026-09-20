@@ -91,15 +91,19 @@ public class MenuAutoMove {
     }
 
     // --- Recoleccion de datos---
+    private void pedirDatosBase(VehiculoAutonomo v) {
+    v.setDatosBase(
+            Consola.leerString("Codigo de identificacion: "),
+            Consola.leerString("Modelo: "),
+            Consola.leerInt("Bateria: "),
+            Consola.leerInt("Capacidad maxima de bateria: "),
+            Consola.leerDouble("Kilometros recorridos: "),
+            Consola.leerOpcion("Estado:\n 1-Activo \n2-En mision \n3-Mantenimiento\n--->", 1, 2, 3));
+}
+    
     public Robots pedirDatosRobot() {
         Robots r = new Robots();
-        r.setDatosBase(
-                Consola.leerString("Codigo de identificacion: "),
-                Consola.leerString("Modelo: "),
-                Consola.leerInt("Bateria: "),
-                Consola.leerInt("Capacidad maxima de bateria: "),
-                Consola.leerDouble("Kilometros recorridos: "),
-                Consola.leerString("Estado(Activo, Inactivo): "));
+        pedirDatosBase(r); 
         int terreno = Consola.leerOpcion(
                 "Tipo de terreno:\n 1-Asfalto\n 2-Mixto\n 3-Arena\n----> ", 1, 2, 3);
         double velMax = Consola.leerDouble("Velocidad maxima: ");
@@ -111,13 +115,7 @@ public class MenuAutoMove {
         Drones_aereos d = new Drones_aereos();
         Double autonomia;
         Double alturaMax;
-        d.setDatosBase(
-                Consola.leerString("Codigo de identificacion: "),
-                Consola.leerString("Modelo: "),
-                Consola.leerInt("Bateria: "),
-                Consola.leerInt("Capacidad maxima de bateria: "),
-                Consola.leerDouble("Kilometros recorridos: "),
-                Consola.leerString("Estado: "));
+        pedirDatosBase(d); 
         do {
             autonomia = Consola.leerDouble("Autonomia de vuelo: ");
             if (!d.validarAutonomia(autonomia)) {
@@ -137,13 +135,7 @@ public class MenuAutoMove {
 
     public VehiculoElect pedirDatosVehiculoElectrico() {
         VehiculoElect v = new VehiculoElect();
-        v.setDatosBase(
-                Consola.leerString("Codigo de identificacion: "),
-                Consola.leerString("Modelo: "),
-                Consola.leerInt("Bateria: "),
-                Consola.leerInt("Capacidad maxima de bateria: "),
-                Consola.leerDouble("Kilometros recorridos: "),
-                Consola.leerString("Estado: "));
+        pedirDatosBase(v); 
         double autonomiaKm = Consola.leerDouble("Autonomia en kilometros: ");
         String tiempoRecarga = Consola.leerString("Tiempo de recarga: ");
         v.setDatosElectrico(autonomiaKm, tiempoRecarga);

@@ -8,7 +8,7 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
     protected int nivel_bat;
     protected int capacidad_maxima;
     protected double km_reco;
-    protected String estado;
+    protected int estado;
 
     public VehiculoAutonomo() {
         this.cod_ident = "";
@@ -16,10 +16,12 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
         this.nivel_bat = 0;
         this.capacidad_maxima = 0;
         this.km_reco = 0.0;
-        this.estado = "";
+        this.estado = 0;
     }
 
-    //public abstract boolean puedeRealizarMision(Mision m);
+    //public abstract boolean puedeRealizarMision(Mision m){
+        
+    
 
     public void actualizarEstado(String estado) {
     }
@@ -29,7 +31,7 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
      * metodo con datos ya recolectados por la Presentacións
      */
     public void setDatosBase(String cod_ident, String modelo, int nivel_bat,
-            int capacidad_maxima, double km_reco, String estado) {
+            int capacidad_maxima, double km_reco, int estado) {
 
         setCod_ident(cod_ident);
         setModelo(modelo);
@@ -88,11 +90,11 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
         this.km_reco = km_reco;
     }
 
-    public String getEstado() {
+    public int getEstado() {
         return estado;
     }
 
-    private void setEstado(String estado) {
+    private void setEstado(int estado) {
         this.estado = estado;
     }
 

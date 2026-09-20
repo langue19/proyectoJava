@@ -38,7 +38,7 @@ public class GestorAutoMove {
         vehiculos.visualizar();
     }
 
-    public boolean vehiculoDisponible() {
+    /* public boolean vehiculoDisponible() {
         Nodo<VehiculoAutonomo> p = vehiculos.inicio();
         while (p != null) {
             VehiculoAutonomo v = p.getDato();
@@ -53,7 +53,7 @@ public class GestorAutoMove {
             p = p.getPs();
         }
         return false;
-    }
+    }*/
 
     public boolean asignarVehiculo(String codigoVehiculo,
             String codigoMision) {

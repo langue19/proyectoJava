@@ -4,7 +4,7 @@ import Interface.Recargable;
 
 public class Drones_aereos extends VehiculoAutonomo implements Recargable {
 
-    private double autonomia_vuelo;
+    private double autonomia_vuelo; //Distancia max que puede recorrer con la bateria completa
     private double altura_max;
 
     public Drones_aereos() {
