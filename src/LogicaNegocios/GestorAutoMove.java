@@ -6,6 +6,7 @@ public class GestorAutoMove {
 
     private ListaS<VehiculoAutonomo> vehiculos;
     private Cola<Mision> misiones;
+    private Cola<Mision> aux;
 
     public GestorAutoMove() {
         vehiculos = new ListaS<>();
@@ -39,16 +40,16 @@ public class GestorAutoMove {
     }
 
     public boolean vehiculoDisponible() {
+        if (misiones.colaVacia()) {
+            System.out.println("No hay misiones registradas.");
+            return false;
+        }
+        Mision aux = misiones.getFrente().getDato();
         Nodo<VehiculoAutonomo> p = vehiculos.inicio();
         while (p != null) {
             VehiculoAutonomo v = p.getDato();
-            if (v.getEstado().equals("Activo")) {
-                if (v.nivel_bat > 50) {
-                    if (v.capacidad_maxima > 50) {
-                        return true;
-                    }
-                }
-
+            if (v.puedeRealizarMision(aux)) {
+                return true;
             }
             p = p.getPs();
         }
