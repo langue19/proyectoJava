@@ -37,5 +37,14 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable{
     private void setTiempo_recarga(String tiempo_recarga) {
         this.tiempo_recarga = tiempo_recarga;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+
+                "\nAutonomia en Km:" + autonomia_km +
+                "\nTiempo estimado de recarga: " + tiempo_recarga;
+    }
+    
+    
     
 }

@@ -1,7 +1,4 @@
-/*
- * Capa MODELO: solo datos y logica de negocio. Sin Scanner, sin
- * System.out y sin dependencias de Vista/Controlador.
- */
+
 package LogicaNegocios;
 
 public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
@@ -21,20 +18,19 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
         this.km_reco = 0.0;
         this.estado = "";
     }
-public abstract boolean puedeRealizarMision(Mision m);
 
-public void mostrarInformacion() {  }
+    //public abstract boolean puedeRealizarMision(Mision m);
 
-public void actualizarEstado(String estado) {  }
-
+    public void actualizarEstado(String estado) {
+    }
 
     /**
-     * Carga los datos comunes a todo vehiculo. El controlador
-       llama a este metodo con datos ya recolectados por la Presentacións
+     * Carga los datos comunes a todo vehiculo. El controlador llama a este
+     * metodo con datos ya recolectados por la Presentacións
      */
     public void setDatosBase(String cod_ident, String modelo, int nivel_bat,
             int capacidad_maxima, double km_reco, String estado) {
-        
+
         setCod_ident(cod_ident);
         setModelo(modelo);
         setNivel_bat(nivel_bat);
@@ -42,13 +38,12 @@ public void actualizarEstado(String estado) {  }
         setKm_reco(km_reco);
         setEstado(estado);
     }
-    
-     @Override
+
+    @Override
 
     public int compareTo(VehiculoAutonomo otroVehiculo) {
 
         // Compara los codigos de los vehiculos 
-
         return this.cod_ident.compareTo(otroVehiculo.cod_ident);
 
     }
@@ -100,33 +95,18 @@ public void actualizarEstado(String estado) {  }
     private void setEstado(String estado) {
         this.estado = estado;
     }
+
+    @Override
+    public String toString() {
+        return "____Vehiculo____" +
+                "\nCódigo identificador:"+ cod_ident +  
+                "\nModelo: " + modelo + 
+                "\nNivel de bateria:" + nivel_bat + 
+                "\nCapacidad maxima de carga:" + capacidad_maxima + 
+                "\nKilometros recorridos:" + km_reco + 
+                "\nEstado:" + estado;
+    }
     
     
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

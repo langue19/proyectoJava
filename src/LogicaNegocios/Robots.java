@@ -36,4 +36,13 @@ public class Robots extends VehiculoAutonomo implements Recargable {
     private void setVelocidad_max(double velocidad_max) {
         this.velocidad_max = velocidad_max;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+
+                "\nTipo de terreno:" + tipo_terreno +
+                "\nVelocidad máxima:" + velocidad_max;
+    }
+    
+    
 }

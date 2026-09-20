@@ -47,4 +47,13 @@ public class Drones_aereos extends VehiculoAutonomo implements Recargable{
     private void setAltura_max(double altura_max) {
         this.altura_max = altura_max;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+
+                "Autonomia de vuelo:" + autonomia_vuelo +
+                "Altura máxima:" + altura_max;
+    }
+    
+    
 }

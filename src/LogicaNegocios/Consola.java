@@ -13,7 +13,7 @@ public class Consola {
             System.out.print("ERROR: ingrese un numero entero positivo: ");
             valor = sc.nextInt();
         }
-        sc.nextLine(); // consume el salto de linea pendiente
+        sc.nextLine(); 
         return valor;
     }
 
@@ -24,7 +24,7 @@ public class Consola {
             System.out.print("ERROR: ingrese un numero valido (mayor a 0): ");
             valor = sc.nextDouble();
         }
-        sc.nextLine(); // consume el salto de linea pendiente
+        sc.nextLine();
         return valor;
     }
 
