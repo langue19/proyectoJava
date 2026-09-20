@@ -62,10 +62,16 @@ public class GestorAutoMove {
 
     }
 
-    public boolean asignarVehiculo(String codigoVehiculo,
-            String codigoMision) {
-
-        return false;
+    public void asignarVehiculo() {
+        Nodo<VehiculoAutonomo> p = vehiculos.inicio();
+        while (p != null) {
+                VehiculoAutonomo v = p.getDato();
+                if (v.puedeRealizarMision(aux)) {
+                    vehidisp.insertarPri(v);
+                    vehidisp.visualizar();
+                }
+                p = p.getPs();
+            }
     }
 
     public void actualizarEstadoVehiculo() {
