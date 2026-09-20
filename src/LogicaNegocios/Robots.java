@@ -12,6 +12,10 @@ public class Robots extends VehiculoAutonomo implements Recargable {
         this.tipo_terreno = 0;
         this.velocidad_max = 0.0;
     }
+    
+    protected double bateriaNecesaria(int distancia){
+        return 20; 
+    }
 
     public void recargar() {
     }

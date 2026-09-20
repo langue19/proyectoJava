@@ -20,7 +20,7 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
     }
     
      
-    protected abstract int bateriaNecesaria(int distancia);  //porque la formula depende de datos que la clase base no tiene, (necesitamos de la autonomia)
+    protected abstract double bateriaNecesaria(int distancia);  //porque la formula depende de datos que la clase base no tiene, (necesitamos de la autonomia)
     
     protected abstract boolean cumpleRestriccionPropia(Mision m); 
 

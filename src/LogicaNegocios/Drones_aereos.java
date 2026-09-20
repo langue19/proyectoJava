@@ -16,8 +16,8 @@ public class Drones_aereos extends VehiculoAutonomo implements Recargable {
     public void recargar() {
     }
 
-    protected double bateriaNecesaria(double distancia) {
-        return distancia / autonomia_vuelo * 100;
+    protected double bateriaNecesaria(int distancia) {
+        return distancia / autonomia_vuelo * 100; //Regla de tres. 
     }
 
     public boolean setDatosDron(double autonomia_vuelo, double altura_max) {
