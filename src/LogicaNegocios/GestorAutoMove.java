@@ -61,7 +61,7 @@ public class GestorAutoMove {
         }
 
     }
-
+//esta mal esta parte
     public void asignarVehiculo() {
         Nodo<VehiculoAutonomo> p = vehiculos.inicio();
         while (p != null) {
