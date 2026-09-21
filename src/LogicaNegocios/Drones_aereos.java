@@ -59,8 +59,8 @@ public class Drones_aereos extends VehiculoAutonomo {
     @Override
     public String toString() {
         return super.toString()
-                + "Autonomia de vuelo:" + autonomia_vuelo
-                + "Altura máxima:" + altura_max;
+                + "\nAutonomia de vuelo:" + autonomia_vuelo
+                + "\nAltura máxima:" + altura_max;
     }
 
 }

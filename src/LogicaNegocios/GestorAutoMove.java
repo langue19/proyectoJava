@@ -29,9 +29,7 @@ public class GestorAutoMove {
             mAsig_y_Final.encolar(m);
         }
 
-    
-
-    ///consultarMisiones();
+        ///consultarMisiones();
     }
 
     /*public void consultarMisiones() {
@@ -51,6 +49,7 @@ public class GestorAutoMove {
     }
 
     public void vehiculoDisponible() {
+
         if (!mPendientes.colaVacia()) {
             Nodo<Mision> frente = mPendientes.getFrente();
             Mision aux = frente.getDato();
@@ -69,7 +68,7 @@ public class GestorAutoMove {
             }
 
         } else {
-            System.out.println("No hay misiones registradas.");
+            System.out.println("No hay misiones Pendientes registradas.");
 
         }
 
@@ -77,9 +76,13 @@ public class GestorAutoMove {
 
     public void asignarVehiculo(int codigo) {
         actualizarEstadoVehiculo(codigo);
-        Mision m = mPendientes.desencolar();
-        m.setEstado(2);
-        mAsig_y_Final.encolar(m);
+        if (!mPendientes.colaVacia()) {
+            Mision m = mPendientes.desencolar();
+            m.setEstado(2);
+            mAsig_y_Final.encolar(m);
+        } else {
+            System.out.println("No hay misiones Pendientes registradas.");
+        }
     }
 
     public void actualizarEstadoVehiculo(int codigo) {
