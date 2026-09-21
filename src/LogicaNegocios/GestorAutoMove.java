@@ -29,7 +29,9 @@ public class GestorAutoMove {
             mAsig_y_Final.encolar(m);
         }
 
-        ///consultarMisiones();
+    
+
+    ///consultarMisiones();
     }
 
     /*public void consultarMisiones() {
@@ -50,7 +52,8 @@ public class GestorAutoMove {
 
     public void vehiculoDisponible() {
         if (!mPendientes.colaVacia()) {
-            Mision aux = mPendientes.getFrente().getDato();
+            Nodo<Mision> frente = mPendientes.getFrente();
+            Mision aux = frente.getDato();
             Nodo<VehiculoAutonomo> p = vehiculos.inicio();
             while (p != null) {
                 VehiculoAutonomo v = p.getDato();
