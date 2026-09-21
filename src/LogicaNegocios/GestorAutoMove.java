@@ -73,7 +73,7 @@ public class GestorAutoMove {
 
     }
 
-    public void asignarVehiculo(int codigo) {
+    public void asignarVehiculo(String codigo) {
         actualizarEstadoVehiculo(codigo);
         if (!mPendientes.colaVacia()) {
             Mision m = mPendientes.desencolar();
@@ -84,7 +84,7 @@ public class GestorAutoMove {
         }
     }
 
-    public void actualizarEstadoVehiculo(int codigo) {
+    public void actualizarEstadoVehiculo(String codigo) {
         Nodo<VehiculoAutonomo> aux = vehiculos.inicio();
         while (aux != null) {
             VehiculoAutonomo vehiculo = aux.getDato();
