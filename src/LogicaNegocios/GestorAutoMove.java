@@ -2,30 +2,41 @@ package LogicaNegocios;
 
 import AccesoDatos.*;
 
-public class GestorAutoMove {
+  
 
-    private ListaS<VehiculoAutonomo> vehiculos;
-    private ListaS<VehiculoAutonomo> vehidisp;
-    private Cola<Mision> misiones;
-    private Cola<Mision> aux;
+    public class GestorAutoMove {
 
-    public GestorAutoMove() {
-        vehiculos = new ListaS<>();
-        misiones = new Cola<>();
-        vehidisp = new ListaS<>();
-        aux = new Cola<>();
+        private ListaS<VehiculoAutonomo> vehiculos;
+        private ListaS<VehiculoAutonomo> vehidisp;
+        private Cola<Mision> mPendientes;
+        private Cola<Mision> mAsig_y_Final;
+        private Cola<Mision> aux;
+
+        public GestorAutoMove() {
+            vehiculos = new ListaS<>();
+            vehidisp = new ListaS<>();
+            mPendientes = new Cola<>(); //Cola para misiones pendientes 
+            mAsig_y_Final = new Cola<>(); //Cola para misiones q ya estan asignadas y finalizadas
+            aux = new Cola<>();
+        }
+
+        public void registrarVehiculo(VehiculoAutonomo vehiculo) {
+            vehiculos.insertarPri(vehiculo);
+        }
+
+        public void registrarMision(Mision m) {
+            if (m.getEstado() == 1) {
+                mPendientes.encolar(m);
+            } else {
+                mAsig_y_Final.encolar(m);
+            }
+
+        
+
+        ///consultarMisiones();
     }
 
-    public void registrarVehiculo(VehiculoAutonomo vehiculo) {
-        vehiculos.insertarPri(vehiculo);
-    }
-
-    public void registrarMision(Mision mision) {
-        misiones.encolar(mision);
-        consultarMisiones();
-    }
-
-    public void consultarMisiones() {
+    /*public void consultarMisiones() {
         if (misiones.colaVacia()) {
             System.out.println("No hay misiones registradas.");
             return;
@@ -36,42 +47,54 @@ public class GestorAutoMove {
             System.out.println(m);
             p = p.getPs();
         }
-    }
+    }*/
 
     public void consultarVehiculos() {
-        vehiculos.visualizar();
-    }
+            vehiculos.visualizar();
+        }
 
-    public void vehiculoDisponible() {
-        if (!misiones.colaVacia()) {
-            Mision aux = misiones.getFrente().getDato();
-            Nodo<VehiculoAutonomo> p = vehiculos.inicio();
-            while (p != null) {
-                VehiculoAutonomo v = p.getDato();
-                if (v.puedeRealizarMision(aux)) {
-                    vehidisp.insertarPri(v);
+        public void vehiculoDisponible() {
+            if (!mPendientes.colaVacia()) {
+                Mision aux = mPendientes.getFrente().getDato();
+                Nodo<VehiculoAutonomo> p = vehiculos.inicio();
+                while (p != null) {
+                    VehiculoAutonomo v = p.getDato();
+                    if (v.puedeRealizarMision(aux)) {
+                        vehidisp.insertarPri(v);
+                    }
+                    p = p.getPs();
                 }
-                p = p.getPs();
-            }
-            
-            if (vehidisp.listaVacia()) {
-                System.out.println("No hay vehiculos aptos para la mision " + aux.getCod_mision());
-            } else {
-                vehidisp.visualizar();                    
-            }
+                if (vehidisp.listaVacia()) {
+                    System.out.println("No hay vehiculos aptos para la mision " + aux.getCod_mision());
+                } else {
+                    vehidisp.visualizar();
+                }
 
-        } else {
-            System.out.println("No hay misiones registradas.");
+            } else {
+                System.out.println("No hay misiones registradas.");
+
+            }
 
         }
 
-    }
+        public void asignarVehiculo(String codigo) {
+            Nodo<VehiculoAutonomo> aux = vehiculos.inicio();
+            while (aux != null) {
+                VehiculoAutonomo vehiculo = aux.getDato();
+                if (vehiculo.getCod_ident().equals(codigo)) {
+                    if (vehiculo.getEstado() == 1) {
+                        vehiculo.actualizarEstado(2);
+                        System.out.println("Vehículo asignado correctamente.");
+                    } else {
+                        System.out.println("El vehículo no está disponible.");
+                    }
+                    return;
+                }
+                aux = aux.getPs();
+            }
+            System.out.println("No se encontró un vehículo con ese código.");
+        }
 
-    public void asignarVehiculo() {
-        vehiculoDisponible();
-        System.out.println("Elegi el codigo del vehiculo para asignarle la mision " + misiones.getFrente().getDato().getCod_mision() + ": ");
-        vehiculos.
-        
     }
 
     public void actualizarEstadoVehiculo() {

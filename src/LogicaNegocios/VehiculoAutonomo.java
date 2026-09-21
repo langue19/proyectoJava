@@ -27,7 +27,8 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
         return estado == 1 && nivel_bat >= bateriaNecesaria(m.getDistancia()) && capacidad_maxima >= m.getPeso() && cumpleRestriccionPropia(m);
     }
 
-    public void actualizarEstado(String estado) {
+    public void actualizarEstado(int estado) {
+        setEstado(estado); 
     }
 
     /**

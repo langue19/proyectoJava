@@ -1,7 +1,6 @@
 package Presentacion;
 
 import LogicaNegocios.*;
-import AccesoDatos.*;
 import java.util.Scanner;
 
 public class MenuAutoMove {
@@ -66,7 +65,9 @@ public class MenuAutoMove {
     }
 
     private void asignarMision() {
-        gs.asignarVehiculo();
+        gs.vehiculoDisponible();
+        String codigo = Consola.leerString("Ingresa el código del vehiculo para asignarle la misión: ");
+        gs.asignarVehiculo(codigo); 
     }
 
     public void mostrarMenu() {
