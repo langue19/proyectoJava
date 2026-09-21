@@ -1,0 +1,56 @@
+package LogicaNegocios;
+
+import Interface.Recargable;
+
+public class Robots extends VehiculoAutonomo implements Recargable {
+
+    private int tipo_terreno; // 1-Asfalto 2-Mixto 3-Arena
+    private double velocidad_max;
+
+    public Robots() {
+        super();
+        this.tipo_terreno = 0;
+        this.velocidad_max = 0.0;
+    }
+
+    protected double bateriaNecesaria(int distancia) {
+        return 20; //el robot necesita al menos 20% de bateria para salir.
+    }
+
+    public void recargar() {
+    }
+
+    @Override
+    protected boolean cumpleRestriccionPropia(Mision m) {
+        return true;
+    }
+
+    public void setearDatosRobot(int tipo_terreno, double velocidad_max) {
+        setTipo_terreno(tipo_terreno);
+        setVelocidad_max(velocidad_max);
+    }
+
+    public int getTipo_terreno() {
+        return tipo_terreno;
+    }
+
+    private void setTipo_terreno(int tipo_terreno) {
+        this.tipo_terreno = tipo_terreno;
+    }
+
+    public double getVelocidad_max() {
+        return velocidad_max;
+    }
+
+    private void setVelocidad_max(double velocidad_max) {
+        this.velocidad_max = velocidad_max;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()
+                + "\nTipo de terreno:" + tipo_terreno
+                + "\nVelocidad máxima:" + velocidad_max;
+    }
+
+}
