@@ -18,7 +18,7 @@ public class GestorAutoMove {
     }
 
     public void consultarVehiculos(){
-        lista.visualizar();
+        lista.visualizar(); ////tyyy
     }
 
     public boolean vehiculoDisponible(VehiculoAutonomo vehiculo, Mision mision){
