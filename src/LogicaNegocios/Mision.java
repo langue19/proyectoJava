@@ -7,7 +7,7 @@ public class Mision {
     private String destino;
     private int distancia;
     private double peso;
-    private String prioridad; //1-Alta 2-Media 3-Baja 
+    private int prioridad; //1-Alta 2-Media 3-Baja 
     private int estado; // 1-Pendiente 2-Asignado 3-Finalizado
 
     public Mision() {
@@ -16,12 +16,12 @@ public class Mision {
         this.destino = "";
         this.distancia = 0;
         this.peso = 0.0;
-        this.prioridad = "";
+        this.prioridad = 0;
         this.estado = 0;
     }
 
     public void setDatos(String cod_mision, String origen, String destino,
-            int distancia, double peso, String prioridad, int estado) {
+            int distancia, double peso, int prioridad, int estado) {
         setCod_mision(cod_mision);
         setOrigen(origen);
         setDestino(destino);
@@ -71,11 +71,11 @@ public class Mision {
         this.peso = peso;
     }
 
-    public String getPrioridad() {
+    public int getPrioridad() {
         return prioridad;
     }
 
-    public void setPrioridad(String prioridad) {
+    public void setPrioridad(int prioridad) {
         this.prioridad = prioridad;
     }
 

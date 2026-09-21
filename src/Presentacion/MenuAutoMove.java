@@ -154,7 +154,7 @@ public class MenuAutoMove {
                 Consola.leerString("Destino: "),
                 Consola.leerInt("Distancia: "),
                 Consola.leerDouble("Peso: "),
-                estado, prio);
+                prio, estado);
         return m;
     }
 }
