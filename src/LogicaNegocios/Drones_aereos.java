@@ -2,7 +2,7 @@ package LogicaNegocios;
 
 import Interface.Recargable;
 
-public class Drones_aereos extends VehiculoAutonomo implements Recargable {
+public class Drones_aereos extends VehiculoAutonomo {
 
     private double autonomia_vuelo; //Distancia max que puede recorrer con la bateria completa
     private double altura_max;
@@ -13,9 +13,6 @@ public class Drones_aereos extends VehiculoAutonomo implements Recargable {
         this.altura_max = 0.0;
     }
 
-    public void recargar() {
-    }
-
     protected double bateriaNecesaria(int distancia) {
         return distancia / autonomia_vuelo * 100; //Regla de tres. 
     }
@@ -24,6 +21,7 @@ public class Drones_aereos extends VehiculoAutonomo implements Recargable {
     protected boolean cumpleRestriccionPropia(Mision m) {
         return m.getDistancia()<=autonomia_vuelo;
     }
+  
 
     public boolean setDatosDron(double autonomia_vuelo, double altura_max) {
         if (validarAutonomia(autonomia_vuelo) && validarAltura(altura_max)) {

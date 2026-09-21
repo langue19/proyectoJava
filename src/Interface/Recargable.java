@@ -5,5 +5,5 @@ package Interface;
 
 public interface Recargable {
     void recargar();
-    //boolean necesitaRecarg(); 
+    boolean necesitaRecarga(); 
 }

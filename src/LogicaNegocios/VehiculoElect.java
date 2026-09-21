@@ -13,6 +13,8 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable {
         this.tiempo_recarga = "";
     }
 
+    
+    //-----Restricciones para saber si está apto para realizar una mision-----
     protected double bateriaNecesaria(int distancia) {
         return distancia / autonomia_km * 100;
     }
@@ -21,14 +23,19 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable {
     protected boolean cumpleRestriccionPropia(Mision m) {
         return m.getDistancia()<=autonomia_km;
     }
+    
+    ///-----implementacion de Recargable-----
+    public void recargar() {
+        setNivel_bat(100);
+    }
+    
+    public boolean necesitaRecarga(){
+        return nivel_bat<20; 
+    }
 
     public void setDatosElectrico(double autonomia_km, String tiempo_recarga) {
         setAutonomia_km(autonomia_km);
         setTiempo_recarga(tiempo_recarga);
-    }
-
-    public void recargar() {
-        setNivel_bat(getCapacidad_maxima());
     }
 
     public double getAutonomia_km() {

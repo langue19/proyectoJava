@@ -146,14 +146,15 @@ public class MenuAutoMove {
         Mision m = new Mision();
         int estado = Consola.leerOpcion(
                 "Estado de la mision:\n 1-Pendiente\n 2-Asignado\n 3-Finalizado\n----> ", 1, 2, 3);
+        int prio=Consola.leerOpcion(
+                "Prioridad: \n1-Alta \n2-Media \n3-Baja---->", 1, 2, 3); 
         m.setDatos(
                 Consola.leerString("Codigo de mision: "),
                 Consola.leerString("Origen: "),
                 Consola.leerString("Destino: "),
                 Consola.leerInt("Distancia: "),
                 Consola.leerDouble("Peso: "),
-                Consola.leerString("Prioridad: "),
-                estado);
+                estado, prio);
         return m;
     }
 }
