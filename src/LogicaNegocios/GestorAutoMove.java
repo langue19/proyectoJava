@@ -51,8 +51,13 @@ public class GestorAutoMove {
                 if (v.puedeRealizarMision(aux)) {
                     vehidisp.insertarPri(v);
                 }
-                vehidisp.visualizar();
                 p = p.getPs();
+            }
+            
+            if (vehidisp.listaVacia()) {
+                System.out.println("No hay vehiculos aptos para la mision " + aux.getCod_mision());
+            } else {
+                vehidisp.visualizar();                    
             }
 
         } else {
@@ -61,10 +66,10 @@ public class GestorAutoMove {
         }
 
     }
-    
+
     public void asignarVehiculo() {
         vehiculoDisponible();
-        System.out.println("Elegi el codigo del vehiculo para asignarle la mision "+ misiones.getFrente().getDato().getCod_mision() +": ");
+        System.out.println("Elegi el codigo del vehiculo para asignarle la mision " + misiones.getFrente().getDato().getCod_mision() + ": ");
         vehiculos.
         
     }
