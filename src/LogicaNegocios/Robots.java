@@ -2,7 +2,7 @@ package LogicaNegocios;
 
 import Interface.Recargable;
 
-public class Robots extends VehiculoAutonomo  {
+public class Robots extends VehiculoAutonomo {
 
     private int tipo_terreno; // 1-Asfalto 2-Mixto 3-Arena
     private double velocidad_max;
@@ -19,8 +19,8 @@ public class Robots extends VehiculoAutonomo  {
 
     @Override
     protected boolean cumpleRestriccionPropia(Mision m) {
-        if(m.getPrioridad()==2){
-            return velocidad_max >15; 
+        if (m.getPrioridad() == 2) {
+            return velocidad_max > 15;
         }
         return false;
     }
@@ -29,9 +29,9 @@ public class Robots extends VehiculoAutonomo  {
         setTipo_terreno(tipo_terreno);
         setVelocidad_max(velocidad_max);
     }
-    
-    public boolean validarVelocidad(Double v){
-        return v>0 && v<=80; 
+
+    public boolean validarVelocidad(Double v) {
+        return v > 0 && v <= 80;
     }
 
     public int getTipo_terreno() {
@@ -52,9 +52,23 @@ public class Robots extends VehiculoAutonomo  {
 
     @Override
     public String toString() {
+        String terrenoTexto;
+        switch (tipo_terreno) {
+            case 1:
+                terrenoTexto = "Asfalto";
+                break;
+            case 2:
+                terrenoTexto = "Mixto";
+                break;
+            case 3:
+                terrenoTexto = "Arena";
+                break;
+            default:
+                terrenoTexto = "Desconocido";
+        }
         return super.toString()
-                + "\nTipo de terreno:" + tipo_terreno
-                + "\nVelocidad máxima:" + velocidad_max;
+                + "\nTipo de terreno: " + terrenoTexto
+                + "\nVelocidad máxima: " + velocidad_max;
     }
 
 }

@@ -28,7 +28,7 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
     }
 
     public void actualizarEstado(int estado) {
-        setEstado(estado); 
+        setEstado(estado);
     }
 
     /**
@@ -105,13 +105,27 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
 
     @Override
     public String toString() {
+        String estadoTexto;
+        switch (estado) {
+            case 1:
+                estadoTexto = "Activo";
+                break;
+            case 2:
+                estadoTexto = "En misión";
+                break;
+            case 3:
+                estadoTexto = "En mantenimiento";
+                break;
+            default:
+                estadoTexto = "Desconocido";
+        }
         return "\n____Vehiculo____"
-                + "\nCódigo identificador:" + cod_ident
+                + "\nCódigo identificador: " + cod_ident
                 + "\nModelo: " + modelo
-                + "\nNivel de bateria:" + nivel_bat
-                + "\nCapacidad maxima de carga:" + capacidad_maxima
-                + "\nKilometros recorridos:" + km_reco
-                + "\nEstado:" + estado;
+                + "\nNivel de batería: " + nivel_bat
+                + "\nCapacidad máxima de carga: " + capacidad_maxima
+                + "\nKilómetros recorridos: " + km_reco
+                + "\nEstado: " + estadoTexto;
     }
 
 }

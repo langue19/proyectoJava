@@ -89,13 +89,41 @@ public class Mision {
 
     @Override
     public String toString() {
+
+        String estadoTexto;
+        String prioridadTexto;
+        switch (estado) {
+            case 1:
+                estadoTexto = "Pendiente";
+                break;
+            case 2:
+                estadoTexto = "Asignado";
+                break;
+            case 3:
+                estadoTexto = "Finalizado";
+                break;
+            default:
+                estadoTexto = "Desconocido";
+        }
+        switch (prioridad) {
+            case 1:
+                prioridadTexto = "Alta";
+                break;
+            case 2:
+                prioridadTexto = "Media";
+                break;
+            case 3:
+                prioridadTexto = "Baja";
+                break;
+            default:
+                prioridadTexto = "Desconocida";
+        }
         return "\nMisión: " + cod_mision
                 + " | Origen: " + origen
                 + " | Destino: " + destino
-                + " | Distancia: " + distancia
-                + " km"
+                + " | Distancia: " + distancia + " km"
                 + " | Peso: " + peso + " kg"
-                + " | Prioridad: " + prioridad
-                + " | Estado: " + estado;
+                + " | Prioridad: " + prioridadTexto
+                + " | Estado: " + estadoTexto;
     }
 }
