@@ -142,7 +142,7 @@ public class MenuAutoMove {
         return v;
     }
 
-    public Mision pedirDatosMision() {
+    public Mision pedirDatosMision() { 
         Mision m = new Mision();
         int estado = Consola.leerOpcion(
                 "Estado de la mision:\n 1-Pendiente\n 2-Asignado\n 3-Finalizado\n----> ", 1, 2, 3);
