@@ -22,7 +22,6 @@ public class Robots extends VehiculoAutonomo implements Recargable {
     }
     
     public void ingresarTipo_terreno(int tipo_terreno) {
-
         if (tipo_terreno < 1 || tipo_terreno > 3) {
             throw new IllegalArgumentException("El tipo de terreno debe ser 1, 2 o 3.");
         }
@@ -31,7 +30,6 @@ public class Robots extends VehiculoAutonomo implements Recargable {
     }
 
     public void ingresarVelocidad_max(double velocidad_max) {
-
         if (velocidad_max <= 0) {
             throw new IllegalArgumentException("La velocidad maxima debe ser mayor a 0.");
         }
