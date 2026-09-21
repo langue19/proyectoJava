@@ -29,13 +29,12 @@ public class GestorAutoMove {
         }
     }
 
-    
     public void consultarVehiculos() {
         vehiculos.visualizar();
     }
 
-    public void vehiculoDisponible() { //verifica qué vehiculos de la lista están aptos para realizar una misión y los muestra 
-        vehidisp = new ListaS<>();   
+    public boolean vehiculoDisponible() { //verifica qué vehiculos de la lista están aptos para realizar una misión y los muestra 
+        vehidisp = new ListaS<>();
         if (!mPendientes.colaVacia()) {
             Nodo<Mision> frente = mPendientes.getFrente();
             Mision aux = frente.getDato();
@@ -51,13 +50,14 @@ public class GestorAutoMove {
                 System.out.println("No hay vehiculos aptos para la mision " + aux.getCod_mision());
             } else {
                 vehidisp.visualizar();
+                return true;
             }
 
         } else {
             System.out.println("No hay misiones Pendientes registradas.");
 
         }
-
+        return false;
     }
 
     public void asignarVehiculo(String codigo) { //Luego de actualizar datos del vehiculo, lo hace con los de mision 
@@ -71,9 +71,8 @@ public class GestorAutoMove {
         }
     }
 
-
     public void actualizarEstadoVehiculo(String codigo) { //A traves del codigo del vehiculo elegido para asignar, se accede a su estado y cambia a "En mision"
-        Nodo<VehiculoAutonomo> aux = vehiculos.inicio();  
+        Nodo<VehiculoAutonomo> aux = vehiculos.inicio();
         while (aux != null) {
             VehiculoAutonomo vehiculo = aux.getDato();
             if (vehiculo.getCod_ident().equals(codigo)) {

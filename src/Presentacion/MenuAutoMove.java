@@ -71,11 +71,13 @@ public class MenuAutoMove {
     }
 
     private void asignarMision() {
-        gs.vehiculoDisponible();
-        System.out.println("_____ASIGNAR MISION____");
-        System.out.println(" ");
-        String codigo = Consola.leerString("Ingresa el código del vehiculo para asignarle la misión: ");
-        gs.asignarVehiculo(codigo);
+        if (gs.vehiculoDisponible()) {
+            System.out.println("_____ASIGNAR MISION____");
+            System.out.println(" ");
+            String codigo = Consola.leerString("Ingresa el código del vehiculo para asignarle la misión: ");
+            gs.asignarVehiculo(codigo);
+        }
+
     }
 
     public void mostrarMenu() {
@@ -150,15 +152,15 @@ public class MenuAutoMove {
 
     public VehiculoElect pedirDatosVehiculoElectrico() {
         VehiculoElect v = new VehiculoElect();
-        double autonomiaKm; 
-        String tiempoRecarga; 
+        double autonomiaKm;
+        String tiempoRecarga;
         pedirDatosBase(v);
-        do{
+        do {
             autonomiaKm = Consola.leerDouble("Autonomia en kilometros: ");
-            if(!v.validarAuton(autonomiaKm)){
+            if (!v.validarAuton(autonomiaKm)) {
                 System.out.println("Error: La autonomía ingresada está fuera del rango permitido.");
             }
-        }while(!v.validarAuton(autonomiaKm)); 
+        } while (!v.validarAuton(autonomiaKm));
         tiempoRecarga = Consola.leerString("Tiempo de recarga: ");
         v.setDatosElectrico(autonomiaKm, tiempoRecarga);
         return v;
