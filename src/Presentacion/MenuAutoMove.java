@@ -66,7 +66,7 @@ public class MenuAutoMove {
     }
 
     private void asignarMision() {
-        
+        gs.asignarVehiculo();
     }
 
     public void mostrarMenu() {

@@ -50,8 +50,8 @@ public class GestorAutoMove {
                 VehiculoAutonomo v = p.getDato();
                 if (v.puedeRealizarMision(aux)) {
                     vehidisp.insertarPri(v);
-                    vehidisp.visualizar();
                 }
+                vehidisp.visualizar();
                 p = p.getPs();
             }
 
@@ -61,17 +61,12 @@ public class GestorAutoMove {
         }
 
     }
-//esta mal esta parte
+    
     public void asignarVehiculo() {
-        Nodo<VehiculoAutonomo> p = vehiculos.inicio();
-        while (p != null) {
-                VehiculoAutonomo v = p.getDato();
-                if (v.puedeRealizarMision(aux)) {
-                    vehidisp.insertarPri(v);
-                    vehidisp.visualizar();
-                }
-                p = p.getPs();
-            }
+        vehiculoDisponible();
+        System.out.println("Elegi el codigo del vehiculo para asignarle la mision "+ misiones.getFrente().getDato().getCod_mision() +": ");
+        vehiculos.
+        
     }
 
     public void actualizarEstadoVehiculo() {

@@ -22,6 +22,7 @@ public class Robots extends VehiculoAutonomo  {
         if(m.getPrioridad()==2){
             return velocidad_max >15; 
         }
+        return false;
     }
 
     public void setearDatosRobot(int tipo_terreno, double velocidad_max) {
