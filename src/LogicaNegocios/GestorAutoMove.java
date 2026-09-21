@@ -84,7 +84,7 @@ public class GestorAutoMove {
             System.out.println("No hay misiones Pendientes registradas.");
         }
     }
-//
+//aqui esssss
     public void actualizarEstadoVehiculo(String codigo) {
         Nodo<VehiculoAutonomo> aux = vehiculos.inicio();
         while (aux != null) {
