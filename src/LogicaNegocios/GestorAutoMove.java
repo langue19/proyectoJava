@@ -12,7 +12,7 @@ public class GestorAutoMove {
 
     public GestorAutoMove() {
         vehiculos = new ListaS<>();
-        vehidisp = new ListaS<>();
+
         mPendientes = new Cola<>(); //Cola para misiones pendientes 
         mAsig_y_Final = new Cola<>(); //Cola para misiones q ya estan asignadas y finalizadas
         aux = new Cola<>();
@@ -49,7 +49,7 @@ public class GestorAutoMove {
     }
 
     public void vehiculoDisponible() {
-
+        vehidisp = new ListaS<>();
         if (!mPendientes.colaVacia()) {
             Nodo<Mision> frente = mPendientes.getFrente();
             Mision aux = frente.getDato();
@@ -85,6 +85,7 @@ public class GestorAutoMove {
         }
     }
 //aqui esssss
+
     public void actualizarEstadoVehiculo(String codigo) {
         Nodo<VehiculoAutonomo> aux = vehiculos.inicio();
         while (aux != null) {
