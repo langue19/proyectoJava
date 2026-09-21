@@ -60,6 +60,7 @@ public class GestorAutoMove {
         }
     }
 //hola bb, tu como estas?
+    //gei
     public void asignarVehiculo() {
         vehiculoDisponible();
         
