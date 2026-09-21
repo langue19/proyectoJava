@@ -57,21 +57,13 @@ public class GestorAutoMove {
 
         } else {
             System.out.println("No hay misiones registradas.");
-
         }
-
     }
-
+//hola bb, tu como estas?
     public void asignarVehiculo() {
-        Nodo<VehiculoAutonomo> p = vehiculos.inicio();
-        while (p != null) {
-                VehiculoAutonomo v = p.getDato();
-                if (v.puedeRealizarMision(aux)) {
-                    vehidisp.insertarPri(v);
-                    vehidisp.visualizar();
-                }
-                p = p.getPs();
-            }
+        vehiculoDisponible();
+        
+        
     }
 
     public void actualizarEstadoVehiculo() {
