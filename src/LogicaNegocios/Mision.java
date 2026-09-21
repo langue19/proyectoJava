@@ -89,7 +89,7 @@ public class Mision {
 
     @Override
     public String toString() {
-        return "Misión: " + cod_mision
+        return "\nMisión: " + cod_mision
                 + " | Origen: " + origen
                 + " | Destino: " + destino
                 + " | Distancia: " + distancia

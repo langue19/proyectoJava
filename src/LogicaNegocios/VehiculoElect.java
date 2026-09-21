@@ -37,6 +37,11 @@ public class VehiculoElect extends VehiculoAutonomo implements Recargable {
         setAutonomia_km(autonomia_km);
         setTiempo_recarga(tiempo_recarga);
     }
+    
+    public boolean validarAuton(Double a){
+        return a>0 && a<=1000; 
+    }
+    
 
     public double getAutonomia_km() {
         return autonomia_km;

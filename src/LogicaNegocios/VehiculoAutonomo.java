@@ -105,7 +105,7 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
 
     @Override
     public String toString() {
-        return "____Vehiculo____"
+        return "\n____Vehiculo____"
                 + "\nCódigo identificador:" + cod_ident
                 + "\nModelo: " + modelo
                 + "\nNivel de bateria:" + nivel_bat

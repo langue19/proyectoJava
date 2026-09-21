@@ -29,6 +29,10 @@ public class Robots extends VehiculoAutonomo  {
         setTipo_terreno(tipo_terreno);
         setVelocidad_max(velocidad_max);
     }
+    
+    public boolean validarVelocidad(Double v){
+        return v>0 && v<=80; 
+    }
 
     public int getTipo_terreno() {
         return tipo_terreno;

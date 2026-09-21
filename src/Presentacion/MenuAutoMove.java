@@ -4,6 +4,7 @@ import LogicaNegocios.*;
 import java.util.Scanner;
 
 public class MenuAutoMove {
+
     GestorAutoMove gs = new GestorAutoMove();
     Scanner sc = new Scanner(System.in);
 
@@ -38,6 +39,7 @@ public class MenuAutoMove {
     }
 
     private void registrarVehiculo() {
+        System.out.println("____REGISTRAR VEHICULO____");
         int tipo = leerTipoVehiculo();
         VehiculoAutonomo vehiculo = null;
         switch (tipo) {
@@ -56,18 +58,24 @@ public class MenuAutoMove {
     }
 
     private void registrarMision() {
+        System.out.println("____REGISTRAR MISION____");
+        System.out.println(" ");
         gs.registrarMision(pedirDatosMision());
         System.out.println("Mision registrada correctamente.");
     }
 
     private void verificarDisponibilidad() {
+        System.out.println("_____VEHICULOS DISPONIBLES____");
+        System.out.println(" ");
         gs.vehiculoDisponible();
     }
 
     private void asignarMision() {
         gs.vehiculoDisponible();
+        System.out.println("_____ASIGNAR MISION____");
+        System.out.println(" ");
         String codigo = Consola.leerString("Ingresa el código del vehiculo para asignarle la misión: ");
-        gs.asignarVehiculo(codigo); 
+        gs.asignarVehiculo(codigo);
     }
 
     public void mostrarMenu() {
@@ -93,21 +101,27 @@ public class MenuAutoMove {
 
     // --- Recoleccion de datos---
     private void pedirDatosBase(VehiculoAutonomo v) {
-    v.setDatosBase(
-            Consola.leerString("Codigo de identificacion: "),
-            Consola.leerString("Modelo: "),
-            Consola.leerInt("Bateria: "),
-            Consola.leerInt("Capacidad maxima de bateria: "),
-            Consola.leerDouble("Kilometros recorridos: "),
-            Consola.leerOpcion("Estado:\n 1-Activo \n2-En mision \n3-Mantenimiento\n--->", 1, 2, 3));
-}
-    
+        v.setDatosBase(
+                Consola.leerString("Codigo de identificacion: "),
+                Consola.leerString("Modelo: "),
+                Consola.leerInt("Bateria: "),
+                Consola.leerInt("Capacidad maxima de bateria: "),
+                Consola.leerDouble("Kilometros recorridos: "),
+                Consola.leerOpcion("Estado:\n1-Activo \n2-En mision \n3-Mantenimiento\n--->", 1, 2, 3));
+    }
+
     public Robots pedirDatosRobot() {
         Robots r = new Robots();
-        pedirDatosBase(r); 
+        double velMax;
+        pedirDatosBase(r);
         int terreno = Consola.leerOpcion(
-                "Tipo de terreno:\n 1-Asfalto\n 2-Mixto\n 3-Arena\n----> ", 1, 2, 3);
-        double velMax = Consola.leerDouble("Velocidad maxima: ");
+                "Tipo de terreno:\n1-Asfalto \n2-Mixto \n3-Arena \n----> ", 1, 2, 3);
+        do {
+            velMax = Consola.leerDouble("Velocidad maxima: ");
+            if (!r.validarVelocidad(velMax)) {
+                System.out.println("Error: La Velocidad máxima ingresada está fuera del rango permitido.");
+            }
+        } while (!r.validarVelocidad(velMax));
         r.setearDatosRobot(terreno, velMax);
         return r;
     }
@@ -116,7 +130,7 @@ public class MenuAutoMove {
         Drones_aereos d = new Drones_aereos();
         Double autonomia;
         Double alturaMax;
-        pedirDatosBase(d); 
+        pedirDatosBase(d);
         do {
             autonomia = Consola.leerDouble("Autonomia de vuelo: ");
             if (!d.validarAutonomia(autonomia)) {
@@ -136,19 +150,26 @@ public class MenuAutoMove {
 
     public VehiculoElect pedirDatosVehiculoElectrico() {
         VehiculoElect v = new VehiculoElect();
-        pedirDatosBase(v); 
-        double autonomiaKm = Consola.leerDouble("Autonomia en kilometros: ");
-        String tiempoRecarga = Consola.leerString("Tiempo de recarga: ");
+        double autonomiaKm; 
+        String tiempoRecarga; 
+        pedirDatosBase(v);
+        do{
+            autonomiaKm = Consola.leerDouble("Autonomia en kilometros: ");
+            if(!v.validarAuton(autonomiaKm)){
+                System.out.println("Error: La autonomía ingresada está fuera del rango permitido.");
+            }
+        }while(!v.validarAuton(autonomiaKm)); 
+        tiempoRecarga = Consola.leerString("Tiempo de recarga: ");
         v.setDatosElectrico(autonomiaKm, tiempoRecarga);
         return v;
     }
 
-    public Mision pedirDatosMision() { 
+    public Mision pedirDatosMision() {
         Mision m = new Mision();
         int estado = Consola.leerOpcion(
                 "Estado de la mision:\n 1-Pendiente\n 2-Asignado\n 3-Finalizado\n----> ", 1, 2, 3);
-        int prio=Consola.leerOpcion(
-                "Prioridad: \n1-Alta \n2-Media \n3-Baja---->", 1, 2, 3); 
+        int prio = Consola.leerOpcion(
+                "Prioridad: \n1-Alta \n2-Media \n3-Baja---->", 1, 2, 3);
         m.setDatos(
                 Consola.leerString("Codigo de mision: "),
                 Consola.leerString("Origen: "),

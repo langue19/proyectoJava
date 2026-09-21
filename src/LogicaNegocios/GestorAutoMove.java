@@ -12,7 +12,6 @@ public class GestorAutoMove {
 
     public GestorAutoMove() {
         vehiculos = new ListaS<>();
-
         mPendientes = new Cola<>(); //Cola para misiones pendientes 
         mAsig_y_Final = new Cola<>(); //Cola para misiones q ya estan asignadas y finalizadas
         aux = new Cola<>();
@@ -28,28 +27,15 @@ public class GestorAutoMove {
         } else {
             mAsig_y_Final.encolar(m);
         }
-
-        ///consultarMisiones();
     }
 
-    /*public void consultarMisiones() {
-        if (misiones.colaVacia()) {
-            System.out.println("No hay misiones registradas.");
-            return;
-        }
-        Nodo<Mision> p = misiones.getFrente();
-        while (p != null) {
-            Mision m = p.getDato();
-            System.out.println(m);
-            p = p.getPs();
-        }
-    }*/
+    
     public void consultarVehiculos() {
         vehiculos.visualizar();
     }
 
-    public void vehiculoDisponible() {
-        vehidisp = new ListaS<>();
+    public void vehiculoDisponible() { //verifica qué vehiculos de la lista están aptos para realizar una misión y los muestra 
+        vehidisp = new ListaS<>();   
         if (!mPendientes.colaVacia()) {
             Nodo<Mision> frente = mPendientes.getFrente();
             Mision aux = frente.getDato();
@@ -74,8 +60,8 @@ public class GestorAutoMove {
 
     }
 
-    public void asignarVehiculo(String codigo) {
-        actualizarEstadoVehiculo(codigo);
+    public void asignarVehiculo(String codigo) { //Luego de actualizar datos del vehiculo, lo hace con los de mision 
+        actualizarEstadoVehiculo(codigo);           //Además actualiza las determinadas colas de misiones 
         if (!mPendientes.colaVacia()) {
             Mision m = mPendientes.desencolar();
             m.setEstado(2);
@@ -84,10 +70,10 @@ public class GestorAutoMove {
             System.out.println("No hay misiones Pendientes registradas.");
         }
     }
-//aqui esssss
 
-    public void actualizarEstadoVehiculo(String codigo) {
-        Nodo<VehiculoAutonomo> aux = vehiculos.inicio();
+
+    public void actualizarEstadoVehiculo(String codigo) { //A traves del codigo del vehiculo elegido para asignar, se accede a su estado y cambia a "En mision"
+        Nodo<VehiculoAutonomo> aux = vehiculos.inicio();  
         while (aux != null) {
             VehiculoAutonomo vehiculo = aux.getDato();
             if (vehiculo.getCod_ident().equals(codigo)) {
