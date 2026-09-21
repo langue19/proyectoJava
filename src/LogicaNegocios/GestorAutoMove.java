@@ -74,7 +74,9 @@ public class GestorAutoMove {
 
     public void asignarVehiculo(int codigo) {
         actualizarEstadoVehiculo(codigo);
-        
+        Mision m = mPendientes.desencolar();
+        m.setEstado(2);
+        mAsig_y_Final.encolar(m);
     }
 
     public void actualizarEstadoVehiculo(int codigo) {

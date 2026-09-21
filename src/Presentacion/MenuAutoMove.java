@@ -66,7 +66,7 @@ public class MenuAutoMove {
 
     private void asignarMision() {
         gs.vehiculoDisponible();
-        String codigo = Consola.leerString("Ingresa el código del vehiculo para asignarle la misión: ");
+        int codigo = Consola.leerInt("Ingresa el código del vehiculo para asignarle la misión: ");
         gs.asignarVehiculo(codigo); 
     }
 
