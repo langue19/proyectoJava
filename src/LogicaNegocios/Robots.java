@@ -68,7 +68,7 @@ public class Robots extends VehiculoAutonomo {
         }
         return super.toString()
                 + "\nTipo de terreno: " + terrenoTexto
-                + "\nVelocidad máxima: " + velocidad_max;
+                + "\nVelocidad maxima: " + velocidad_max;
     }
 
 }

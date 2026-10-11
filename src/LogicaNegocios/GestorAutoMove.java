@@ -1,24 +1,28 @@
 package LogicaNegocios;
 
+import java.util.List;
 import AccesoDatos.*;
 
 public class GestorAutoMove {
 
-    private ListaS<VehiculoAutonomo> vehiculos;
+    //private ListaS<VehiculoAutonomo> vehiculos;
+    private ArbolGenerico<VehiculoAutonomo> ABB;
     private ListaS<VehiculoAutonomo> vehidisp;
+
     private Cola<Mision> mPendientes;
     private Cola<Mision> mAsig_y_Final;
     private Cola<Mision> aux;
 
     public GestorAutoMove() {
-        vehiculos = new ListaS<>();
+        //vehiculos = new ListaS<>();
+        ABB = new ArbolGenerico<>();
         mPendientes = new Cola<>(); //Cola para misiones pendientes 
         mAsig_y_Final = new Cola<>(); //Cola para misiones q ya estan asignadas y finalizadas
         aux = new Cola<>();
     }
 
     public void registrarVehiculo(VehiculoAutonomo vehiculo) {
-        vehiculos.insertarPri(vehiculo);
+        ABB.insertar(vehiculo);
     }
 
     public void registrarMision(Mision m) {
@@ -30,32 +34,31 @@ public class GestorAutoMove {
     }
 
     public void consultarVehiculos() {
-        vehiculos.visualizar();
+        ABB.preOrden();
     }
 
-    public boolean vehiculoDisponible() { //verifica qué vehiculos de la lista están aptos para realizar una misión y los muestra 
-        vehidisp = new ListaS<>();
+    public boolean vehiculoDisponible() { // Verifica qué vehículos del árbol están aptos para realizar una misión y los muestra
+        vehidisp = new ListaS<>(); // Inicializa la lista para guardar los disponibles
+
         if (!mPendientes.colaVacia()) {
-            Nodo<Mision> frente = mPendientes.getFrente();
-            Mision aux = frente.getDato();
-            Nodo<VehiculoAutonomo> p = vehiculos.inicio();
-            while (p != null) {
-                VehiculoAutonomo v = p.getDato();
-                if (v.puedeRealizarMision(aux)) {
-                    vehidisp.insertarPri(v);
+            NodoLista<Mision> frente = mPendientes.getFrente();
+            Mision auxMision = frente.getDato();
+
+            // Obtenemos todos los vehículos del árbol genérico en forma de lista estándar de Java
+            List<VehiculoAutonomo> todosLosVehiculos = ABB.inOrden();
+            for (VehiculoAutonomo v : todosLosVehiculos) {
+                if (v.puedeRealizarMision(auxMision)) {
+                    vehidisp.insertarPri(v); // Los guardamos en ListaS
                 }
-                p = p.getPs();
             }
             if (vehidisp.listaVacia()) {
-                System.out.println("No hay vehiculos aptos para la mision " + aux.getCod_mision());
+                System.out.println("No hay vehiculos aptos para la mision " + auxMision.getCod_mision());
             } else {
                 vehidisp.visualizar();
                 return true;
             }
-
         } else {
-            System.out.println("No hay misiones Pendientes registradas.");
-
+            System.out.println("No hay misiones pendientes registradas.");
         }
         return false;
     }
@@ -71,21 +74,26 @@ public class GestorAutoMove {
         }
     }
 
-    public void actualizarEstadoVehiculo(String codigo) { //A traves del codigo del vehiculo elegido para asignar, se accede a su estado y cambia a "En mision"
-        Nodo<VehiculoAutonomo> aux = vehiculos.inicio();
-        while (aux != null) {
-            VehiculoAutonomo vehiculo = aux.getDato();
+    public void actualizarEstadoVehiculo(String codigo) { 
+        List<VehiculoAutonomo> todosLosVehiculos = ABB.inOrden();
+
+        boolean encontrado = false;
+
+        for (VehiculoAutonomo vehiculo : todosLosVehiculos) {
+            // Comparamos el código de identificación del vehículo actual con el que buscamos
             if (vehiculo.getCod_ident().equals(codigo)) {
+                encontrado = true;
                 if (vehiculo.getEstado() == 1) {
                     vehiculo.actualizarEstado(2);
-                    System.out.println("Vehículo asignado correctamente.");
+                    System.out.println("Vehiculo asignado correctamente.");
                 } else {
-                    System.out.println("El vehículo no está disponible.");
+                    System.out.println("El vehiculo no esta disponible.");
                 }
-                return;
+                break; 
             }
-            aux = aux.getPs();
         }
-        System.out.println("No se encontró un vehículo con ese código.");
+        if (!encontrado) {
+            System.out.println("No se encontro un vehiculo con ese codigo.");
+        }
     }
 }

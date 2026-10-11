@@ -1,13 +1,13 @@
 package AccesoDatos;
 
 public class ListaS<G extends Comparable<G>> {
-    private Nodo<G> list;
+    private NodoLista<G> list;
 
     public ListaS() {
         this.list = null;
     }
 
-    public Nodo<G> inicio() {
+    public NodoLista<G> inicio() {
         return list;
     }
 
@@ -16,7 +16,7 @@ public class ListaS<G extends Comparable<G>> {
     }
 
     public void insertarPri(G a) {
-        Nodo<G> x = new Nodo<>(a);
+        NodoLista<G> x = new NodoLista<>(a);
         if (list == null) {
             list = x;
         } else {
@@ -25,10 +25,10 @@ public class ListaS<G extends Comparable<G>> {
         }
     }
 
-    public Nodo<G> eliminar(G a) {
-        Nodo<G> x = null;
-        Nodo<G> p = list;
-        Nodo<G> ant = null;
+    public NodoLista<G> eliminar(G a) {
+        NodoLista<G> x = null;
+        NodoLista<G> p = list;
+        NodoLista<G> ant = null;
         int b = 0;
         while (p != null && b == 0) {
         if (p.getDato().compareTo(a) == 0){
@@ -45,8 +45,8 @@ public class ListaS<G extends Comparable<G>> {
         return x;
     }
 
-    public Nodo<G> quitar(Nodo<G> p, Nodo<G> ant) {
-        Nodo<G> x = p;
+    public NodoLista<G> quitar(NodoLista<G> p, NodoLista<G> ant) {
+        NodoLista<G> x = p;
         if (p == list) {  
             list = p.getPs();  
         } else {
@@ -56,7 +56,7 @@ public class ListaS<G extends Comparable<G>> {
     }
 
     public void visualizar() {
-        Nodo<G> p = inicio();
+        NodoLista<G> p = inicio();
         while (p != null) {
             System.out.println(p.getDato());
             System.out.println();

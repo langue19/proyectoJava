@@ -120,11 +120,11 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
                 estadoTexto = "Desconocido";
         }
         return "\n____Vehiculo____"
-                + "\nCódigo identificador: " + cod_ident
+                + "\nCodigo identificador: " + cod_ident
                 + "\nModelo: " + modelo
-                + "\nNivel de batería: " + nivel_bat
-                + "\nCapacidad máxima de carga: " + capacidad_maxima
-                + "\nKilómetros recorridos: " + km_reco
+                + "\nNivel de bateria: " + nivel_bat
+                + "\nCapacidad maxima de carga: " + capacidad_maxima
+                + "\nKilometros recorridos: " + km_reco
                 + "\nEstado: " + estadoTexto;
     }
 

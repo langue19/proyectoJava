@@ -1,0 +1,176 @@
+package AccesoDatos;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author Prof. Mauricio Hernandez
+ */
+public class ArbolGenerico<T extends Comparable<T>> {
+
+    private Nodo<T> raiz;
+
+    public ArbolGenerico() {
+        raiz = null;
+    }
+    // -------------------------------------------------
+    // VERIFICAR SI EL ÁRBOL ESTÁ VACÍO
+    // -------------------------------------------------
+
+    public boolean estaVacio() {
+        return raiz == null;
+    }
+    // -------------------------------------------------
+    // INSERTAR
+    // -------------------------------------------------
+
+    public void insertar(T dato) {
+        raiz = insertarRecursivo(raiz, dato);
+    }
+
+    private Nodo insertarRecursivo(Nodo<T> nodo, T dato) {
+        // Se encontró la posición donde insertar
+        if (nodo == null) {
+            return new Nodo(dato);
+        }
+        int comparacion = dato.compareTo(nodo.dato);
+        if (comparacion < 0) {
+            nodo.izquierdo = insertarRecursivo(nodo.izquierdo, dato);
+        } else if (comparacion > 0) {
+            nodo.derecho = insertarRecursivo(nodo.derecho, dato);
+        }
+        // Si comparacion == 0 no se inserta
+        // porque no permitimos duplicados
+        return nodo;
+    }
+    // -------------------------------------------------
+    // BUSCAR
+    // Devuelve el elemento almacenado que coincide con el
+    // dato recibido (compareTo == 0), o null si no existe
+    // -------------------------------------------------
+
+    public T buscar(T dato) {
+        return buscarRecursivo(raiz, dato);
+    }
+
+    private T buscarRecursivo(Nodo<T> nodo, T dato) {
+        if (nodo == null) {
+            return null;
+        }
+        int comparacion = dato.compareTo(nodo.dato);
+        if (comparacion == 0) {
+            return nodo.dato;
+        }
+        if (comparacion < 0) {
+            return buscarRecursivo(nodo.izquierdo, dato);
+        }
+        return buscarRecursivo(nodo.derecho, dato);
+    }
+    // -------------------------------------------------
+    // ELIMINAR
+    // -------------------------------------------------
+
+    public void eliminar(T dato) {
+        raiz = eliminarRecursivo(raiz, dato);
+    }
+
+    private Nodo eliminarRecursivo(Nodo<T> nodo, T dato) {
+        if (nodo == null) {
+            return null;
+        }
+        int comparacion = dato.compareTo(nodo.dato);
+        if (comparacion < 0) {
+            nodo.izquierdo = eliminarRecursivo(nodo.izquierdo, dato);
+        } else if (comparacion > 0) {
+            nodo.derecho = eliminarRecursivo(nodo.derecho, dato);
+        } else {
+            // -----------------------------------------
+            // CASO 1:
+            // Nodo sin hijo izquierdo
+            // -----------------------------------------
+            if (nodo.izquierdo == null) {
+                return nodo.derecho;
+            }
+            // -----------------------------------------
+            // CASO 2:
+            // Nodo sin hijo derecho
+            // -----------------------------------------
+            if (nodo.derecho == null) {
+                return nodo.izquierdo;
+            }
+            // -----------------------------------------
+            // CASO 3:
+            // Nodo con dos hijos
+            // -----------------------------------------
+            Nodo<T> sucesor = buscarMinimo(nodo.derecho);
+            // Copiar el dato del sucesor
+            nodo.dato = sucesor.dato;
+            // Eliminar el sucesor
+            nodo.derecho = eliminarRecursivo(nodo.derecho, sucesor.dato);
+        }
+        return nodo;
+    }
+    // -------------------------------------------------
+    // BUSCAR EL MENOR ELEMENTO DE UN SUBÁRBOL
+    // -------------------------------------------------
+
+    private Nodo<T> buscarMinimo(Nodo<T> nodo) {
+        Nodo<T> actual = nodo;
+        while (actual.izquierdo != null) {
+            actual = actual.izquierdo;
+        }
+        return actual;
+    }
+    // -------------------------------------------------
+    // RECORRIDO INORDEN
+    // Devuelve los elementos en orden ascendente dentro de
+    // una lista (en lugar de imprimirlos por pantalla)
+    // -------------------------------------------------
+
+    public List<T> inOrden() {
+        List<T> lista = new ArrayList<>();
+        inOrdenRecursivo(raiz, lista);
+        return lista;
+    }
+
+    private void inOrdenRecursivo(Nodo<T> nodo, List<T> lista) {
+        if (nodo != null) {
+            inOrdenRecursivo(nodo.izquierdo, lista);
+            lista.add(nodo.dato);
+            inOrdenRecursivo(nodo.derecho, lista);
+        }
+    }
+    // -------------------------------------------------
+    // RECORRIDO PREORDEN
+    // -------------------------------------------------
+
+    public void preOrden() {
+        preOrdenRecursivo(raiz);
+        System.out.println();
+    }
+
+    private void preOrdenRecursivo(Nodo<T> nodo) {
+        if (nodo != null) {
+            System.out.print(nodo.dato + " ");
+            preOrdenRecursivo(nodo.izquierdo);
+            preOrdenRecursivo(nodo.derecho);
+        }
+    }
+    // -------------------------------------------------
+    // RECORRIDO POSTORDEN
+    // -------------------------------------------------
+
+    public void postOrden() {
+        postOrdenRecursivo(raiz);
+        System.out.println();
+    }
+
+    private void postOrdenRecursivo(Nodo<T> nodo) {
+        if (nodo != null) {
+            postOrdenRecursivo(nodo.izquierdo);
+            postOrdenRecursivo(nodo.derecho);
+            System.out.print(nodo.dato + " ");
+        }
+    }
+}

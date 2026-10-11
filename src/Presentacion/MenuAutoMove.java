@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class MenuAutoMove {
 
     GestorAutoMove gs = new GestorAutoMove();
-    Scanner sc = new Scanner(System.in);
-
+    GestorGRAFO gsG = new GestorGRAFO();
+    
     public void iniciar() {
         System.out.println("----------------------------BIENVENIDO USUARIO!----------------------------");
         int opcion = 10;
@@ -30,6 +30,9 @@ public class MenuAutoMove {
                     break;
                 case 5:
                     asignarMision();
+                    break;
+                case 6:
+                    manejarMenuEstaciones();
                     break;
                 case 0:
                     System.out.println("Saliendo...");
@@ -80,17 +83,66 @@ public class MenuAutoMove {
 
     }
 
+    public void mostrarMenuEstaciones() {
+        System.out.println("1. Crear la red\n"
+                + "2. Registrar estaciones\n"
+                + "3. Registrar conexiones\n"
+                + "4. Mostrar la red\n"
+                + "5. Consultar conexion directa\n"
+                + "6. Consultar estaciones vecinas\n"
+                + "7. Recorrer las estaciones\n");
+    }
+
+    private void manejarMenuEstaciones() {
+        int opcionEst;
+        do {
+            System.out.println("\n_____MENU ESTACIONES_____");
+            mostrarMenuEstaciones();
+            System.out.println("0. Volver al menu principal");
+            opcionEst = Consola.leerOpcion("Ingrese una opcion: ", 0, 1, 2, 3, 4, 5, 6, 7);
+            
+            switch (opcionEst) {
+                case 1:
+                    // gsG.crearRed();
+                    break;
+                case 2:
+                    // gsG.registrarEstacion(...);
+                    break;
+                case 3:
+                    // gsG.registrarConexion(...);
+                    break;
+                case 4:
+                    // gsG.mostrarRed();
+                    break;
+                case 5:
+                    // gsG.consultarConexionDirecta();
+                    break;
+                case 6:
+                    // gsG.consultarEstacionesVecinas();
+                    break;
+                case 7:
+                    // gsG.recorrerEstaciones();
+                    break;
+                case 0:
+                    System.out.print("\n\n----------------------------BIENVENIDO USUARIO!----------------------------");
+                    break;
+            }
+        } while (opcionEst != 0);
+    }
+    
+    
     public void mostrarMenu() {
         System.out.println("1 - Registrar vehiculos de los diferentes tipos previstos."
                 + "\n2 - Registrar misiones de traslado."
                 + "\n3 - Consultar y mostrar la informacion de los vehiculos registrados."
                 + "\n4 - Determinar si un vehiculo se encuentra en condiciones de realizar una mision."
                 + "\n5 - Asignar una mision a un vehiculo disponible y actualizar los estados correspondientes."
+                + "\n6 - Estaciones."
                 + "\n0 - Salir.");
     }
 
     public int leerOpcionMenu() {
-        return Consola.leerOpcion("Ingrese una opcion: ", 0, 1, 2, 3, 4, 5);
+        return Consola.leerOpcion("Ingrese una opcion: ", 0, 1, 2, 3, 4, 5,6);
     }
 
     public int leerTipoVehiculo() {
