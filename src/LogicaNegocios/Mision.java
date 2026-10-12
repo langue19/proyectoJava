@@ -30,12 +30,16 @@ public class Mision {
         setPrioridad(prioridad);
         setEstado(estado);
     }
+    
+    public void cambiarEstado(int e){
+        setEstado(e); 
+    }
 
     public String getCod_mision() {
         return cod_mision;
     }
 
-    public void setCod_mision(String cod_mision) {
+    private void setCod_mision(String cod_mision) {
         this.cod_mision = cod_mision;
     }
 
@@ -43,7 +47,7 @@ public class Mision {
         return origen;
     }
 
-    public void setOrigen(String origen) {
+    private void setOrigen(String origen) {
         this.origen = origen;
     }
 
@@ -51,7 +55,7 @@ public class Mision {
         return destino;
     }
 
-    public void setDestino(String destino) {
+    private void setDestino(String destino) {
         this.destino = destino;
     }
 
@@ -59,7 +63,7 @@ public class Mision {
         return distancia;
     }
 
-    public void setDistancia(int distancia) {
+    private void setDistancia(int distancia) {
         this.distancia = distancia;
     }
 
@@ -67,7 +71,7 @@ public class Mision {
         return peso;
     }
 
-    public void setPeso(double peso) {
+    private void setPeso(double peso) {
         this.peso = peso;
     }
 
@@ -75,7 +79,7 @@ public class Mision {
         return prioridad;
     }
 
-    public void setPrioridad(int prioridad) {
+    private void setPrioridad(int prioridad) {
         this.prioridad = prioridad;
     }
 
@@ -83,7 +87,7 @@ public class Mision {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    private void setEstado(int estado) {
         this.estado = estado;
     }
 

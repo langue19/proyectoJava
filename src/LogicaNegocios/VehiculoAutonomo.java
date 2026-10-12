@@ -33,11 +33,10 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
 
     /**
      * Carga los datos comunes a todo vehiculo. El controlador llama a este
-     * metodo con datos ya recolectados por la Presentacións
+     * metodo con datos ya recolectados por la Presentación
      */
     public void setDatosBase(String cod_ident, String modelo, int nivel_bat,
             int capacidad_maxima, double km_reco, int estado) {
-
         setCod_ident(cod_ident);
         setModelo(modelo);
         setNivel_bat(nivel_bat);

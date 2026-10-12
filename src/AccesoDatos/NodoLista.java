@@ -30,12 +30,5 @@ public class NodoLista<G> {
         setPs(ref);
     }
 
-    public NodoLista<G> obtenerPs() {
-        return getPs();
-    }
-
-    public Object obtenerDato() {
-        return getDato();
-    }
  
 }

@@ -1,7 +1,6 @@
 package Presentacion;
 
 import LogicaNegocios.*;
-import java.util.Scanner;
 
 public class MenuAutoMove {
 
@@ -164,8 +163,8 @@ public class MenuAutoMove {
                 Consola.leerOpcion("Estado:\n1-Activo \n2-En mision \n3-Mantenimiento\n--->", 1, 2, 3));
     }
 
-    public Robots pedirDatosRobot() {
-        Robots r = new Robots();
+    public Robot pedirDatosRobot() {
+        Robot r = new Robot();
         double velMax;
         pedirDatosBase(r);
         int terreno = Consola.leerOpcion(
@@ -180,8 +179,8 @@ public class MenuAutoMove {
         return r;
     }
 
-    public Drones_aereos pedirDatosDron() {
-        Drones_aereos d = new Drones_aereos();
+    public Dron pedirDatosDron() {
+        Dron d = new Dron();
         Double autonomia;
         Double alturaMax;
         pedirDatosBase(d);
@@ -202,17 +201,17 @@ public class MenuAutoMove {
         return d;
     }
 
-    public VehiculoElect pedirDatosVehiculoElectrico() {
-        VehiculoElect v = new VehiculoElect();
+    public VehiculoElectrico pedirDatosVehiculoElectrico() {
+        VehiculoElectrico v = new VehiculoElectrico();
         double autonomiaKm;
         String tiempoRecarga;
         pedirDatosBase(v);
         do {
             autonomiaKm = Consola.leerDouble("Autonomia en kilometros: ");
-            if (!v.validarAuton(autonomiaKm)) {
+            if (!v.validarAutonomia(autonomiaKm)) {
                 System.out.println("Error: La autonomía ingresada está fuera del rango permitido.");
             }
-        } while (!v.validarAuton(autonomiaKm));
+        } while (!v.validarAutonomia(autonomiaKm));
         tiempoRecarga = Consola.leerString("Tiempo de recarga: ");
         v.setDatosElectrico(autonomiaKm, tiempoRecarga);
         return v;

@@ -7,7 +7,6 @@ public class GestorAutoMove {
 
     //private ListaS<VehiculoAutonomo> vehiculos;
     private ArbolGenerico<VehiculoAutonomo> ABB;
-    private ListaS<VehiculoAutonomo> vehidisp;
 
     private Cola<Mision> mPendientes;
     private Cola<Mision> mAsig_y_Final;
@@ -37,7 +36,8 @@ public class GestorAutoMove {
         ABB.preOrden();
     }
 
-    public boolean vehiculoDisponible() { // Verifica qué vehículos del árbol están aptos para realizar una misión y los muestra
+    public boolean vehiculoDisponible() {
+        ListaS<VehiculoAutonomo> vehidisp;// Verifica qué vehículos del árbol están aptos para realizar una misión y los muestra
         vehidisp = new ListaS<>(); // Inicializa la lista para guardar los disponibles
 
         if (!mPendientes.colaVacia()) {
@@ -67,7 +67,7 @@ public class GestorAutoMove {
         actualizarEstadoVehiculo(codigo);           //Además actualiza las determinadas colas de misiones 
         if (!mPendientes.colaVacia()) {
             Mision m = mPendientes.desencolar();
-            m.setEstado(2);
+            m.cambiarEstado(2);
             mAsig_y_Final.encolar(m);
         } else {
             System.out.println("No hay misiones Pendientes registradas.");
