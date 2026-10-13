@@ -13,7 +13,6 @@ public class VehiculoElectrico extends VehiculoAutonomo implements Recargable {
         this.tiempo_recarga = "";
     }
 
-    
     //-----Restricciones para saber si está apto para realizar una mision-----
     protected double bateriaNecesaria(int distancia) {
         return distancia / autonomia_km * 100;
@@ -21,27 +20,36 @@ public class VehiculoElectrico extends VehiculoAutonomo implements Recargable {
 
     @Override
     protected boolean cumpleRestriccionPropia(Mision m) {
-        return m.getDistancia()<=autonomia_km;
+        return m.getDistancia() <= autonomia_km;
     }
-    
+
     ///-----implementacion de Recargable-----
     public void recargar() {
         setNivel_bat(100);
     }
-    
-    public boolean necesitaRecarga(){
-        return nivel_bat<20; 
+
+    public boolean necesitaRecarga() {
+        return nivel_bat < 20;
     }
 
-    public void setDatosElectrico(double autonomia_km, String tiempo_recarga) {
-        setAutonomia_km(autonomia_km);
-        setTiempo_recarga(tiempo_recarga);
+    public void validarDatosElectrico(double autonomia_km, String tiempo_recarga) {
+        validarAutonomia(autonomia_km);
+        validarTiempo(tiempo_recarga);
     }
-    
-    public boolean validarAutonomia(Double a){
-        return a>0 && a<=1000; 
+
+    public void validarAutonomia(Double a) {
+        if (a < 0 || a > 1000) {
+            throw new IllegalArgumentException("La autonomia en kilómetros debe estar entre 0 y 1000.");
+        }
+        setAutonomia_km(a);
     }
-    
+
+    public void validarTiempo(String tiempo) {
+        if (tiempo == null || tiempo.trim().isEmpty()) {
+            throw new IllegalArgumentException("El tiempo de recarga no puede estar vacío.");
+        }
+        setTiempo_recarga(tiempo);
+    }
 
     public double getAutonomia_km() {
         return autonomia_km;

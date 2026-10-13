@@ -5,8 +5,8 @@ import LogicaNegocios.*;
 public class MenuAutoMove {
 
     GestorAutoMove gs = new GestorAutoMove();
-    GestorGRAFO gsG = new GestorGRAFO();
-    
+    GestorRed gsG = new GestorRed();
+
     public void iniciar() {
         System.out.println("----------------------------BIENVENIDO USUARIO!----------------------------");
         int opcion = 10;
@@ -40,46 +40,14 @@ public class MenuAutoMove {
         } while (opcion != 0);
     }
 
-    private void registrarVehiculo() {
-        System.out.println("____REGISTRAR VEHICULO____");
-        int tipo = leerTipoVehiculo();
-        VehiculoAutonomo vehiculo = null;
-        switch (tipo) {
-            case 1:
-                vehiculo = pedirDatosRobot();
-                break;
-            case 2:
-                vehiculo = pedirDatosDron();
-                break;
-            case 3:
-                vehiculo = pedirDatosVehiculoElectrico();
-                break;
-        }
-        System.out.println("Vehiculo registrado correctamente.");
-        gs.registrarVehiculo(vehiculo);
-    }
-
-    private void registrarMision() {
-        System.out.println("____REGISTRAR MISION____");
-        System.out.println(" ");
-        gs.registrarMision(pedirDatosMision());
-        System.out.println("Mision registrada correctamente.");
-    }
-
-    private void verificarDisponibilidad() {
-        System.out.println("_____VEHICULOS DISPONIBLES____");
-        System.out.println(" ");
-        gs.vehiculoDisponible();
-    }
-
-    private void asignarMision() {
-        if (gs.vehiculoDisponible()) {
-            System.out.println("_____ASIGNAR MISION____");
-            System.out.println(" ");
-            String codigo = Consola.leerString("Ingresa el código del vehiculo para asignarle la misión: ");
-            gs.asignarVehiculo(codigo);
-        }
-
+    public void mostrarMenu() {
+        System.out.println("1 - Incorporar al ABB los vehículos existentes en la aplicación."
+                + "\n2 - Registrar un nuevo vehiculo de los diferentes tipos previstos."
+                + "\n3 - Consultar y mostrar la informacion de los vehiculos registrados."
+                + "\n4 - Determinar si un vehiculo se encuentra en condiciones de realizar una mision."
+                + "\n5 - Asignar una mision a un vehiculo disponible y actualizar los estados correspondientes."
+                + "\n6 - Estaciones."
+                + "\n0 - Salir.");
     }
 
     public void mostrarMenuEstaciones() {
@@ -99,7 +67,7 @@ public class MenuAutoMove {
             mostrarMenuEstaciones();
             System.out.println("0. Volver al menu principal");
             opcionEst = Consola.leerOpcion("Ingrese una opcion: ", 0, 1, 2, 3, 4, 5, 6, 7);
-            
+
             switch (opcionEst) {
                 case 1:
                     // gsG.crearRed();
@@ -128,20 +96,94 @@ public class MenuAutoMove {
             }
         } while (opcionEst != 0);
     }
-    
-    
-    public void mostrarMenu() {
-        System.out.println("1 - Registrar vehiculos de los diferentes tipos previstos."
-                + "\n2 - Registrar misiones de traslado."
-                + "\n3 - Consultar y mostrar la informacion de los vehiculos registrados."
-                + "\n4 - Determinar si un vehiculo se encuentra en condiciones de realizar una mision."
-                + "\n5 - Asignar una mision a un vehiculo disponible y actualizar los estados correspondientes."
-                + "\n6 - Estaciones."
-                + "\n0 - Salir.");
-    }
 
     public int leerOpcionMenu() {
-        return Consola.leerOpcion("Ingrese una opcion: ", 0, 1, 2, 3, 4, 5,6);
+        return Consola.leerOpcion("Ingrese una opcion: ", 0, 1, 2, 3, 4, 5, 6);
+    }
+
+    private void registrarVehiculo() {
+        System.out.println("____REGISTRAR VEHICULO____");
+        int tipo = leerTipoVehiculo();
+        boolean registradoConExito = false;
+
+        // Bucle que se repite hasta que el vehículo se registre correctamente sin excepciones
+        while (!registradoConExito) {
+            try {
+                VehiculoAutonomo vehiculo = null;
+
+                // 1. Pedir los datos según el tipo 
+                switch (tipo) {
+                    case 1:
+                        vehiculo = pedirDatosRobot();
+                        break;
+                    case 2:
+                        vehiculo = pedirDatosDron();
+                        break;
+                    case 3:
+                        vehiculo = pedirDatosVehiculoElectrico();
+                        break;
+                    default:
+                        Consola.emitirMensajeln("Tipo de vehículo inválido.");
+                        return;
+                }
+
+                // 2. Intentar registrar en el sistema (controla si ya existe)
+                if (gs.registrarNuevoVehiculo(vehiculo)) {
+                    Consola.emitirMensajeln("Vehículo registrado correctamente.");
+                    registradoConExito = true; // Rompe el bucle porque tuvo éxito
+                } else {
+                    Consola.emitirMensajeln("Ya existe un vehículo con ese código. Por favor, ingrese los datos nuevamente.");
+                }
+
+            } catch (IllegalArgumentException e) {
+                Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
+                Consola.emitirMensajeln("Por favor, vuelva a ingresar los datos del vehículo.\n");
+            }
+        }
+    }
+
+    private void registrarMision() {
+        System.out.println("____REGISTRAR MISION____");
+        System.out.println(" ");
+        Consola.emitirMensaje("Codigo de mision: ");
+        String cod=Consola.leerString(); 
+        Consola.emitirMensaje("Origen: ");
+        String origen=Consola.leerString(); 
+        Consola.emitirMensaje("Destino: ");
+        String des=Consola.leerString(); 
+        Consola.emitirMensaje("Distancia: ");
+        int distancia=Consola.leerInt(); 
+        Consola.emitirMensaje("Peso: ");
+        Double peso=Consola.leerDouble(); 
+        Consola.emitirMensaje("Prioridad: \n1-Alta \n2-Media \n3-Baja----> ");
+        int prio=Consola.leerInt(); 
+        Consola.emitirMensaje("Estado de la mision:\n 1-Pendiente\n 2-Asignado\n 3-Finalizado\n----> "); 
+        int estado=Consola.leerInt(); 
+        try {
+            if (gs.registrarMision(cod, origen, des, distancia, peso, prio, estado)) {
+                Consola.emitirMensajeln("Mision registrada correctamente.");
+            }
+        } catch (IllegalArgumentException e) {
+            Consola.emitirMensajeln("Error: " + e.getMessage());
+        }
+
+    }
+
+    private void verificarDisponibilidad() {
+        System.out.println("_____VEHICULOS DISPONIBLES____");
+        System.out.println(" ");
+        gs.vehiculoDisponible();
+    }
+
+    private void asignarMision() {
+        if (gs.vehiculoDisponible()) {
+            System.out.println("_____ASIGNAR MISION____");
+            System.out.println(" ");
+            Consola.emitirMensaje("Ingresa el código del vehiculo para asignarle la misión: ");
+            String codigo = Consola.leerString(); 
+            gs.asignarVehiculo(codigo);
+        }
+
     }
 
     public int leerTipoVehiculo() {
@@ -154,82 +196,52 @@ public class MenuAutoMove {
 
     // --- Recoleccion de datos---
     private void pedirDatosBase(VehiculoAutonomo v) {
-        v.setDatosBase(
-                Consola.leerString("Codigo de identificacion: "),
-                Consola.leerString("Modelo: "),
-                Consola.leerInt("Bateria: "),
-                Consola.leerInt("Capacidad maxima de bateria: "),
-                Consola.leerDouble("Kilometros recorridos: "),
-                Consola.leerOpcion("Estado:\n1-Activo \n2-En mision \n3-Mantenimiento\n--->", 1, 2, 3));
+        Consola.emitirMensaje("Codigo de identificacion: ");
+        String cod = Consola.leerString();
+        Consola.emitirMensaje("Modelo: ");
+        String modelo = Consola.leerString();
+        Consola.emitirMensaje("Bateria: ");
+        int bateria = Consola.leerInt();
+        Consola.emitirMensaje("Capacidad maxima de carga: ");
+        int capacidad = Consola.leerInt();
+        Consola.emitirMensaje("Kilometros recorridos: ");
+        Double km = Consola.leerDouble();
+        Consola.emitirMensaje("Estado:\n1-Activo \n2-En mision \n3-Mantenimiento\n--->");
+        int estado = Consola.leerInt();
+        v.validarDatosBase(cod, modelo, bateria, capacidad, km, estado);
     }
 
     public Robot pedirDatosRobot() {
         Robot r = new Robot();
-        double velMax;
         pedirDatosBase(r);
-        int terreno = Consola.leerOpcion(
-                "Tipo de terreno:\n1-Asfalto \n2-Mixto \n3-Arena \n----> ", 1, 2, 3);
-        do {
-            velMax = Consola.leerDouble("Velocidad maxima: ");
-            if (!r.validarVelocidad(velMax)) {
-                System.out.println("Error: La Velocidad máxima ingresada está fuera del rango permitido.");
-            }
-        } while (!r.validarVelocidad(velMax));
-        r.setearDatosRobot(terreno, velMax);
+        Consola.emitirMensajeln("Tipo de terreno:\n1-Asfalto \n2-Mixto \n3-Arena \n----> ");
+        int terreno = Consola.leerInt();
+        Consola.emitirMensaje("Velocidad máxima: ");
+        double velMax = Consola.leerDouble();
+        r.validarDatosRobot(terreno, velMax);
         return r;
     }
 
-    public Dron pedirDatosDron() {
-        Dron d = new Dron();
-        Double autonomia;
-        Double alturaMax;
+    public DronAereo pedirDatosDron() {
+        DronAereo d = new DronAereo();
         pedirDatosBase(d);
-        do {
-            autonomia = Consola.leerDouble("Autonomia de vuelo: ");
-            if (!d.validarAutonomia(autonomia)) {
-                System.out.println("Error: La autonomía ingresada está fuera del rango permitido.");
-            }
-        } while (!d.validarAutonomia(autonomia));
-
-        do {
-            alturaMax = Consola.leerDouble("Altura máxima: ");
-            if (!d.validarAltura(alturaMax)) {
-                System.out.println("Error: La altura máxima está fuera del rango permitido.");
-            }
-        } while (!d.validarAltura(alturaMax));
-        d.setDatosDron(autonomia, alturaMax);
+        Consola.emitirMensaje("Autonomía de vuelo (km): ");
+        double autonomia = Consola.leerDouble();
+        Consola.emitirMensaje("Altura máxima (metros): ");
+        double altura = Consola.leerDouble();
+        d.validarDatosDron(autonomia, altura);
         return d;
     }
 
     public VehiculoElectrico pedirDatosVehiculoElectrico() {
         VehiculoElectrico v = new VehiculoElectrico();
-        double autonomiaKm;
-        String tiempoRecarga;
         pedirDatosBase(v);
-        do {
-            autonomiaKm = Consola.leerDouble("Autonomia en kilometros: ");
-            if (!v.validarAutonomia(autonomiaKm)) {
-                System.out.println("Error: La autonomía ingresada está fuera del rango permitido.");
-            }
-        } while (!v.validarAutonomia(autonomiaKm));
-        tiempoRecarga = Consola.leerString("Tiempo de recarga: ");
-        v.setDatosElectrico(autonomiaKm, tiempoRecarga);
+        Consola.emitirMensaje("Autonomía (km): ");
+        double autonomia = Consola.leerDouble(); 
+        Consola.emitirMensaje("Tiempo de recarga: ");
+        String tiempoRecarga = Consola.leerString();
+        v.validarDatosElectrico(autonomia, tiempoRecarga);
         return v;
     }
 
-    public Mision pedirDatosMision() {
-        Mision m = new Mision();
-        int estado = Consola.leerOpcion(
-                "Estado de la mision:\n 1-Pendiente\n 2-Asignado\n 3-Finalizado\n----> ", 1, 2, 3);
-        int prio = Consola.leerOpcion(
-                "Prioridad: \n1-Alta \n2-Media \n3-Baja---->", 1, 2, 3);
-        m.setDatos(
-                Consola.leerString("Codigo de mision: "),
-                Consola.leerString("Origen: "),
-                Consola.leerString("Destino: "),
-                Consola.leerInt("Distancia: "),
-                Consola.leerDouble("Peso: "),
-                prio, estado);
-        return m;
-    }
 }

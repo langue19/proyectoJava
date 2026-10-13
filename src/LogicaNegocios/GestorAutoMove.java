@@ -4,32 +4,63 @@ import java.util.List;
 import AccesoDatos.*;
 
 public class GestorAutoMove {
+    private RepositorioVehiculos repo;
+    private ArbolABB<VehiculoAutonomo> ABB; //<----esto no va, se usa repositorioVehiculo
 
-    //private ListaS<VehiculoAutonomo> vehiculos;
-    private ArbolGenerico<VehiculoAutonomo> ABB;
-
-    private Cola<Mision> mPendientes;
-    private Cola<Mision> mAsig_y_Final;
-    private Cola<Mision> aux;
+    private Cola<Mision> mPendientes;   //Etapa 1
+    private Cola<Mision> mAsig_y_Final; //Etapa 1
+    private Cola<Mision> aux;           //Etapa 1
 
     public GestorAutoMove() {
-        //vehiculos = new ListaS<>();
-        ABB = new ArbolGenerico<>();
+        repo = new RepositorioVehiculos();
+        cargarVehiculosExistentes(); //<---preguntar si este met va aqui
+        
+        ABB = new ArbolABB<>(); //no va
         mPendientes = new Cola<>(); //Cola para misiones pendientes 
         mAsig_y_Final = new Cola<>(); //Cola para misiones q ya estan asignadas y finalizadas
         aux = new Cola<>();
     }
+    
+    public void cargarVehiculosExistentes() {
+        try {
+            // Creamos vehículos de prueba (Robot, Dron, Eléctrico) y los insertamos
+            Robot r = new Robot();
+            r.validarDatosBase("ROB-001", "Terminator", 80, 50, 120.5, 1);
+            r.validarDatosRobot(1, 15.0);
+            repo.insertar(r);
 
-    public void registrarVehiculo(VehiculoAutonomo vehiculo) {
-        ABB.insertar(vehiculo);
+            DronAereo d = new DronAereo();
+            d.validarDatosBase("DRN-002", "Phantom", 90, 10, 45.0, 1);
+            d.validarDatosDron(25.0, 120.0);
+            repo.insertar(d);
+
+            VehiculoElectrico ve = new VehiculoElectrico();
+            ve.validarDatosBase("ELE-003", "TeslaBot", 100, 200, 300.0, 1);
+            ve.validarDatosElectrico(400.0, "2 horas");
+            repo.insertar(ve);
+            
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error al cargar datos iniciales: " + e.getMessage());
+        }
     }
 
-    public void registrarMision(Mision m) {
+    public boolean registrarNuevoVehiculo(VehiculoAutonomo v) {
+        if (repo.buscar(v) != null) {
+            return false;
+        }
+        repo.insertar(v);
+        return true;
+    }
+
+    public boolean registrarMision(String cod, String origen, String des, int dist, double peso, int prio, int e) {
+        Mision m = new Mision();
+        m.validarMision(cod, origen, des, dist, peso, prio, e);
         if (m.getEstado() == 1) {
             mPendientes.encolar(m);
         } else {
             mAsig_y_Final.encolar(m);
         }
+        return true; 
     }
 
     public void consultarVehiculos() {
@@ -74,7 +105,7 @@ public class GestorAutoMove {
         }
     }
 
-    public void actualizarEstadoVehiculo(String codigo) { 
+    public void actualizarEstadoVehiculo(String codigo) {
         List<VehiculoAutonomo> todosLosVehiculos = ABB.inOrden();
 
         boolean encontrado = false;
@@ -89,7 +120,7 @@ public class GestorAutoMove {
                 } else {
                     System.out.println("El vehiculo no esta disponible.");
                 }
-                break; 
+                break;
             }
         }
         if (!encontrado) {

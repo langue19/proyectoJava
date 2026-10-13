@@ -3,15 +3,11 @@ package AccesoDatos;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author Prof. Mauricio Hernandez
- */
-public class ArbolGenerico<T extends Comparable<T>> {
+public class ArbolABB<T extends Comparable<T>> {
 
-    private Nodo<T> raiz;
+    private NodoABB<T> raiz;
 
-    public ArbolGenerico() {
+    public ArbolABB() {
         raiz = null;
     }
     // -------------------------------------------------
@@ -29,10 +25,10 @@ public class ArbolGenerico<T extends Comparable<T>> {
         raiz = insertarRecursivo(raiz, dato);
     }
 
-    private Nodo insertarRecursivo(Nodo<T> nodo, T dato) {
+    private NodoABB insertarRecursivo(NodoABB<T> nodo, T dato) {
         // Se encontró la posición donde insertar
         if (nodo == null) {
-            return new Nodo(dato);
+            return new NodoABB(dato);
         }
         int comparacion = dato.compareTo(nodo.dato);
         if (comparacion < 0) {
@@ -54,7 +50,7 @@ public class ArbolGenerico<T extends Comparable<T>> {
         return buscarRecursivo(raiz, dato);
     }
 
-    private T buscarRecursivo(Nodo<T> nodo, T dato) {
+    private T buscarRecursivo(NodoABB<T> nodo, T dato) {
         if (nodo == null) {
             return null;
         }
@@ -75,7 +71,7 @@ public class ArbolGenerico<T extends Comparable<T>> {
         raiz = eliminarRecursivo(raiz, dato);
     }
 
-    private Nodo eliminarRecursivo(Nodo<T> nodo, T dato) {
+    private NodoABB eliminarRecursivo(NodoABB<T> nodo, T dato) {
         if (nodo == null) {
             return null;
         }
@@ -87,23 +83,23 @@ public class ArbolGenerico<T extends Comparable<T>> {
         } else {
             // -----------------------------------------
             // CASO 1:
-            // Nodo sin hijo izquierdo
+            // NodoABB sin hijo izquierdo
             // -----------------------------------------
             if (nodo.izquierdo == null) {
                 return nodo.derecho;
             }
             // -----------------------------------------
             // CASO 2:
-            // Nodo sin hijo derecho
+            // NodoABB sin hijo derecho
             // -----------------------------------------
             if (nodo.derecho == null) {
                 return nodo.izquierdo;
             }
             // -----------------------------------------
             // CASO 3:
-            // Nodo con dos hijos
+            // NodoABB con dos hijos
             // -----------------------------------------
-            Nodo<T> sucesor = buscarMinimo(nodo.derecho);
+            NodoABB<T> sucesor = buscarMinimo(nodo.derecho);
             // Copiar el dato del sucesor
             nodo.dato = sucesor.dato;
             // Eliminar el sucesor
@@ -115,8 +111,8 @@ public class ArbolGenerico<T extends Comparable<T>> {
     // BUSCAR EL MENOR ELEMENTO DE UN SUBÁRBOL
     // -------------------------------------------------
 
-    private Nodo<T> buscarMinimo(Nodo<T> nodo) {
-        Nodo<T> actual = nodo;
+    private NodoABB<T> buscarMinimo(NodoABB<T> nodo) {
+        NodoABB<T> actual = nodo;
         while (actual.izquierdo != null) {
             actual = actual.izquierdo;
         }
@@ -134,7 +130,7 @@ public class ArbolGenerico<T extends Comparable<T>> {
         return lista;
     }
 
-    private void inOrdenRecursivo(Nodo<T> nodo, List<T> lista) {
+    private void inOrdenRecursivo(NodoABB<T> nodo, List<T> lista) {
         if (nodo != null) {
             inOrdenRecursivo(nodo.izquierdo, lista);
             lista.add(nodo.dato);
@@ -150,7 +146,7 @@ public class ArbolGenerico<T extends Comparable<T>> {
         System.out.println();
     }
 
-    private void preOrdenRecursivo(Nodo<T> nodo) {
+    private void preOrdenRecursivo(NodoABB<T> nodo) {
         if (nodo != null) {
             System.out.print(nodo.dato + " ");
             preOrdenRecursivo(nodo.izquierdo);
@@ -166,7 +162,7 @@ public class ArbolGenerico<T extends Comparable<T>> {
         System.out.println();
     }
 
-    private void postOrdenRecursivo(Nodo<T> nodo) {
+    private void postOrdenRecursivo(NodoABB<T> nodo) {
         if (nodo != null) {
             postOrdenRecursivo(nodo.izquierdo);
             postOrdenRecursivo(nodo.derecho);

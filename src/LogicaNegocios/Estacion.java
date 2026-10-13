@@ -12,10 +12,33 @@ public class Estacion {
         this.zona = "";
     }
     
-    public void cargarDatos(){
-        
+    public void validarDatos(String cod, String n, String z){
+        validarCodigo(cod); 
+        validarNombre(n);
+        validarZona(z); 
     }
-
+    
+    public void validarCodigo(String codigo) {
+        if (codigo == null || codigo.trim().isEmpty()) {
+            throw new IllegalArgumentException("El código no puede estar vacío.");
+        }
+        setCod_id(codigo);
+    }
+    
+    public void validarNombre(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío.");
+        }
+        setNombre(nombre);
+    }
+    
+    public void validarZona(String zona) {
+        if (zona == null || zona.trim().isEmpty()) {
+            throw new IllegalArgumentException("La zona no puede estar vacía.");
+        }
+        setZona(zona);
+    }
+    
     public String getCod_id() {
         return cod_id;
     }
@@ -39,4 +62,11 @@ public class Estacion {
     private void setZona(String zona) {
         this.zona = zona;
     }
+
+    @Override
+    public String toString() {
+        return "Estacion{" + "cod_id=" + cod_id + ", nombre=" + nombre + ", zona=" + zona + '}';
+    }
+    
+    
 }

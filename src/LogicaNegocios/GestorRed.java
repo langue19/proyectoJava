@@ -6,7 +6,7 @@ import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
 
-public class GestorGRAFO {
+public class GestorRed {
 
     Graph<Estacion, DefaultEdge> grafo;
 
@@ -14,13 +14,15 @@ public class GestorGRAFO {
         grafo = new SimpleGraph<>(DefaultEdge.class);
     }
 
-    public void registrarEstacion() {
+    public boolean registrarEstacion(String cod, String nombre, String zona) {
         Estacion est = new Estacion();
-        est.cargarDatos();
+        est.validarDatos(cod, nombre, zona);
         if (grafo.addVertex(est)) {
             System.out.println("Estacion registrada exitosamente en el grafo.");
+            return true; 
         } else {
             System.out.println("La estacion ya existe en la red.");
+            return false; 
         }
     }
 

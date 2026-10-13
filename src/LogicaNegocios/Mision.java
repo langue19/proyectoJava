@@ -20,17 +20,68 @@ public class Mision {
         this.estado = 0;
     }
 
-    public void setDatos(String cod_mision, String origen, String destino,
+    public void validarMision(String cod_mision, String origen, String destino,
             int distancia, double peso, int prioridad, int estado) {
-        setCod_mision(cod_mision);
-        setOrigen(origen);
-        setDestino(destino);
-        setDistancia(distancia);
-        setPeso(peso);
-        setPrioridad(prioridad);
-        setEstado(estado);
+        validarCod(cod_mision);
+        validarOrigen(origen);
+        validarDestino(destino);
+        validarDistancia(distancia);
+        validarPeso(peso);
+        validarPrioridad(prioridad);
+        validarEstado(estado);
     }
     
+    
+    public void validarCod(String codigo){
+        if(codigo==null || codigo.trim().isEmpty()){
+            throw new IllegalArgumentException("El codigo no puede estar vacío.");
+        }
+        setCod_mision(codigo);
+    }
+    
+    public void validarOrigen(String origen){
+        if(origen==null || origen.trim().isEmpty()){
+            throw new IllegalArgumentException("El origen no puede estar vacío.");
+        }
+        setOrigen(origen);
+    }
+    
+    public void validarDestino(String destino){
+        if(destino==null || destino.trim().isEmpty()){
+            throw new IllegalArgumentException("El destino no puede estar vacío.");
+        }
+        setDestino(destino);
+    }
+    
+    public void validarDistancia(int distancia){
+        if(distancia <= 0 ){
+            throw new IllegalArgumentException("La distancia debe ser mayor a 0.");
+        }
+        setDistancia(distancia);
+    }
+    
+    public void validarPeso(Double peso){
+        if(peso<0.0){
+            throw new IllegalArgumentException("El peso no puede ser negativo.");
+        }
+        setPeso(peso);
+    }
+    
+     private void validarPrioridad(int prioridad) {
+        if (prioridad != 1 && prioridad != 2 && prioridad!=3) {
+            throw new IllegalArgumentException("La prioridad debe ser 1 (alta), 2 (media) o 3(baja).");
+        }
+        setPrioridad(prioridad);
+    }
+     
+     private void validarEstado(int estado) {
+        if (estado != 1 && estado != 2 && estado!=3) {
+            throw new IllegalArgumentException("El estado debe ser 1 (pendiente), 2 (asignado) o 3(finalizado).");
+        }
+        setEstado(estado);
+    }
+     
+     
     public void cambiarEstado(int e){
         setEstado(e); 
     }

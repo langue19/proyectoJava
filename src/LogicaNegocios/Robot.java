@@ -23,14 +23,26 @@ public class Robot extends VehiculoAutonomo {
         return false;
     }
 
-    public void setearDatosRobot(int tipo_terreno, double velocidad_max) {
-        setTipo_terreno(tipo_terreno);
-        setVelocidad_max(velocidad_max);
+    public void validarDatosRobot(int tipo_terreno, double velocidad_max) {
+        validarTerreno(tipo_terreno);
+        validarVelocidad(velocidad_max);
+    }
+    
+    public void validarVelocidad(Double v) {
+        if (v < 0 || v > 80) {
+            throw new IllegalArgumentException("La velocidad debe estar entre 0 y 80");
+        }
+        setVelocidad_max(v);
+    }
+    
+    private void validarTerreno(int terreno) {
+        if (terreno != 1 && terreno != 2 && terreno != 3) {
+            throw new IllegalArgumentException("El estado debe ser 1 (asfalto), 2 (mixto) o 3(arena).");
+        }
+        setTipo_terreno(terreno);
     }
 
-    public boolean validarVelocidad(Double v) {
-        return v > 0 && v <= 80;
-    }
+   
 
     public int getTipo_terreno() {
         return tipo_terreno;
