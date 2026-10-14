@@ -3,7 +3,7 @@ package Presentacion;
 import LogicaNegocios.*;
 
 public class MenuAutoMove {
-    //cambios
+    //cambios//gei
 
     GestorAutoMove gs = new GestorAutoMove();
     GestorRed gsG = new GestorRed();
