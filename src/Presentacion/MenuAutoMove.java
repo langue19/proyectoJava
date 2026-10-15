@@ -27,14 +27,7 @@ public class MenuAutoMove {
                     registrarVehiculo();
                     break;
                 case 3:
-                    //hay que agregar que pueda buscar otros
-                    if (gs.buscarVehiculo("DRN-002") != null) {
-                        System.out.println(gs.buscarVehiculo("DRN-002"));
-                    } else {
-                        System.out.println("No se encontro el vehiculo!");
-                    }
-
-                    //gs.consultarVehiculos(); //este pa verificar si se carga bien todo jeje
+                    buscarV();
                     break;
                 case 4:
                     if (gs.eliminarVehiculo("DRN-002")) {
@@ -89,10 +82,31 @@ public class MenuAutoMove {
 
             switch (opcionEst) {
                 case 1:
-                    // gsG.crearRed();
+                    gsG.crearRed();
                     break;
                 case 2:
-                    // gsG.registrarEstacion(...);
+                    int entrada;
+
+                    do {
+                        System.out.println("Ingrese el código de la estación:");
+                        String cod = Consola.leerString();
+
+                        System.out.println("Ingrese el nombre de la estación:");
+                        String nombre = Consola.leerString();
+
+                        System.out.println("Ingrese la zona:");
+                        String zona = Consola.leerString();
+
+                        if (gsG.registrarEstacion(cod, nombre, zona)) {
+                            System.out.println("Estación registrada correctamente.");
+                        } else {
+                            System.out.println("La estación ya existe en la red.");
+                        }
+
+                        System.out.println("¿Desea continuar? 0-Sí ; 1-No");
+                        entrada = Consola.leerInt();
+
+                    } while (entrada == 0);
                     break;
                 case 3:
                     // gsG.registrarConexion(...);
@@ -169,17 +183,19 @@ public class MenuAutoMove {
     }
 
     public void buscarV() {
+        String codigo;
         Consola.emitirMensaje("Ingrese el código del vehículo a buscar: ");
         try {
-            String codigo = Consola.leerString();
+            codigo = Consola.leerString();
+            if (gs.buscarVehiculo(codigo) != null) {
+                Consola.emitirMensajeln("Vehículo encontrado!");
+                System.out.println(gs.buscarVehiculo(codigo));
+            } else {
+                System.out.println("Veniculo no encontrado");
+            }
         } catch (IllegalArgumentException e) {
             Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
         }
-        /*if (gs.buscarVehiculo(codigo) != null) {
-            System.out.println();
-        } else {
-            System.out.println("No se encontro el vehiculo!");
-        }*/
     }
 
     // --- Recoleccion de datos---
