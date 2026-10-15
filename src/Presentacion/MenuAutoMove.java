@@ -82,19 +82,19 @@ public class MenuAutoMove {
                     int entrada;
 
                     do {
-                        System.out.println("Ingrese el código de la estación:");
+                        System.out.println("Ingrese el codigo de la estacion:");
                         String cod = Consola.leerString();
 
-                        System.out.println("Ingrese el nombre de la estación:");
+                        System.out.println("Ingrese el nombre de la estacion:");
                         String nombre = Consola.leerString();
 
                         System.out.println("Ingrese la zona:");
                         String zona = Consola.leerString();
 
                         if (gsG.registrarEstacion(cod, nombre, zona)) {
-                            System.out.println("Estación registrada correctamente.");
+                            System.out.println("Estacion registrada correctamente.");
                         } else {
-                            System.out.println("La estación ya existe en la red.");
+                            System.out.println("La estacion ya existe en la red.");
                         }
 
                         System.out.println("¿Desea continuar? 0-Sí ; 1-No");
@@ -114,10 +114,26 @@ public class MenuAutoMove {
                     }
                     break;
                 case 4:
-                    // gsG.mostrarRed();
+                    if (gsG.mostrarEstaciones()) {
+                        System.out.println("----------------ESTACIONES----------------");
+                    } else {
+                        System.out.println("No hay estaciones, por lo tanto, no hay conexiones!");
+                    }
+
+                    if (gsG.mostrarConexiones()) {
+                        System.out.println("----------------CONEXIONES----------------");
+                    }
                     break;
                 case 5:
-                    // gsG.consultarConexionDirecta();
+                    System.out.println("Codigo de la primera estacion:");
+                    String cod11 = Consola.leerString();
+
+                    System.out.println("Codigo de la segunda estacion:");
+                    String cod22 = Consola.leerString();
+
+                    if (gsG.consultarConexionDirecta(cod11,cod22)) {
+                        System.out.println("La conexion entre las estaciones, existe!");
+                    }
                     break;
                 case 6:
                     // gsG.consultarEstacionesVecinas();
