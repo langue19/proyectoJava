@@ -4,13 +4,12 @@ import AccesoDatos.ListaS;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
-import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
 import java.util.Iterator;
 
 public class GestorRed {
 
-    ListaS<Estacion>;
+    ListaS<Estacion> estacion;
     Graph<Estacion, DefaultEdge> grafo;
 
     public void crearRed() {
@@ -56,6 +55,7 @@ public class GestorRed {
         return false;
     }
 
+    //corregir
     public ListaS<Estacion> mostrarEstaciones() {
         if (grafo == null || grafo.vertexSet().isEmpty()) {
             return null;
@@ -70,21 +70,25 @@ public class GestorRed {
         return lista;
     }
 
-    public boolean mostrarConexiones() {
+    //corregir
+    public ListaS<String> mostrarConexiones() {
         if (grafo == null || grafo.edgeSet().isEmpty()) {
-            return false;
+            return null;
         }
+
+        ListaS<String> lista = new ListaS<>();
 
         for (DefaultEdge arista : grafo.edgeSet()) {
             Estacion origen = grafo.getEdgeSource(arista);
             Estacion destino = grafo.getEdgeTarget(arista);
 
-            System.out.println(
-                    origen.getCod_id() + " <--> " + destino.getCod_id()
-            );
+            String conexion = origen.getCod_id() + " <--> "
+                    + destino.getCod_id();
+
+            lista.insertarPri(conexion);
         }
 
-        return true;
+        return lista;
     }
 
     public boolean consultarConexionDirecta(String cod1, String cod2) {
@@ -98,26 +102,48 @@ public class GestorRed {
         return grafo.containsEdge(e1, e2);
     }
 
-    public boolean consultarEstacionesVecinas(String codigo) {
+    //corregir
+    public ListaS<Estacion> consultarEstacionesVecinas(String codigo) {
         if (grafo == null || grafo.vertexSet().isEmpty()) {
-            return false;
+            return null;
         }
-
         Estacion estacion = buscarEstacion(codigo);
-
         if (estacion == null) {
-            return false;
+            return null;
         }
+        ListaS<Estacion> lista = new ListaS<>();
+        for (DefaultEdge arista : grafo.edgesOf(estacion)) {
+            Estacion origen = grafo.getEdgeSource(arista);
+            Estacion destino = grafo.getEdgeTarget(arista);
 
-        if (grafo.edgesOf(estacion).isEmpty()) {
-            return false;
+            if (origen.equals(estacion)) {
+                lista.insertarPri(destino);
+            } else {
+                lista.insertarPri(origen);
+            }
         }
-
-        return true;
+        if (lista.listaVacia()) {
+            return null;
+        }
+        return lista;
     }
 
-    public void recorridoDFS(String codigo) {
-
+    //corregir
+    public ListaS<Estacion> recorridoDFS(String codigo) {
+        if (grafo == null || grafo.vertexSet().isEmpty()) {
+            return null;
+        }
+        Estacion inicio = buscarEstacion(codigo);
+        if (inicio == null) {
+            return null;
+        }
+        ListaS<Estacion> recorrido = new ListaS<>();
+        Iterator<Estacion> it = new DepthFirstIterator<>(grafo, inicio);
+        while (it.hasNext()) {
+            Estacion estacion = it.next();
+            recorrido.insertarPri(estacion);
+        }
+        return recorrido;
     }
 
 }

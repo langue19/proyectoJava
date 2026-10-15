@@ -1,6 +1,7 @@
 package Presentacion;
 
 import LogicaNegocios.*;
+import java.util.List;
 
 public class MenuAutoMove {
 
@@ -114,7 +115,7 @@ public class MenuAutoMove {
                     }
                     break;
                 case 4:
-                    if (gsG.mostrarEstaciones()) {
+                    /*if (gsG.mostrarEstaciones()) {
                         System.out.println("----------------ESTACIONES----------------");
                     } else {
                         System.out.println("No hay estaciones, por lo tanto, no hay conexiones!");
@@ -122,7 +123,7 @@ public class MenuAutoMove {
 
                     if (gsG.mostrarConexiones()) {
                         System.out.println("----------------CONEXIONES----------------");
-                    }
+                    }*/
                     break;
                 case 5:
                     System.out.println("Codigo de la primera estacion:");
@@ -193,7 +194,7 @@ public class MenuAutoMove {
     }
 
     public int leerTipoVehiculo() {
-        System.out.println("Seleccione el tipo de vehiculo:"
+        Consola.emitirMensaje("Seleccione el tipo de vehiculo:"
                 + "\n1 - Robot"
                 + "\n2 - Dron aereo"
                 + "\n3 - Vehiculo electrico");
@@ -232,10 +233,36 @@ public class MenuAutoMove {
     }
 
     public void mostrarV() {
-        Consola.emitirMensaje("Seleccione ");
+        int op = leerTipoRecorrido();
+        List<VehiculoAutonomo> listaVehiculos = gs.mostrarVehiculo(op);
+        if (listaVehiculos == null || listaVehiculos.isEmpty()) {
+            Consola.emitirMensajeln("No hay vehículos registrados");
+            return;
+        }
+        String tipoRecorrido = "";
+        if (op == 1) {
+            tipoRecorrido= "INORDEN (ASCENDENTE)";
+        } else if (op == 2) {
+            tipoRecorrido= "PREORDEN";
+        } else if (op == 3) {
+            tipoRecorrido= "POSTORDEN";
+        }
+        Consola.emitirMensajeln("\n===== RECORRIDO " + tipoRecorrido + " =====");
+
+        for (VehiculoAutonomo v : listaVehiculos) {
+            MostrarVehiculo(v);
+        }
     }
 
-    private void MostrarVehiculo (VehiculoAutonomo v) {
+    public int leerTipoRecorrido() {
+        Consola.emitirMensaje("Seleccione una opcion: "
+                + "\n 1. Mostrar vehículos en orden (Inorden-Ascendente)"
+                + "\n 2. Mostrar vehículos en Preorden (Estructura jerárquica)"
+                + "\n 3. Mostrar vehículos en Postorden");
+        return Consola.leerOpcion("----> ", 1, 2, 3);
+    }
+
+    private void MostrarVehiculo(VehiculoAutonomo v) {
         String detalleEspecifico = "";
 
         if (v instanceof VehiculoElectrico) {
@@ -250,37 +277,6 @@ public class MenuAutoMove {
         }
         Consola.emitirMensajeln(" [" + v.getCod_ident() + "] " + v.getModelo() + v.getNivel_bat() + v.getCapacidad_maxima() + v.getKm_reco() + v.getEstado() + detalleEspecifico);
     }
-
-// Y en tu switch del menú de recorridos harías esto:
-   /* case 1: // Inorden
-    Consola.emitirMensajeln (
-    "\n--- REPORTE INORDEN (Orden por Código) ---");
-    List<T> listaIn = tuArbol.inOrden();
-
-    for (T dato : listaIn) {
-        imprimirVehiculoCompacto((VehiculoAutonomo) dato);
-    }
-    break;
-
-case 2: // Preorden
-    Consola.emitirMensajeln (
-    "\n--- REPORTE PREORDEN ---");
-    List<T> listaPre = tuArbol.preOrden();
-
-    for (T dato : listaPre) {
-        imprimirVehiculoCompacto((VehiculoAutonomo) dato);
-    }
-    break;
-
-case 3: // Postorden
-    Consola.emitirMensajeln (
-    "\n--- REPORTE POSTORDEN ---");
-    List<T> listaPost = tuArbol.postOrden();
-
-    for (T dato : listaPost) {
-        imprimirVehiculoCompacto((VehiculoAutonomo) dato);
-    }
-    break;*/
 
     // --- Recoleccion de datos---
     private void pedirDatosBase(VehiculoAutonomo v) {

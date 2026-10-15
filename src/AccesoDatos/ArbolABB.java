@@ -141,32 +141,34 @@ public class ArbolABB<T extends Comparable<T>> {
     // RECORRIDO PREORDEN
     // -------------------------------------------------
 
-    public void preOrden() {
-        preOrdenRecursivo(raiz);
-        System.out.println();
+    public List<T> preOrden() {
+        List<T> lista = new ArrayList<>();
+        preOrdenRecursivo(raiz, lista);
+        return lista; 
     }
 
-    private void preOrdenRecursivo(NodoABB<T> nodo) {
+    private void preOrdenRecursivo(NodoABB<T> nodo, List<T> lista) {
         if (nodo != null) {
-            System.out.print(nodo.dato + " ");
-            preOrdenRecursivo(nodo.izquierdo);
-            preOrdenRecursivo(nodo.derecho);
+            lista.add(nodo.dato);
+            preOrdenRecursivo(nodo.izquierdo, lista);
+            preOrdenRecursivo(nodo.derecho, lista);
         }
     }
     // -------------------------------------------------
     // RECORRIDO POSTORDEN
     // -------------------------------------------------
 
-    public void postOrden() {
-        postOrdenRecursivo(raiz);
-        System.out.println();
+    public List<T> postOrden() {
+        List<T> lista = new ArrayList<>();
+        postOrdenRecursivo(raiz, lista);
+        return lista; 
     }
 
-    private void postOrdenRecursivo(NodoABB<T> nodo) {
+    private void postOrdenRecursivo(NodoABB<T> nodo, List<T> lista) {
         if (nodo != null) {
-            postOrdenRecursivo(nodo.izquierdo);
-            postOrdenRecursivo(nodo.derecho);
-            System.out.print(nodo.dato + " ");
+            postOrdenRecursivo(nodo.izquierdo, lista);
+            postOrdenRecursivo(nodo.derecho, lista);
+            lista.add(nodo.dato);
         }
     }
 }
