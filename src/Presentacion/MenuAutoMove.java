@@ -44,7 +44,7 @@ public class MenuAutoMove {
                     }
                     break;
                 case 5:
-                    //gs.mostrarPre();
+                    ///gs.mostrarPre();
                     //gs.mostrarIn();
                     gs.mostrarPost();
                     break;
