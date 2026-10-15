@@ -1,7 +1,7 @@
 package LogicaNegocios;
 
 
-public class Estacion {
+public class Estacion{
     private String cod_id; 
     private String nombre;
     private String zona;

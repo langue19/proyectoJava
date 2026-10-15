@@ -5,6 +5,7 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
+import java.util.Iterator;
 
 public class GestorRed {
 
@@ -93,11 +94,27 @@ public class GestorRed {
         return grafo.containsEdge(e1, e2);
     }
 
-    public void consultarEstacionesVecinas(String codigo) {
+    public boolean consultarEstacionesVecinas(String codigo) {
+        if (grafo == null || grafo.vertexSet().isEmpty()) {
+            return false;
+        }
 
+        Estacion estacion = buscarEstacion(codigo);
+
+        if (estacion == null) {
+            return false;
+        }
+
+        if (grafo.edgesOf(estacion).isEmpty()) {
+            return false;
+        }
+
+        
+
+        return true;
     }
 
-    public void recorrerEstaciones() {
+    public void recorridoDFS(String codigo) {
 
     }
 
