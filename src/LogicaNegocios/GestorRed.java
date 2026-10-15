@@ -19,15 +19,38 @@ public class GestorRed {
         est.validarDatos(cod, nombre, zona);
         if (grafo.addVertex(est)) {
             System.out.println("Estacion registrada exitosamente en el grafo.");//no va
-            return true; 
+            return true;
         } else {
             System.out.println("La estacion ya existe en la red.");// no va
-            return false; 
+            return false;
         }
     }
 
-    public void registrarConexion() {
+    private Estacion buscarEstacion(String codigo) {
+        for (Estacion e : grafo.vertexSet()) {
+            if (e.getCod_id().equals(codigo)) {
+                return e;
+            }
+        }
+        return null;
+    }
 
+    public boolean registrarConexion(String cod1, String cod2) {
+        Estacion e1 = buscarEstacion(cod1);
+        Estacion e2 = buscarEstacion(cod2);
+        if (e1 == null || e2 == null) {
+            return false;
+        }
+        if (cod1.equals(cod2)) {
+            return false;
+        }
+        if (grafo.containsEdge(e1, e2)) {
+            return false;
+        }
+        if (grafo.addEdge(e1, e2) != null) {
+            return true;
+        }
+        return false;
     }
 
     public void mostrarRed() {
