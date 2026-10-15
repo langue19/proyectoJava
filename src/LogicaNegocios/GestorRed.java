@@ -1,5 +1,6 @@
 package LogicaNegocios;
 
+import AccesoDatos.ListaS;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
@@ -9,6 +10,7 @@ import java.util.Iterator;
 
 public class GestorRed {
 
+    ListaS<Estacion>;
     Graph<Estacion, DefaultEdge> grafo;
 
     public void crearRed() {
@@ -54,16 +56,18 @@ public class GestorRed {
         return false;
     }
 
-    public boolean mostrarEstaciones() {
+    public ListaS<Estacion> mostrarEstaciones() {
         if (grafo == null || grafo.vertexSet().isEmpty()) {
-            return false;
+            return null;
         }
+
+        ListaS<Estacion> lista = new ListaS<>();
 
         for (Estacion e : grafo.vertexSet()) {
-            System.out.println(e);
+            lista.insertarPri(e);
         }
 
-        return true;
+        return lista;
     }
 
     public boolean mostrarConexiones() {
@@ -108,8 +112,6 @@ public class GestorRed {
         if (grafo.edgesOf(estacion).isEmpty()) {
             return false;
         }
-
-        
 
         return true;
     }

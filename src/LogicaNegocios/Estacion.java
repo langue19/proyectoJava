@@ -1,8 +1,8 @@
 package LogicaNegocios;
 
+public class Estacion implements Comparable<Estacion> {
 
-public class Estacion{
-    private String cod_id; 
+    private String cod_id;
     private String nombre;
     private String zona;
 
@@ -11,34 +11,39 @@ public class Estacion{
         this.nombre = "";
         this.zona = "";
     }
-    
-    public void validarDatos(String cod, String n, String z){
-        validarCodigo(cod); 
+
+    public void validarDatos(String cod, String n, String z) {
+        validarCodigo(cod);
         validarNombre(n);
-        validarZona(z); 
+        validarZona(z);
     }
-    
+
+    @Override
+    public int compareTo(Estacion otra) {
+        return this.cod_id.compareTo(otra.cod_id);
+    }
+
     public void validarCodigo(String codigo) {
         if (codigo == null || codigo.trim().isEmpty()) {
             throw new IllegalArgumentException("El codigo no puede estar vacio.");
         }
         setCod_id(codigo);
     }
-    
+
     public void validarNombre(String nombre) {
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre no puede estar vacio.");
         }
         setNombre(nombre);
     }
-    
+
     public void validarZona(String zona) {
         if (zona == null || zona.trim().isEmpty()) {
             throw new IllegalArgumentException("La zona no puede estar vacia.");
         }
         setZona(zona);
     }
-    
+
     public String getCod_id() {
         return cod_id;
     }
@@ -67,6 +72,5 @@ public class Estacion{
     public String toString() {
         return "Estacion{" + "cod_id=" + cod_id + ", nombre=" + nombre + ", zona=" + zona + '}';
     }
-    
-    
+
 }
