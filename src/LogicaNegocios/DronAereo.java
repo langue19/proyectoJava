@@ -27,7 +27,7 @@ public class DronAereo extends VehiculoAutonomo {
 
     private void validarAutonomiaVuelo(double autonomia) {
         if (autonomia <= 0.0) {
-            throw new IllegalArgumentException("La autonomía de vuelo debe ser mayor a 0.");
+            throw new IllegalArgumentException("La autonomia de vuelo debe ser mayor a 0.");
         }
         setAutonomia(autonomia);
     }
@@ -35,7 +35,7 @@ public class DronAereo extends VehiculoAutonomo {
     private void validarAlturaMax(double altura) {
         // Por ejemplo, limitando una altura lógica máxima (ej: 5000 metros) y que no sea negativa
         if (altura <= 0.0 || altura > 5000.0) {
-            throw new IllegalArgumentException("La altura máxima debe estar entre 0 y 5000 metros.");
+            throw new IllegalArgumentException("La altura maxima debe estar entre 0 y 5000 metros.");
         }
         setAltura_max(altura);
     }
@@ -60,7 +60,7 @@ public class DronAereo extends VehiculoAutonomo {
     public String toString() {
         return super.toString()
                 + "\nAutonomia de vuelo:" + autonomia_vuelo
-                + "\nAltura máxima:" + altura_max;
+                + "\nAltura maxima:" + altura_max;
     }
 
 }

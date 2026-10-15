@@ -47,7 +47,7 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
 
     public void validarCodigo(String codigo) {
         if (codigo == null || codigo.trim().isEmpty()) {
-            throw new IllegalArgumentException("El código no puede estar vacío.");
+            throw new IllegalArgumentException("El codigo no puede estar vacío.");
         }
         setCod_ident(codigo);
     }
@@ -68,14 +68,14 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
 
     public void validarCapacidad(int capacidad) {
         if (capacidad <= 0) {
-            throw new IllegalArgumentException("La capacidad máxima debe ser mayor a 0.");
+            throw new IllegalArgumentException("La capacidad maxima debe ser mayor a 0.");
         }
         setCapacidad_maxima(capacidad_maxima);
     }
 
     public void validarKM(Double km) {
         if (km < 0.0) {
-            throw new IllegalArgumentException("Los kilómetros recorridos no pueden ser negativos.");
+            throw new IllegalArgumentException("Los kilometros recorridos no pueden ser negativos.");
         }
         setKm_reco(km_reco);
     }

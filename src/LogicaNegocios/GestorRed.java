@@ -18,10 +18,10 @@ public class GestorRed {
         Estacion est = new Estacion();
         est.validarDatos(cod, nombre, zona);
         if (grafo.addVertex(est)) {
-            System.out.println("Estacion registrada exitosamente en el grafo.");
+            System.out.println("Estacion registrada exitosamente en el grafo.");//no va
             return true; 
         } else {
-            System.out.println("La estacion ya existe en la red.");
+            System.out.println("La estacion ya existe en la red.");// no va
             return false; 
         }
     }

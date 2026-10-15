@@ -3,7 +3,6 @@ package Presentacion;
 import LogicaNegocios.*;
 
 public class MenuAutoMove {
-    //cambios//gei
 
     GestorAutoMove gs = new GestorAutoMove();
     GestorRed gsG = new GestorRed();
@@ -17,19 +16,40 @@ public class MenuAutoMove {
             opcion = leerOpcionMenu();
             switch (opcion) {
                 case 1:
-                    registrarVehiculo();
+                    if (gs.cargarVehiculosExistentes()) {
+                        System.out.println("Vehiculos cargados correctamente!");
+
+                    } else {
+                        System.out.println("Los vehiculos no fueron cargados!");
+                    }
                     break;
                 case 2:
-                    registrarMision();
+                    registrarVehiculo();
                     break;
                 case 3:
-                    gs.consultarVehiculos();
+                    //hay que agregar que pueda buscar otros
+                    if (gs.buscarVehiculo("DRN-002") != null) {
+                        System.out.println(gs.buscarVehiculo("DRN-002"));
+                    } else {
+                        System.out.println("No se encontro el vehiculo!");
+                    }
+                    
+                    
+                    //gs.consultarVehiculos(); //este pa verificar si se carga bien todo jeje
+                    
+                    
                     break;
                 case 4:
-                    verificarDisponibilidad();
+                    if (gs.eliminarVehiculo("DRN-002")) {
+                        System.out.println("Vehiculo eliminado correctamente!");
+                    } else {
+                        System.out.println("No se encontro el vehiculo!");
+                    }
                     break;
                 case 5:
-                    asignarMision();
+                    gs.mostrarPre();
+                    gs.mostrarIn();
+                    gs.mostrarPost();
                     break;
                 case 6:
                     manejarMenuEstaciones();
@@ -42,11 +62,12 @@ public class MenuAutoMove {
     }
 
     public void mostrarMenu() {
-        System.out.println("1 - Incorporar al ABB los vehículos existentes en la aplicación."
-                + "\n2 - Registrar un nuevo vehiculo de los diferentes tipos previstos."
-                + "\n3 - Consultar y mostrar la informacion de los vehiculos registrados."
-                + "\n4 - Determinar si un vehiculo se encuentra en condiciones de realizar una mision."
-                + "\n5 - Asignar una mision a un vehiculo disponible y actualizar los estados correspondientes."
+        System.out.println(""
+                + "1 - Incorporar al ABB los vehiculos existentes en la aplicacion."
+                + "\n2 - Registrar un nuevo vehiculo y agregarlo a la estructura manteniendo la propiedad de busqueda."
+                + "\n3 - Buscar un vehiculo mediante la clave definida."
+                + "\n4 - Eliminar un vehiculo contemplando los casos propios de un ABB."
+                + "\n5 - Mostrar los vehiculos mediante los recorridos preorden, inorden y postorden."
                 + "\n6 - Estaciones."
                 + "\n0 - Salir.");
     }
@@ -111,7 +132,6 @@ public class MenuAutoMove {
         while (!registradoConExito) {
             try {
                 VehiculoAutonomo vehiculo = null;
-
                 // 1. Pedir los datos según el tipo 
                 switch (tipo) {
                     case 1:
@@ -143,23 +163,24 @@ public class MenuAutoMove {
         }
     }
 
+    /*//no se si va
     private void registrarMision() {
         System.out.println("____REGISTRAR MISION____");
         System.out.println(" ");
         Consola.emitirMensaje("Codigo de mision: ");
-        String cod=Consola.leerString(); 
+        String cod = Consola.leerString();
         Consola.emitirMensaje("Origen: ");
-        String origen=Consola.leerString(); 
+        String origen = Consola.leerString();
         Consola.emitirMensaje("Destino: ");
-        String des=Consola.leerString(); 
+        String des = Consola.leerString();
         Consola.emitirMensaje("Distancia: ");
-        int distancia=Consola.leerInt(); 
+        int distancia = Consola.leerInt();
         Consola.emitirMensaje("Peso: ");
-        Double peso=Consola.leerDouble(); 
+        Double peso = Consola.leerDouble();
         Consola.emitirMensaje("Prioridad: \n1-Alta \n2-Media \n3-Baja----> ");
-        int prio=Consola.leerInt(); 
-        Consola.emitirMensaje("Estado de la mision:\n 1-Pendiente\n 2-Asignado\n 3-Finalizado\n----> "); 
-        int estado=Consola.leerInt(); 
+        int prio = Consola.leerInt();
+        Consola.emitirMensaje("Estado de la mision:\n 1-Pendiente\n 2-Asignado\n 3-Finalizado\n----> ");
+        int estado = Consola.leerInt();
         try {
             if (gs.registrarMision(cod, origen, des, distancia, peso, prio, estado)) {
                 Consola.emitirMensajeln("Mision registrada correctamente.");
@@ -181,12 +202,12 @@ public class MenuAutoMove {
             System.out.println("_____ASIGNAR MISION____");
             System.out.println(" ");
             Consola.emitirMensaje("Ingresa el código del vehiculo para asignarle la misión: ");
-            String codigo = Consola.leerString(); 
+            String codigo = Consola.leerString();
             gs.asignarVehiculo(codigo);
         }
 
     }
-
+*/
     public int leerTipoVehiculo() {
         System.out.println("Seleccione el tipo de vehiculo:"
                 + "\n1 - Robot"
@@ -238,7 +259,7 @@ public class MenuAutoMove {
         VehiculoElectrico v = new VehiculoElectrico();
         pedirDatosBase(v);
         Consola.emitirMensaje("Autonomía (km): ");
-        double autonomia = Consola.leerDouble(); 
+        double autonomia = Consola.leerDouble();
         Consola.emitirMensaje("Tiempo de recarga: ");
         String tiempoRecarga = Consola.leerString();
         v.validarDatosElectrico(autonomia, tiempoRecarga);

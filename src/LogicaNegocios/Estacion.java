@@ -20,21 +20,21 @@ public class Estacion {
     
     public void validarCodigo(String codigo) {
         if (codigo == null || codigo.trim().isEmpty()) {
-            throw new IllegalArgumentException("El código no puede estar vacío.");
+            throw new IllegalArgumentException("El codigo no puede estar vacio.");
         }
         setCod_id(codigo);
     }
     
     public void validarNombre(String nombre) {
         if (nombre == null || nombre.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre no puede estar vacío.");
+            throw new IllegalArgumentException("El nombre no puede estar vacio.");
         }
         setNombre(nombre);
     }
     
     public void validarZona(String zona) {
         if (zona == null || zona.trim().isEmpty()) {
-            throw new IllegalArgumentException("La zona no puede estar vacía.");
+            throw new IllegalArgumentException("La zona no puede estar vacia.");
         }
         setZona(zona);
     }

@@ -4,7 +4,7 @@ import java.util.List;
 import AccesoDatos.*;
 
 public class GestorAutoMove {
-    private RepositorioVehiculos repo;
+
     private ArbolABB<VehiculoAutonomo> ABB; //<----esto no va, se usa repositorioVehiculo
 
     private Cola<Mision> mPendientes;   //Etapa 1
@@ -12,46 +12,86 @@ public class GestorAutoMove {
     private Cola<Mision> aux;           //Etapa 1
 
     public GestorAutoMove() {
-        repo = new RepositorioVehiculos();
-        cargarVehiculosExistentes(); //<---preguntar si este met va aqui
-        
+        //cargarVehiculosExistentes(); //<---preguntar si este met va aqui
+
         ABB = new ArbolABB<>(); //no va
         mPendientes = new Cola<>(); //Cola para misiones pendientes 
         mAsig_y_Final = new Cola<>(); //Cola para misiones q ya estan asignadas y finalizadas
         aux = new Cola<>();
     }
-    
-    public void cargarVehiculosExistentes() {
+
+    public boolean cargarVehiculosExistentes() {
         try {
-            // Creamos vehículos de prueba (Robot, Dron, Eléctrico) y los insertamos
             Robot r = new Robot();
             r.validarDatosBase("ROB-001", "Terminator", 80, 50, 120.5, 1);
             r.validarDatosRobot(1, 15.0);
-            repo.insertar(r);
+            ABB.insertar(r);
 
             DronAereo d = new DronAereo();
             d.validarDatosBase("DRN-002", "Phantom", 90, 10, 45.0, 1);
             d.validarDatosDron(25.0, 120.0);
-            repo.insertar(d);
+            ABB.insertar(d);
 
             VehiculoElectrico ve = new VehiculoElectrico();
             ve.validarDatosBase("ELE-003", "TeslaBot", 100, 200, 300.0, 1);
             ve.validarDatosElectrico(400.0, "2 horas");
-            repo.insertar(ve);
-            
+            ABB.insertar(ve);
+            return true;
         } catch (IllegalArgumentException e) {
             System.out.println("Error al cargar datos iniciales: " + e.getMessage());
         }
+        return false;
     }
 
     public boolean registrarNuevoVehiculo(VehiculoAutonomo v) {
-        if (repo.buscar(v) != null) {
+        if (ABB.buscar(v) != null) {
             return false;
         }
-        repo.insertar(v);
+        ABB.insertar(v);
         return true;
     }
 
+    public VehiculoAutonomo buscarVehiculo(String codigo) {
+        DronAereo aux = new DronAereo();
+        aux.validarCodigo(codigo);
+
+        return ABB.buscar(aux);
+    }
+
+    public void consultarVehiculos() {
+        ABB.preOrden();
+    }
+
+    public boolean eliminarVehiculo(String codigo) {
+        VehiculoAutonomo v = buscarVehiculo(codigo);
+        if (v == null) {
+            return false;
+        }
+        ABB.eliminar(v);
+        return true;
+    }
+
+    public void mostrarPre() {
+        System.out.println("\n===== RECORRIDO PREORDEN =====");
+        ABB.preOrden();
+    }
+
+    public void mostrarIn() {
+        System.out.println("\n===== RECORRIDO INORDEN =====");
+        for (VehiculoAutonomo v : ABB.inOrden()) {
+            System.out.println(v);
+        }
+    }
+
+    public void mostrarPost() {
+        System.out.println("\n===== RECORRIDO POSTORDEN =====");
+        ABB.postOrden();
+    }
+
+    
+    
+    //esto no se si va
+    /*
     public boolean registrarMision(String cod, String origen, String des, int dist, double peso, int prio, int e) {
         Mision m = new Mision();
         m.validarMision(cod, origen, des, dist, peso, prio, e);
@@ -60,11 +100,7 @@ public class GestorAutoMove {
         } else {
             mAsig_y_Final.encolar(m);
         }
-        return true; 
-    }
-
-    public void consultarVehiculos() {
-        ABB.preOrden();
+        return true;
     }
 
     public boolean vehiculoDisponible() {
@@ -126,5 +162,5 @@ public class GestorAutoMove {
         if (!encontrado) {
             System.out.println("No se encontro un vehiculo con ese codigo.");
         }
-    }
+    }*/
 }
