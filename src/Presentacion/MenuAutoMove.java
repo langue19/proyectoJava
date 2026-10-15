@@ -33,11 +33,8 @@ public class MenuAutoMove {
                     } else {
                         System.out.println("No se encontro el vehiculo!");
                     }
-                    
-                    
+
                     //gs.consultarVehiculos(); //este pa verificar si se carga bien todo jeje
-                    
-                    
                     break;
                 case 4:
                     if (gs.eliminarVehiculo("DRN-002")) {
@@ -64,22 +61,22 @@ public class MenuAutoMove {
     public void mostrarMenu() {
         System.out.println(""
                 + "1 - Incorporar al ABB los vehiculos existentes en la aplicacion."
-                + "\n2 - Registrar un nuevo vehiculo y agregarlo a la estructura manteniendo la propiedad de busqueda."
-                + "\n3 - Buscar un vehiculo mediante la clave definida."
-                + "\n4 - Eliminar un vehiculo contemplando los casos propios de un ABB."
-                + "\n5 - Mostrar los vehiculos mediante los recorridos preorden, inorden y postorden."
-                + "\n6 - Estaciones."
+                + "\n2 - Registrar un nuevo vehiculo."
+                + "\n3 - Buscar un vehiculo mediante clave."
+                + "\n4 - Eliminar un vehiculo."
+                + "\n5 - Mostrar vehiculos."
+                + "\n6 - Red de Estaciones."
                 + "\n0 - Salir.");
     }
 
     public void mostrarMenuEstaciones() {
-        System.out.println("1. Crear la red\n"
-                + "2. Registrar estaciones\n"
-                + "3. Registrar conexiones\n"
-                + "4. Mostrar la red\n"
-                + "5. Consultar conexion directa\n"
-                + "6. Consultar estaciones vecinas\n"
-                + "7. Recorrer las estaciones\n");
+        System.out.println("1. Crear red de Estaciones.\n"
+                + "2. Registrar estaciones.\n"
+                + "3. Registrar conexiones.\n"
+                + "4. Mostrar la red.\n"
+                + "5. Consultar conexion directa.\n"
+                + "6. Consultar estaciones vecinas.\n"
+                + "7. Recorrer las estaciones.\n");
     }
 
     private void manejarMenuEstaciones() {
@@ -163,57 +160,26 @@ public class MenuAutoMove {
         }
     }
 
-    /*//no se si va
-    private void registrarMision() {
-        System.out.println("____REGISTRAR MISION____");
-        System.out.println(" ");
-        Consola.emitirMensaje("Codigo de mision: ");
-        String cod = Consola.leerString();
-        Consola.emitirMensaje("Origen: ");
-        String origen = Consola.leerString();
-        Consola.emitirMensaje("Destino: ");
-        String des = Consola.leerString();
-        Consola.emitirMensaje("Distancia: ");
-        int distancia = Consola.leerInt();
-        Consola.emitirMensaje("Peso: ");
-        Double peso = Consola.leerDouble();
-        Consola.emitirMensaje("Prioridad: \n1-Alta \n2-Media \n3-Baja----> ");
-        int prio = Consola.leerInt();
-        Consola.emitirMensaje("Estado de la mision:\n 1-Pendiente\n 2-Asignado\n 3-Finalizado\n----> ");
-        int estado = Consola.leerInt();
-        try {
-            if (gs.registrarMision(cod, origen, des, distancia, peso, prio, estado)) {
-                Consola.emitirMensajeln("Mision registrada correctamente.");
-            }
-        } catch (IllegalArgumentException e) {
-            Consola.emitirMensajeln("Error: " + e.getMessage());
-        }
-
-    }
-
-    private void verificarDisponibilidad() {
-        System.out.println("_____VEHICULOS DISPONIBLES____");
-        System.out.println(" ");
-        gs.vehiculoDisponible();
-    }
-
-    private void asignarMision() {
-        if (gs.vehiculoDisponible()) {
-            System.out.println("_____ASIGNAR MISION____");
-            System.out.println(" ");
-            Consola.emitirMensaje("Ingresa el código del vehiculo para asignarle la misión: ");
-            String codigo = Consola.leerString();
-            gs.asignarVehiculo(codigo);
-        }
-
-    }
-*/
     public int leerTipoVehiculo() {
         System.out.println("Seleccione el tipo de vehiculo:"
                 + "\n1 - Robot"
                 + "\n2 - Dron aereo"
                 + "\n3 - Vehiculo electrico");
         return Consola.leerOpcion("----> ", 1, 2, 3);
+    }
+
+    public void buscarV() {
+        Consola.emitirMensaje("Ingrese el código del vehículo a buscar: ");
+        try{
+            String codigo=Consola.leerString();
+        }catch(IllegalArgumentException e){
+            Consola.emitirMensajeln("Error en los datos: "+e.getMessage());
+        }
+        if (gs.buscarVehiculo(codigo) != null) {
+            System.out.println();
+        } else {
+            System.out.println("No se encontro el vehiculo!");
+        }
     }
 
     // --- Recoleccion de datos---

@@ -15,11 +15,6 @@ public class DronAereo extends VehiculoAutonomo {
         return distancia / autonomia_vuelo * 100; //Regla de tres. 
     }
 
-    @Override
-    protected boolean cumpleRestriccionPropia(Mision m) {
-        return m.getDistancia() <= autonomia_vuelo;
-    }
-
     public void validarDatosDron(double autonomia_vuelo, double altura_max) {
         validarAutonomiaVuelo(autonomia_vuelo);
         validarAlturaMax(altura_max);

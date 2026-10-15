@@ -11,18 +11,6 @@ public class Robot extends VehiculoAutonomo {
         this.velocidad_max = 0.0;
     }
 
-    protected double bateriaNecesaria(int distancia) {
-        return 20; //el robot necesita al menos 20% de bateria para salir.
-    }
-
-    @Override
-    protected boolean cumpleRestriccionPropia(Mision m) {
-        if (m.getPrioridad() == 2) {
-            return velocidad_max > 15;
-        }
-        return false;
-    }
-
     public void validarDatosRobot(int tipo_terreno, double velocidad_max) {
         validarTerreno(tipo_terreno);
         validarVelocidad(velocidad_max);
