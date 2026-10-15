@@ -30,16 +30,10 @@ public class MenuAutoMove {
                     buscarV();
                     break;
                 case 4:
-                    if (gs.eliminarVehiculo("DRN-002")) {
-                        System.out.println("Vehiculo eliminado correctamente!");
-                    } else {
-                        System.out.println("No se encontro el vehiculo!");
-                    }
+                    eliminarV();
                     break;
                 case 5:
-                    ///gs.mostrarPre();
-                    //gs.mostrarIn();
-                    gs.mostrarPost();
+                    mostrarV();
                     break;
                 case 6:
                     manejarMenuEstaciones();
@@ -109,7 +103,15 @@ public class MenuAutoMove {
                     } while (entrada == 0);
                     break;
                 case 3:
-                    // gsG.registrarConexion(...);
+                    System.out.println("Ingrese el codigo de la primera estacion:");
+                    String cod1 = Consola.leerString();
+                    System.out.println("Ingrese el codigo de la segunda estacion:");
+                    String cod2 = Consola.leerString();
+                    if (gsG.registrarConexion(cod1, cod2)) {
+                        System.out.println("Conexion registrada!");
+                    } else {
+                        System.out.println("Conexion NO registrada!");
+                    }
                     break;
                 case 4:
                     // gsG.mostrarRed();
@@ -196,6 +198,25 @@ public class MenuAutoMove {
         } catch (IllegalArgumentException e) {
             Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
         }
+    }
+
+    public void eliminarV() {
+        String codigo;
+        Consola.emitirMensaje("Ingrese el código del vehículo a eliminar: ");
+        try {
+            codigo = Consola.leerString();
+            if (gs.eliminarVehiculo(codigo)) {
+                Consola.emitirMensajeln("Vehiculo eliminado!");
+            } else {
+                Consola.emitirMensajeln("Vehiculo no encontrado");
+            }
+        } catch (IllegalArgumentException e) {
+            Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
+        }
+    }
+
+    public void mostrarV() {
+        Consola.emitirMensaje("Seleccione ");
     }
 
     // --- Recoleccion de datos---
