@@ -1,6 +1,7 @@
 package LogicaNegocios;
 
 import AccesoDatos.*;
+import java.util.List;
 
 public class GestorAutoMove {
 
@@ -56,9 +57,37 @@ public class GestorAutoMove {
         return true;
     }
 
+    public int mostrarVehiculo(int opcion) {
+        switch (opcion) {
+            case 1: // Inorden
+                Consola.emitirMensajeln("\n--- REPORTE INORDEN (Orden por Código) ---");
+                List<T> listaIn = tuArbol.inOrden();
+                for (T dato : listaIn) {
+                    imprimirVehiculoCompacto((VehiculoAutonomo) dato);
+                }
+                break;
+
+            case 2: // Preorden
+                Consola.emitirMensajeln("\n--- REPORTE PREORDEN ---");
+                List<T> listaPre = tuArbol.preOrden();
+                for (T dato : listaPre) {
+                    imprimirVehiculoCompacto((VehiculoAutonomo) dato);
+                }
+                break;
+
+            case 3: // Postorden
+                Consola.emitirMensajeln("\n--- REPORTE POSTORDEN ---");
+                List<T> listaPost = tuArbol.postOrden();
+                for (T dato : listaPost) {
+                    imprimirVehiculoCompacto((VehiculoAutonomo) dato);
+                }
+                break;
+        }
+    }
+
     public void mostrarPre() {
         System.out.println("\n===== RECORRIDO PREORDEN =====");
-        ABB.preOrden();
+        List<VehiculoAutonomo> listaIn =ABB.preOrden();
     }
 
     public void mostrarIn() {

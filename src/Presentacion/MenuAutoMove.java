@@ -131,7 +131,7 @@ public class MenuAutoMove {
                     System.out.println("Codigo de la segunda estacion:");
                     String cod22 = Consola.leerString();
 
-                    if (gsG.consultarConexionDirecta(cod11,cod22)) {
+                    if (gsG.consultarConexionDirecta(cod11, cod22)) {
                         System.out.println("La conexion entre las estaciones, existe!");
                     }
                     break;
@@ -234,6 +234,53 @@ public class MenuAutoMove {
     public void mostrarV() {
         Consola.emitirMensaje("Seleccione ");
     }
+
+    private void MostrarVehiculo (VehiculoAutonomo v) {
+        String detalleEspecifico = "";
+
+        if (v instanceof VehiculoElectrico) {
+            VehiculoElectrico ve = (VehiculoElectrico) v;
+            detalleEspecifico = " [Eléctrico | Autonomía: " + ve.getAutonomia_km() + " km]";
+        } else if (v instanceof Robot) {
+            Robot r = (Robot) v;
+            detalleEspecifico = " [Robot | Vel. Máx: " + r.getVelocidad_max() + " km/h]";
+        } else if (v instanceof DronAereo) {
+            DronAereo d = (DronAereo) v;
+            detalleEspecifico = " [Dron | Altura Máx: " + d.getAltura_max() + " m]";
+        }
+        Consola.emitirMensajeln(" [" + v.getCod_ident() + "] " + v.getModelo() + v.getNivel_bat() + v.getCapacidad_maxima() + v.getKm_reco() + v.getEstado() + detalleEspecifico);
+    }
+
+// Y en tu switch del menú de recorridos harías esto:
+   /* case 1: // Inorden
+    Consola.emitirMensajeln (
+    "\n--- REPORTE INORDEN (Orden por Código) ---");
+    List<T> listaIn = tuArbol.inOrden();
+
+    for (T dato : listaIn) {
+        imprimirVehiculoCompacto((VehiculoAutonomo) dato);
+    }
+    break;
+
+case 2: // Preorden
+    Consola.emitirMensajeln (
+    "\n--- REPORTE PREORDEN ---");
+    List<T> listaPre = tuArbol.preOrden();
+
+    for (T dato : listaPre) {
+        imprimirVehiculoCompacto((VehiculoAutonomo) dato);
+    }
+    break;
+
+case 3: // Postorden
+    Consola.emitirMensajeln (
+    "\n--- REPORTE POSTORDEN ---");
+    List<T> listaPost = tuArbol.postOrden();
+
+    for (T dato : listaPost) {
+        imprimirVehiculoCompacto((VehiculoAutonomo) dato);
+    }
+    break;*/
 
     // --- Recoleccion de datos---
     private void pedirDatosBase(VehiculoAutonomo v) {
