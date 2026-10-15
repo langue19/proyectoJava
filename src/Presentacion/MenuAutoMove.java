@@ -44,8 +44,8 @@ public class MenuAutoMove {
                     }
                     break;
                 case 5:
-                    gs.mostrarPre();
-                    gs.mostrarIn();
+                    //gs.mostrarPre();
+                    //gs.mostrarIn();
                     gs.mostrarPost();
                     break;
                 case 6:
@@ -170,16 +170,16 @@ public class MenuAutoMove {
 
     public void buscarV() {
         Consola.emitirMensaje("Ingrese el código del vehículo a buscar: ");
-        try{
-            String codigo=Consola.leerString();
-        }catch(IllegalArgumentException e){
-            Consola.emitirMensajeln("Error en los datos: "+e.getMessage());
+        try {
+            String codigo = Consola.leerString();
+        } catch (IllegalArgumentException e) {
+            Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
         }
-        if (gs.buscarVehiculo(codigo) != null) {
+        /*if (gs.buscarVehiculo(codigo) != null) {
             System.out.println();
         } else {
             System.out.println("No se encontro el vehiculo!");
-        }
+        }*/
     }
 
     // --- Recoleccion de datos---

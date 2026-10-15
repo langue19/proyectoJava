@@ -1,4 +1,5 @@
 package LogicaNegocios;
+
 import AccesoDatos.*;
 
 public class GestorAutoMove {
@@ -6,7 +7,7 @@ public class GestorAutoMove {
     private ArbolABB<VehiculoAutonomo> ABB;
 
     public GestorAutoMove() {
-        ABB = new ArbolABB<>(); 
+        ABB = new ArbolABB<>();
     }
 
     public boolean cargarVehiculosExistentes() {
@@ -41,11 +42,9 @@ public class GestorAutoMove {
     }
 
     public VehiculoAutonomo buscarVehiculo(String codigo) {
-        return ABB.buscar(codigo);
-    }
-
-    public void consultarVehiculos() {
-        ABB.preOrden();
+        DronAereo aux = new DronAereo();
+        aux.validarCodigo(codigo);
+        return ABB.buscar(aux);
     }
 
     public boolean eliminarVehiculo(String codigo) {
