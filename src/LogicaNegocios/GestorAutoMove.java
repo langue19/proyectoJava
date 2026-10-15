@@ -41,9 +41,7 @@ public class GestorAutoMove {
     }
 
     public VehiculoAutonomo buscarVehiculo(String codigo) {
-        aux.validarCodigo(codigo);
-
-        return ABB.buscar(aux);
+        return ABB.buscar(codigo);
     }
 
     public void consultarVehiculos() {
