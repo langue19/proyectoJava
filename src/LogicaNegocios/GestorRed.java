@@ -1,11 +1,13 @@
 package LogicaNegocios;
 
-import AccesoDatos.ListaS;
+import AccesoDatos.*;
+import java.util.ArrayList;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.traverse.DepthFirstIterator;
 import java.util.Iterator;
+import java.util.List;
 
 public class GestorRed {
 
@@ -17,13 +19,11 @@ public class GestorRed {
     }
 
     public boolean registrarEstacion(String cod, String nombre, String zona) {
-        Estacion est = new Estacion();
-        est.validarDatos(cod, nombre, zona);
-        if (grafo.addVertex(est)) {
-            System.out.println("Estacion registrada exitosamente en el grafo.");//no va
+        Estacion e = new Estacion();
+        e.validarDatos(cod, nombre, zona);
+        if (grafo.addVertex(e)) {
             return true;
         } else {
-            System.out.println("La estacion ya existe en la red.");// no va
             return false;
         }
     }
@@ -56,27 +56,27 @@ public class GestorRed {
     }
 
     //corregir
-    public ListaS<Estacion> mostrarEstaciones() {
+    public List<Estacion> mostrarEstaciones() {
+        List<Estacion> lista = new ArrayList<>();
+
         if (grafo == null || grafo.vertexSet().isEmpty()) {
-            return null;
+            return lista;
         }
 
-        ListaS<Estacion> lista = new ListaS<>();
-
         for (Estacion e : grafo.vertexSet()) {
-            lista.insertarPri(e);
+            lista.add(e);
         }
 
         return lista;
     }
 
     //corregir
-    public ListaS<String> mostrarConexiones() {
-        if (grafo == null || grafo.edgeSet().isEmpty()) {
-            return null;
-        }
+    public List<String> mostrarConexiones() {
+        List<String> lista = new ArrayList<>();
 
-        ListaS<String> lista = new ListaS<>();
+        if (grafo == null || grafo.edgeSet().isEmpty()) {
+            return lista;
+        }
 
         for (DefaultEdge arista : grafo.edgeSet()) {
             Estacion origen = grafo.getEdgeSource(arista);
@@ -85,7 +85,7 @@ public class GestorRed {
             String conexion = origen.getCod_id() + " <--> "
                     + destino.getCod_id();
 
-            lista.insertarPri(conexion);
+            lista.add(conexion);
         }
 
         return lista;
@@ -103,46 +103,54 @@ public class GestorRed {
     }
 
     //corregir
-    public ListaS<Estacion> consultarEstacionesVecinas(String codigo) {
+    public List<Estacion> consultarEstacionesVecinas(String codigo) {
         if (grafo == null || grafo.vertexSet().isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
+
         Estacion estacion = buscarEstacion(codigo);
+
         if (estacion == null) {
-            return null;
+            return new ArrayList<>();
         }
-        ListaS<Estacion> lista = new ListaS<>();
+
+        List<Estacion> lista = new ArrayList<>();
+
         for (DefaultEdge arista : grafo.edgesOf(estacion)) {
             Estacion origen = grafo.getEdgeSource(arista);
             Estacion destino = grafo.getEdgeTarget(arista);
 
             if (origen.equals(estacion)) {
-                lista.insertarPri(destino);
+                lista.add(destino);
             } else {
-                lista.insertarPri(origen);
+                lista.add(origen);
             }
         }
-        if (lista.listaVacia()) {
-            return null;
-        }
+
         return lista;
     }
 
     //corregir
-    public ListaS<Estacion> recorridoDFS(String codigo) {
+    public List<Estacion> recorridoDFS(String codigo) {
         if (grafo == null || grafo.vertexSet().isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
+
         Estacion inicio = buscarEstacion(codigo);
+
         if (inicio == null) {
-            return null;
+            return new ArrayList<>();
         }
-        ListaS<Estacion> recorrido = new ListaS<>();
+
+        List<Estacion> recorrido = new ArrayList<>();
+
         Iterator<Estacion> it = new DepthFirstIterator<>(grafo, inicio);
+
         while (it.hasNext()) {
             Estacion estacion = it.next();
-            recorrido.insertarPri(estacion);
+            recorrido.add(estacion);
         }
+
         return recorrido;
     }
 

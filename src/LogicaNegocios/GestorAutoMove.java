@@ -68,41 +68,6 @@ public class GestorAutoMove {
             lista = ABB.postOrden();
         }
         return lista;
-
-        /* case 1: // Inorden
-                List<VehiculoAutonomo> listaIn =ABB.inOrden();
-                /for (T dato : listaIn) {
-                    imprimirVehiculoCompacto((VehiculoAutonomo) dato);
-                }
-                break;
-
-            case 2: // Preorden
-                Consola.emitirMensajeln("\n--- REPORTE PREORDEN ---");
-                List<T> listaPre = tuArbol.preOrden();
-                for (T dato : listaPre) {
-                    imprimirVehiculoCompacto((VehiculoAutonomo) dato);
-                }
-                break;
-
-            case 3: // Postorden
-                Consola.emitirMensajeln("\n--- REPORTE POSTORDEN ---");
-                List<T> listaPost = tuArbol.postOrden();
-                for (T dato : listaPost) {
-                    imprimirVehiculoCompacto((VehiculoAutonomo) dato);
-                }
-                break;
-        }*/
     }
 
-    public void mostrarPre() {
-        List<VehiculoAutonomo> listaPre = ABB.preOrden();
-    }
-
-    public void mostrarIn() {
-        List<VehiculoAutonomo> listaIn = ABB.inOrden();
-    }
-
-    public void mostrarPost() {
-        List<VehiculoAutonomo> listaPost = ABB.postOrden();
-    }
 }

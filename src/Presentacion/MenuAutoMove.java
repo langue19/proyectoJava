@@ -80,28 +80,7 @@ public class MenuAutoMove {
                     gsG.crearRed();
                     break;
                 case 2:
-                    int entrada;
-
-                    do {
-                        System.out.println("Ingrese el codigo de la estacion:");
-                        String cod = Consola.leerString();
-
-                        System.out.println("Ingrese el nombre de la estacion:");
-                        String nombre = Consola.leerString();
-
-                        System.out.println("Ingrese la zona:");
-                        String zona = Consola.leerString();
-
-                        if (gsG.registrarEstacion(cod, nombre, zona)) {
-                            System.out.println("Estacion registrada correctamente.");
-                        } else {
-                            System.out.println("La estacion ya existe en la red.");
-                        }
-
-                        System.out.println("¿Desea continuar? 0-Sí ; 1-No");
-                        entrada = Consola.leerInt();
-
-                    } while (entrada == 0);
+                    registrarEstacion();
                     break;
                 case 3:
                     System.out.println("Ingrese el codigo de la primera estacion:");
@@ -115,15 +94,8 @@ public class MenuAutoMove {
                     }
                     break;
                 case 4:
-                    /*if (gsG.mostrarEstaciones()) {
-                        System.out.println("----------------ESTACIONES----------------");
-                    } else {
-                        System.out.println("No hay estaciones, por lo tanto, no hay conexiones!");
-                    }
-
-                    if (gsG.mostrarConexiones()) {
-                        System.out.println("----------------CONEXIONES----------------");
-                    }*/
+                    mostrarConexiones();
+                    mostrarEstaciones();
                     break;
                 case 5:
                     System.out.println("Codigo de la primera estacion:");
@@ -137,10 +109,10 @@ public class MenuAutoMove {
                     }
                     break;
                 case 6:
-                    // gsG.consultarEstacionesVecinas();
+                    mostrarEstacionesVecinas();
                     break;
                 case 7:
-                    // gsG.recorrerEstaciones();
+                    mostrarRecorridoDFS();
                     break;
                 case 0:
                     System.out.print("\n\n----------------------------BIENVENIDO USUARIO!----------------------------");
@@ -203,7 +175,7 @@ public class MenuAutoMove {
 
     public void buscarV() {
         String codigo;
-        Consola.emitirMensaje("Ingrese el código del vehículo a buscar: ");
+        Consola.emitirMensaje("Ingrese el codigo del vehículo a buscar: ");
         try {
             codigo = Consola.leerString();
             if (gs.buscarVehiculo(codigo) != null) {
@@ -219,7 +191,7 @@ public class MenuAutoMove {
 
     public void eliminarV() {
         String codigo;
-        Consola.emitirMensaje("Ingrese el código del vehículo a eliminar: ");
+        Consola.emitirMensaje("Ingrese el codigo del vehículo a eliminar: ");
         try {
             codigo = Consola.leerString();
             if (gs.eliminarVehiculo(codigo)) {
@@ -232,6 +204,74 @@ public class MenuAutoMove {
         }
     }
 
+    public void mostrarEstacionesVecinas() {
+        Consola.emitirMensajeln("Ingrese el codigo de la estacion:");
+        String codigo = Consola.leerString();
+
+        List<Estacion> listaVecinas = gsG.consultarEstacionesVecinas(codigo);
+
+        if (listaVecinas.isEmpty()) {
+            Consola.emitirMensajeln(
+                    "La estacion no existe o no tiene estaciones vecinas."
+            );
+            return;
+        }
+
+        Consola.emitirMensajeln("\n===== ESTACIONES VECINAS =====");
+
+        for (Estacion e : listaVecinas) {
+            Consola.emitirMensajeln(e.getCod_id());
+        }
+    }
+
+    public void mostrarRecorridoDFS() {
+        Consola.emitirMensajeln("Ingrese el codigo de la estacion inicial:");
+        String codigo = Consola.leerString();
+
+        List<Estacion> recorrido = gsG.recorridoDFS(codigo);
+
+        if (recorrido.isEmpty()) {
+            Consola.emitirMensajeln("No hay estaciones para recorrer o el codigo no existe.");
+            return;
+        }
+
+        Consola.emitirMensajeln("\n===== RECORRIDO DFS =====");
+
+        for (Estacion e : recorrido) {
+            Consola.emitirMensajeln(e.getCod_id());
+        }
+    }
+
+    public void mostrarConexiones() {
+        List<String> listaConexiones = gsG.mostrarConexiones();
+
+        if (listaConexiones == null || listaConexiones.isEmpty()) {
+            Consola.emitirMensajeln("No hay conexiones registradas");
+            return;
+        }
+
+        Consola.emitirMensajeln("\n===== CONEXIONES ENTRE ESTACIONES =====");
+
+        for (String conexion : listaConexiones) {
+            Consola.emitirMensajeln(conexion);
+        }
+    }
+
+    public void mostrarEstaciones() {
+        List<Estacion> listaEstaciones = gsG.mostrarEstaciones();
+
+        if (listaEstaciones.isEmpty()) {
+            Consola.emitirMensajeln("No hay estaciones registradas");
+            return;
+        }
+
+        Consola.emitirMensajeln("\n===== ESTACIONES REGISTRADAS =====");
+
+        for (Estacion e : listaEstaciones) {
+            Consola.emitirMensajeln(e.toString());
+        }
+    }
+
     public void mostrarV() {
         int op = leerTipoRecorrido();
         List<VehiculoAutonomo> listaVehiculos = gs.mostrarVehiculo(op);
@@ -241,11 +281,11 @@ public class MenuAutoMove {
         }
         String tipoRecorrido = "";
         if (op == 1) {
-            tipoRecorrido= "INORDEN (ASCENDENTE)";
+            tipoRecorrido = "INORDEN (ASCENDENTE)";
         } else if (op == 2) {
-            tipoRecorrido= "PREORDEN";
+            tipoRecorrido = "PREORDEN";
         } else if (op == 3) {
-            tipoRecorrido= "POSTORDEN";
+            tipoRecorrido = "POSTORDEN";
         }
         Consola.emitirMensajeln("\n===== RECORRIDO " + tipoRecorrido + " =====");
 
@@ -276,6 +316,31 @@ public class MenuAutoMove {
             detalleEspecifico = " [Dron | Altura Máx: " + d.getAltura_max() + " m]";
         }
         Consola.emitirMensajeln(" [" + v.getCod_ident() + "] " + v.getModelo() + v.getNivel_bat() + v.getCapacidad_maxima() + v.getKm_reco() + v.getEstado() + detalleEspecifico);
+    }
+
+    public void registrarEstacion() {
+        int entrada;
+        do {
+            System.out.println("Ingrese el codigo de la estacion:");
+            String cod = Consola.leerString();
+            System.out.println("Ingrese el nombre de la estacion:");
+            String nombre = Consola.leerString();
+            System.out.println("Ingrese la zona:");
+            String zona = Consola.leerString();
+            try {
+                if (gsG.registrarEstacion(cod, nombre, zona)) {
+                    System.out.println("Estacion registrada correctamente.");
+                } else {
+                    System.out.println("La estacion ya existe en la red.");
+                }
+
+            } catch (IllegalArgumentException e) {
+                Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
+            }
+            System.out.println("¿Desea continuar? 0-Sí ; 1-No");
+            entrada = Consola.leerInt();
+
+        } while (entrada == 0);
     }
 
     // --- Recoleccion de datos---
