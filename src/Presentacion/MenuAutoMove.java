@@ -192,23 +192,6 @@ public class MenuAutoMove {
         return Consola.leerOpcion("----> ", 1, 2, 3);
     }
 
-<<<<<<< Updated upstream
-    public void buscarV() {
-        String codigo;
-        Consola.emitirMensaje("Ingrese el codigo del vehículo a buscar: ");
-        try {
-            codigo = Consola.leerString();
-            if (gs.buscarVehiculo(codigo) != null) {
-                Consola.emitirMensajeln("Vehiculo encontrado!");
-                System.out.println(gs.buscarVehiculo(codigo));
-            } else {
-                System.out.println("Veniculo no encontrado");
-            }
-        } catch (IllegalArgumentException e) {
-            Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
-        }
-    }
-
     public void eliminarV() {
         String codigo;
         Consola.emitirMensaje("Ingrese el codigo del vehículo a eliminar: ");
@@ -430,26 +413,24 @@ public class MenuAutoMove {
 
         for (Estacion e : listaEstaciones) {
             Consola.emitirMensajeln(e.toString());
-=======
-   public void buscarV() {
-    Consola.emitirMensaje("Ingrese el código del vehículo a buscar: ");
-    
-    try {
-        String codigo = Consola.leerString();
-        VehiculoAutonomo vehiculo = gs.buscarVehiculo(codigo);
-        if (vehiculo != null) {
-            Consola.emitirMensajeln("\n¡Vehículo encontrado!");
-  
-            Consola.emitirMensajeln(vehiculo.toString()); 
-        } else {
-            Consola.emitirMensajeln("¡No se encontró el vehículo!");
->>>>>>> Stashed changes
         }
-        
-    } catch (IllegalArgumentException e) {
-        Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
     }
-}
+
+    public void buscarV() {
+        String codigo;
+        Consola.emitirMensaje("Ingrese el codigo del vehículo a buscar: ");
+        try {
+            codigo = Consola.leerString();
+            if (gs.buscarVehiculo(codigo) != null) {
+                Consola.emitirMensajeln("Vehiculo encontrado!");
+                System.out.println(gs.buscarVehiculo(codigo));
+            } else {
+                System.out.println("Veniculo no encontrado");
+            }
+        } catch (IllegalArgumentException e) {
+            Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
+        }
+    }
 
     // --- Recoleccion de datos---
     private void pedirDatosBase(VehiculoAutonomo v) {
