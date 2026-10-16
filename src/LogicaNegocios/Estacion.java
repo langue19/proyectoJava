@@ -70,7 +70,9 @@ public class Estacion implements Comparable<Estacion> {
 
     @Override
     public String toString() {
-        return "Estacion{" + "cod_id=" + cod_id + ", nombre=" + nombre + ", zona=" + zona + '}';
+        return "\nCodigo: " + cod_id
+                + "\nNombre: " + nombre
+                + "\nZona: " + zona;
     }
 
 }

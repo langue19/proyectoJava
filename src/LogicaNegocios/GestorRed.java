@@ -55,7 +55,6 @@ public class GestorRed {
         return false;
     }
 
-    //corregir
     public List<Estacion> mostrarEstaciones() {
         List<Estacion> lista = new ArrayList<>();
 
@@ -70,7 +69,7 @@ public class GestorRed {
         return lista;
     }
 
-    //corregir
+
     public List<String> mostrarConexiones() {
         List<String> lista = new ArrayList<>();
 
@@ -102,16 +101,16 @@ public class GestorRed {
         return grafo.containsEdge(e1, e2);
     }
 
-    //corregir
+
     public List<Estacion> consultarEstacionesVecinas(String codigo) {
         if (grafo == null || grafo.vertexSet().isEmpty()) {
-            return new ArrayList<>();
+            return null;
         }
 
         Estacion estacion = buscarEstacion(codigo);
 
         if (estacion == null) {
-            return new ArrayList<>();
+            return null;
         }
 
         List<Estacion> lista = new ArrayList<>();
@@ -130,16 +129,15 @@ public class GestorRed {
         return lista;
     }
 
-    //corregir
     public List<Estacion> recorridoDFS(String codigo) {
         if (grafo == null || grafo.vertexSet().isEmpty()) {
-            return new ArrayList<>();
+            return null;
         }
 
         Estacion inicio = buscarEstacion(codigo);
 
         if (inicio == null) {
-            return new ArrayList<>();
+            return null;
         }
 
         List<Estacion> recorrido = new ArrayList<>();
