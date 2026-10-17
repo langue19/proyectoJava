@@ -1,11 +1,11 @@
 package AccesoDatos;
 
-public class NodoLista<G> {
+public class NodoCola<G> {
 
     private G dato;
-    private NodoLista<G> ps;
+    private NodoCola<G> ps;
     
-    public NodoLista(G dato) {
+    public NodoCola(G dato) {
         this.dato = dato;
         this.ps = null;
     }
@@ -18,15 +18,15 @@ public class NodoLista<G> {
         this.dato = dato;
     }
 
-    public NodoLista<G> getPs() {
+    public NodoCola<G> getPs() {
         return ps;
     }
 
-    private void setPs(NodoLista<G> ps) {
+    private void setPs(NodoCola<G> ps) {
         this.ps = ps;
     }
 
-    public void enlazar(NodoLista<G> ref) {
+    public void enlazar(NodoCola<G> ref) {
         setPs(ref);
     }
 

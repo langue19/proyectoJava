@@ -90,7 +90,7 @@ public class GestorAutoMove {
             return null;
         }
         List<VehiculoAutonomo> disponibles = new ArrayList<>();
-        NodoLista<Mision> frente = mPendientes.getFrente();
+        NodoCola<Mision> frente = mPendientes.getFrente();
         Mision mision = frente.getDato();
         List<VehiculoAutonomo> todosLosVehiculos = ABB.inOrden();
         for (VehiculoAutonomo v : todosLosVehiculos) {

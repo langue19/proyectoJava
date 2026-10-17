@@ -1,27 +1,27 @@
 package AccesoDatos;
 
 public class Cola <G>{
-    private NodoLista <G> frente; 
-    private NodoLista <G> fondo; 
+    private NodoCola <G> frente; 
+    private NodoCola <G> fondo; 
     
     public Cola(){
         this.frente=null; 
         this.fondo=null; 
     }
 
-    public NodoLista<G> getFrente() {
+    public NodoCola<G> getFrente() {
         return frente;
     }
 
-    public void setFrente(NodoLista<G> frente) {
+    public void setFrente(NodoCola<G> frente) {
         this.frente = frente;
     }
 
-    public NodoLista<G> getFondo() {
+    public NodoCola<G> getFondo() {
         return fondo;
     }
 
-    public void setFondo(NodoLista<G> fondo) {
+    public void setFondo(NodoCola<G> fondo) {
         this.fondo = fondo;
     }
     
@@ -35,7 +35,7 @@ public class Cola <G>{
     }
     
     public void encolar(G elem){
-        NodoLista<G> x=new NodoLista<>(elem); 
+        NodoCola<G> x=new NodoCola<>(elem); 
         if (colaVacia()){
             frente=x; 
         }else{
@@ -45,7 +45,7 @@ public class Cola <G>{
     }
     
     public G desencolar() {
-        NodoLista<G> x = frente;
+        NodoCola<G> x = frente;
         frente = frente.getPs();
         if (frente == null) {
             fondo = null;
