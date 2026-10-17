@@ -9,13 +9,11 @@ public class GestorAutoMove {
     private ArbolABB<VehiculoAutonomo> ABB;
     private Cola<Mision> mPendientes;
     private Cola<Mision> mAsig_y_Final;
-    private Cola<Mision> aux;
 
     public GestorAutoMove() {
         ABB = new ArbolABB<>();
         mPendientes = new Cola<>();
         mAsig_y_Final = new Cola<>();
-        aux = new Cola<>();
     }
 
     public boolean cargarVehiculosExistentes() {

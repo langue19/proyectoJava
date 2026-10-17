@@ -39,7 +39,7 @@ public class VehiculoElectrico extends VehiculoAutonomo implements Recargable {
 
     public void validarAutonomia(Double a) {
         if (a < 0 || a > 1000) {
-            throw new IllegalArgumentException("La autonomia en kilómetros debe estar entre 0 y 1000.");
+            throw new IllegalArgumentException("La autonomia en kilometros debe estar entre 0 y 1000.");
         }
         setAutonomia_km(a);
     }

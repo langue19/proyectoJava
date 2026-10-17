@@ -47,7 +47,6 @@ public class Consola {
         return r;
     }
 
-    /* Lee una opcion numerica y valida que sea una de las permitidas.*/
     public static int leerOpcion(String mensaje, int... opcionesValidas) {
         System.out.print(mensaje);
         int valor = sc.nextInt();
@@ -61,28 +60,18 @@ public class Consola {
 
     private static boolean esOpcionValida(int valor, int[] opciones) {
         for (int op : opciones) {
-            /*op recorre el vector hasta encontrar uno que coincida*/
             if (op == valor) {
                 return true;
             }
         }
         return false;
     }
-    
-    /**
-     * Emite mensaje y nueva linea
-     *
-     * @param mensaje
-     */
+
     public static void emitirMensajeln(String mensaje) {
         System.out.println(mensaje);
     }
 
-    /**
-     * Emite mensaje sin nueva linea
-     *
-     * @param mensaje
-     */
+
     public static void emitirMensaje(String mensaje) {
         System.out.print(mensaje);
     }

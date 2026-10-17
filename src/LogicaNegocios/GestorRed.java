@@ -1,6 +1,5 @@
 package LogicaNegocios;
 
-import AccesoDatos.*;
 import java.util.ArrayList;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
@@ -11,7 +10,6 @@ import java.util.List;
 
 public class GestorRed {
 
-    ListaS<Estacion> estacion;
     Graph<Estacion, DefaultEdge> grafo;
 
     public void crearRed() {
@@ -97,7 +95,6 @@ public class GestorRed {
         if (e1 == null || e2 == null) {
             return false;
         }
-
         return grafo.containsEdge(e1, e2);
     }
 
@@ -106,15 +103,11 @@ public class GestorRed {
         if (grafo == null || grafo.vertexSet().isEmpty()) {
             return null;
         }
-
         Estacion estacion = buscarEstacion(codigo);
-
         if (estacion == null) {
             return null;
         }
-
         List<Estacion> lista = new ArrayList<>();
-
         for (DefaultEdge arista : grafo.edgesOf(estacion)) {
             Estacion origen = grafo.getEdgeSource(arista);
             Estacion destino = grafo.getEdgeTarget(arista);
@@ -125,7 +118,6 @@ public class GestorRed {
                 lista.add(origen);
             }
         }
-
         return lista;
     }
 
@@ -139,11 +131,8 @@ public class GestorRed {
         if (inicio == null) {
             return null;
         }
-
         List<Estacion> recorrido = new ArrayList<>();
-
         Iterator<Estacion> it = new DepthFirstIterator<>(grafo, inicio);
-
         while (it.hasNext()) {
             Estacion estacion = it.next();
             recorrido.add(estacion);

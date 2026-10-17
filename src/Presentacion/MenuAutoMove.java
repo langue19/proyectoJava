@@ -149,11 +149,9 @@ public class MenuAutoMove {
         int tipo = leerTipoVehiculo();
         boolean registradoConExito = false;
 
-        // Bucle que se repite hasta que el vehículo se registre correctamente sin excepciones
         while (!registradoConExito) {
             try {
                 VehiculoAutonomo vehiculo = null;
-                // 1. Pedir los datos según el tipo 
                 switch (tipo) {
                     case 1:
                         vehiculo = pedirDatosRobot();
@@ -169,17 +167,16 @@ public class MenuAutoMove {
                         return;
                 }
 
-                // 2. Intentar registrar en el sistema (controla si ya existe)
                 if (gs.registrarNuevoVehiculo(vehiculo)) {
                     Consola.emitirMensajeln("Vehiculo registrado correctamente.");
-                    registradoConExito = true; // Rompe el bucle porque tuvo éxito
+                    registradoConExito = true;
                 } else {
-                    Consola.emitirMensajeln("Ya existe un vehículo con ese codigo. Por favor, ingrese los datos nuevamente.");
+                    Consola.emitirMensajeln("Ya existe un vehiculo con ese codigo. Por favor, ingrese los datos nuevamente.");
                 }
 
             } catch (IllegalArgumentException e) {
                 Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
-                Consola.emitirMensajeln("Por favor, vuelva a ingresar los datos del vehículo.\n");
+                Consola.emitirMensajeln("Por favor, vuelva a ingresar los datos del vehiculo.\n");
             }
         }
     }
@@ -469,7 +466,6 @@ public class MenuAutoMove {
         }
     }
 
-    // --- Recoleccion de datos---
     private void pedirDatosBase(VehiculoAutonomo v) {
         Consola.emitirMensaje("Codigo de identificacion: ");
         String cod = Consola.leerString();
