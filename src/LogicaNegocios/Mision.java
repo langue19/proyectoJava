@@ -81,6 +81,9 @@ public class Mision {
         setEstado(estado);
     }
     
+    public void cambiarEstado(int e){
+        setEstado(e); 
+    }
     
     public String getCod_mision() {
         return cod_mision;

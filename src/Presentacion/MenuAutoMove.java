@@ -242,15 +242,43 @@ public class MenuAutoMove {
 
         if (v instanceof VehiculoElectrico) {
             VehiculoElectrico ve = (VehiculoElectrico) v;
-            detalleEspecifico = " [Eléctrico | Autonomia: " + ve.getAutonomia_km() + " km]";
+            detalleEspecifico = "\nTipo: Eléctrico"
+                    + "\nAutonomía: " + ve.getAutonomia_km() + " km";
+
         } else if (v instanceof Robot) {
             Robot r = (Robot) v;
-            detalleEspecifico = " [Robot | Vel. Max: " + r.getVelocidad_max() + " km/h]";
+            detalleEspecifico = "\nTipo: Robot"
+                    + "\nVelocidad máxima: " + r.getVelocidad_max() + " km/h";
+
         } else if (v instanceof DronAereo) {
             DronAereo d = (DronAereo) v;
-            detalleEspecifico = " [Dron | Altura Max: " + d.getAltura_max() + " m]";
+            detalleEspecifico = "\nTipo: Dron"
+                    + "\nAltura máxima: " + d.getAltura_max() + " m";
         }
-        Consola.emitirMensajeln(" [" + v.getCod_ident() + "] " + v.getModelo() + v.getNivel_bat() + v.getCapacidad_maxima() + v.getKm_reco() + v.getEstado() + detalleEspecifico);
+        String estadoTexto;
+
+        switch (v.getEstado()) {
+            case 1:
+                estadoTexto = "Activo";
+                break;
+            case 2:
+                estadoTexto = "En mision";
+                break;
+            case 3:
+                estadoTexto = "En mantenimiento";
+                break;
+            default:
+                estadoTexto = "Desconocido";
+        }
+        Consola.emitirMensajeln(
+                "[" + v.getCod_ident() + "] " + v.getModelo()
+                + "\nNivel de batería: " + v.getNivel_bat() + "%"
+                + "\nCapacidad maxima: " + v.getCapacidad_maxima()
+                + "\nKilometros recorridos: " + v.getKm_reco()
+                + "\nEstado: " + estadoTexto
+                + detalleEspecifico
+                + "\n-------------------------"
+        );
     }
 
     private void registrarMision() {
@@ -281,18 +309,27 @@ public class MenuAutoMove {
     }
 
     private void verificarDisponibilidad() {
-        System.out.println("_____VEHICULOS DISPONIBLES____");
-        System.out.println(" ");
-        gs.vehiculoDisponible();
+        if (gs.vehiculoDisponible() != null) {
+            List<VehiculoAutonomo> disponibles = gs.vehiculoDisponible();
+            System.out.println("_____VEHICULOS DISPONIBLES____");
+            for (VehiculoAutonomo v : disponibles) {
+                System.out.println(v);
+            }
+        } else {
+            System.out.println("NO hay vehiculos disponibles!");
+        }
+
     }
 
     private void asignarMision() {
-        if (gs.vehiculoDisponible()) {
+        if (gs.vehiculoDisponible() != null) {
             System.out.println("_____ASIGNAR MISION____");
             System.out.println(" ");
-            Consola.emitirMensaje("Ingresa el código del vehiculo para asignarle la misión: ");
+            Consola.emitirMensaje("Ingresa el codigo del vehiculo para asignarle la misión: ");
             String codigo = Consola.leerString();
             gs.asignarVehiculo(codigo);
+        } else {
+            System.out.println("NO hay vehiculos o misiones disponibles!");
         }
 
     }
@@ -454,7 +491,7 @@ public class MenuAutoMove {
         pedirDatosBase(r);
         Consola.emitirMensajeln("Tipo de terreno:\n1-Asfalto \n2-Mixto \n3-Arena \n----> ");
         int terreno = Consola.leerInt();
-        Consola.emitirMensaje("Velocidad máxima: ");
+        Consola.emitirMensaje("Velocidad maxima: ");
         double velMax = Consola.leerDouble();
         r.validarDatosRobot(terreno, velMax);
         return r;
@@ -465,7 +502,7 @@ public class MenuAutoMove {
         pedirDatosBase(d);
         Consola.emitirMensaje("Autonomia de vuelo (km): ");
         double autonomia = Consola.leerDouble();
-        Consola.emitirMensaje("Altura máxima (metros): ");
+        Consola.emitirMensaje("Altura maxima (metros): ");
         double altura = Consola.leerDouble();
         d.validarDatosDron(autonomia, altura);
         return d;

@@ -13,6 +13,9 @@ public class GestorAutoMove {
 
     public GestorAutoMove() {
         ABB = new ArbolABB<>();
+        mPendientes = new Cola<>();
+        mAsig_y_Final = new Cola<>();
+        aux = new Cola<>();
     }
 
     public boolean cargarVehiculosExistentes() {
@@ -84,70 +87,44 @@ public class GestorAutoMove {
         return true;
     }
 
-    public boolean vehiculoDisponible() { // Verifica qué vehículos del árbol están aptos para realizar una misión y los muestra
-        vehidisp = new ListaS<>(); // Inicializa la lista para guardar los disponibles
-
-        if (!mPendientes.colaVacia()) {
-            NodoLista<Mision> frente = mPendientes.getFrente();
-            Mision auxMision = frente.getDato();
-
-            // Obtenemos todos los vehículos del árbol genérico en forma de lista estándar de Java
-            List<VehiculoAutonomo> todosLosVehiculos = ABB.inOrden();
-            for (VehiculoAutonomo v : todosLosVehiculos) {
-                if (v.puedeRealizarMision(auxMision)) {
-                    vehidisp.insertarPri(v); // Los guardamos en ListaS
-                }
-                p = p.getPs();
-            }
-            if (vehidisp.listaVacia()) {
-                System.out.println("No hay vehiculos aptos para la mision " + aux.getCod_mision());
-                System.out.println("No hay vehiculos aptos para la mision " + auxMision.getCod_mision());
-            } else {
-                vehidisp.visualizar();
-                return true;
-            }
-
-        } else {
-            System.out.println("No hay misiones Pendientes registradas.");
-
-            System.out.println("No hay misiones pendientes registradas.");
+    public List<VehiculoAutonomo> vehiculoDisponible() {
+        if (mPendientes.colaVacia()) {
+            return null;
         }
-        return false;
-    }
-
-    public void asignarVehiculo(String codigo) { //Luego de actualizar datos del vehiculo, lo hace con los de mision 
-        actualizarEstadoVehiculo(codigo);           //Además actualiza las determinadas colas de misiones 
-        if (!mPendientes.colaVacia()) {
-            Mision m = mPendientes.desencolar();
-            m.setEstado(2);
-            mAsig_y_Final.encolar(m);
-        } else {
-            System.out.println("No hay misiones Pendientes registradas.");
-        }
-    }
-
-    public void actualizarEstadoVehiculo(String codigo) {
+        List<VehiculoAutonomo> disponibles = new ArrayList<>();
+        NodoLista<Mision> frente = mPendientes.getFrente();
+        Mision mision = frente.getDato();
         List<VehiculoAutonomo> todosLosVehiculos = ABB.inOrden();
-
-        boolean encontrado = false;
-
-        for (VehiculoAutonomo vehiculo : todosLosVehiculos) {
-            if (vehiculo.getCod_ident().equals(codigo)) {
-                encontrado = true;
-                if (vehiculo.getEstado() == 1) {
-                    vehiculo.actualizarEstado(2);
-                    System.out.println("Vehiculo asignado correctamente.");
-                } else {
-                    System.out.println("El vehiculo no esta disponible.");
-                }
-                return;
+        for (VehiculoAutonomo v : todosLosVehiculos) {
+            if (v.puedeRealizarMision(mision)) {
+                disponibles.add(v);
             }
-            aux = aux.getPs();
         }
-        System.out.println("No se encontró un vehículo con ese código.");
-        if (!encontrado) {
-            System.out.println("No se encontro un vehiculo con ese codigo.");
-        }
+        return disponibles;
     }
 
+    public boolean asignarVehiculo(String codigo) {
+        if (mPendientes.colaVacia()) {
+            return false;
+        }
+        VehiculoAutonomo vehiculo = buscarVehiculo(codigo);
+        if (vehiculo == null || vehiculo.getEstado() != 1) {
+            return false;
+        }
+        Mision mision = mPendientes.getFrente().getDato();
+        if (!vehiculo.puedeRealizarMision(mision)) {
+            return false;
+        }
+        vehiculo.actualizarEstado(2);
+        mPendientes.desencolar();
+        mision.cambiarEstado(2);
+        mAsig_y_Final.encolar(mision);
+        return true;
+    }
+
+    public boolean actualizarEstadoVehiculo(String codigo) {
+        VehiculoAutonomo vehiculo = buscarVehiculo(codigo);
+        vehiculo.actualizarEstado(2);
+        return true;
+    }
 }

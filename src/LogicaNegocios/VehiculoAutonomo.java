@@ -70,14 +70,14 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
         if (capacidad <= 0) {
             throw new IllegalArgumentException("La capacidad maxima debe ser mayor a 0.");
         }
-        setCapacidad_maxima(capacidad_maxima);
+        setCapacidad_maxima(capacidad);
     }
 
     public void validarKM(Double km) {
         if (km < 0.0) {
             throw new IllegalArgumentException("Los kilometros recorridos no pueden ser negativos.");
         }
-        setKm_reco(km_reco);
+        setKm_reco(km);
     }
 
     private void validarEstado(int estado) {
@@ -151,7 +151,7 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
                 estadoTexto = "Activo";
                 break;
             case 2:
-                estadoTexto = "En misión";
+                estadoTexto = "En mision";
                 break;
             case 3:
                 estadoTexto = "En mantenimiento";
