@@ -191,7 +191,7 @@ public class MenuAutoMove {
 
     public void eliminarV() {
         String codigo;
-        Consola.emitirMensaje("Ingrese el codigo del vehículo a eliminar: ");
+        Consola.emitirMensaje("Ingrese el codigo del vehiculo a eliminar: ");
         try {
             codigo = Consola.leerString();
             if (gs.eliminarVehiculo(codigo)) {
@@ -208,7 +208,7 @@ public class MenuAutoMove {
         int op = leerTipoRecorrido();
         List<VehiculoAutonomo> listaVehiculos = gs.mostrarVehiculo(op);
         if (listaVehiculos == null || listaVehiculos.isEmpty()) {
-            Consola.emitirMensajeln("No hay vehículos registrados");
+            Consola.emitirMensajeln("No hay vehiculos registrados");
             return;
         }
         String tipoRecorrido = "";
@@ -240,17 +240,17 @@ public class MenuAutoMove {
         if (v instanceof VehiculoElectrico) {
             VehiculoElectrico ve = (VehiculoElectrico) v;
             detalleEspecifico = "\nTipo: Eléctrico"
-                    + "\nAutonomía: " + ve.getAutonomia_km() + " km";
+                    + "\nAutonomia: " + ve.getAutonomia_km() + " km";
 
         } else if (v instanceof Robot) {
             Robot r = (Robot) v;
             detalleEspecifico = "\nTipo: Robot"
-                    + "\nVelocidad máxima: " + r.getVelocidad_max() + " km/h";
+                    + "\nVelocidad maxima: " + r.getVelocidad_max() + " km/h";
 
         } else if (v instanceof DronAereo) {
             DronAereo d = (DronAereo) v;
             detalleEspecifico = "\nTipo: Dron"
-                    + "\nAltura máxima: " + d.getAltura_max() + " m";
+                    + "\nAltura maxima: " + d.getAltura_max() + " m";
         }
         String estadoTexto;
 
@@ -269,7 +269,7 @@ public class MenuAutoMove {
         }
         Consola.emitirMensajeln(
                 "[" + v.getCod_ident() + "] " + v.getModelo()
-                + "\nNivel de batería: " + v.getNivel_bat() + "%"
+                + "\nNivel de bateria: " + v.getNivel_bat() + "%"
                 + "\nCapacidad maxima: " + v.getCapacidad_maxima()
                 + "\nKilometros recorridos: " + v.getKm_reco()
                 + "\nEstado: " + estadoTexto
@@ -322,7 +322,7 @@ public class MenuAutoMove {
         if (gs.vehiculoDisponible() != null) {
             System.out.println("_____ASIGNAR MISION____");
             System.out.println(" ");
-            Consola.emitirMensaje("Ingresa el codigo del vehiculo para asignarle la misión: ");
+            Consola.emitirMensaje("Ingresa el codigo del vehiculo para asignarle la mision: ");
             String codigo = Consola.leerString();
             gs.asignarVehiculo(codigo);
         } else {
@@ -452,7 +452,7 @@ public class MenuAutoMove {
 
     public void buscarV() {
         String codigo;
-        Consola.emitirMensaje("Ingrese el codigo del vehículo a buscar: ");
+        Consola.emitirMensaje("Ingrese el codigo del vehiculo a buscar: ");
         try {
             codigo = Consola.leerString();
             if (gs.buscarVehiculo(codigo) != null) {
