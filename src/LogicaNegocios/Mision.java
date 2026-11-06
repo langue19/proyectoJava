@@ -34,21 +34,21 @@ public class Mision {
     
     public void validarCod(String codigo){
         if(codigo==null || codigo.trim().isEmpty()){
-            throw new IllegalArgumentException("El codigo no puede estar vacío.");
+            throw new IllegalArgumentException("El codigo no puede estar vacio.");
         }
         setCod_mision(codigo);
     }
     
     public void validarOrigen(String origen){
         if(origen==null || origen.trim().isEmpty()){
-            throw new IllegalArgumentException("El origen no puede estar vacío.");
+            throw new IllegalArgumentException("El origen no puede estar vacio.");
         }
         setOrigen(origen);
     }
     
     public void validarDestino(String destino){
         if(destino==null || destino.trim().isEmpty()){
-            throw new IllegalArgumentException("El destino no puede estar vacío.");
+            throw new IllegalArgumentException("El destino no puede estar vacio.");
         }
         setDestino(destino);
     }
@@ -172,12 +172,12 @@ public class Mision {
             default:
                 prioridadTexto = "Desconocida";
         }
-        return "\nMisión: " + cod_mision
-                + " | Origen: " + origen
-                + " | Destino: " + destino
-                + " | Distancia: " + distancia + " km"
-                + " | Peso: " + peso + " kg"
-                + " | Prioridad: " + prioridadTexto
-                + " | Estado: " + estadoTexto;
+        return "\nMision: " + cod_mision
+                + "\n | Origen: " + origen
+                + "\n | Destino: " + destino
+                + "\n | Distancia: " + distancia + " km"
+                + "\n | Peso: " + peso + " kg"
+                + "\n | Prioridad: " + prioridadTexto
+                + "\n | Estado: " + estadoTexto;
     }
 }

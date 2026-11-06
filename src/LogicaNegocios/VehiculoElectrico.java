@@ -13,6 +13,25 @@ public class VehiculoElectrico extends VehiculoAutonomo implements Recargable {
         this.tiempo_recarga = "";
     }
 
+    @Override
+    public int getCodigoTipo() {
+        return 3;
+    }
+    @Override
+    public double getDatoNumerico1() {
+        return autonomia_km;
+    }
+    @Override
+    public double getDatoNumerico2() {
+        return 0;
+    }
+    @Override
+    public String getDatoTexto() {
+        return tiempo_recarga;
+    }
+
+    
+    
     //-----Restricciones para saber si está apto para realizar una mision-----
     protected double bateriaNecesaria(int distancia) {
         return distancia / autonomia_km * 100;
@@ -46,7 +65,7 @@ public class VehiculoElectrico extends VehiculoAutonomo implements Recargable {
 
     public void validarTiempo(String tiempo) {
         if (tiempo == null || tiempo.trim().isEmpty()) {
-            throw new IllegalArgumentException("El tiempo de recarga no puede estar vacío.");
+            throw new IllegalArgumentException("El tiempo de recarga no puede estar vacio.");
         }
         setTiempo_recarga(tiempo);
     }

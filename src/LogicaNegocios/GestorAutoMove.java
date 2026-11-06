@@ -1,6 +1,8 @@
 package LogicaNegocios;
 
 import AccesoDatos.*;
+import AccesoDatos.Archivos.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,8 @@ public class GestorAutoMove {
     private ArbolABB<VehiculoAutonomo> ABB;
     private Cola<Mision> mPendientes;
     private Cola<Mision> mAsig_y_Final;
+    private boolean vehiculosRecuperados = false;
+    private boolean misionesRecuperadas = false;
 
     public GestorAutoMove() {
         ABB = new ArbolABB<>();
@@ -16,7 +20,7 @@ public class GestorAutoMove {
         mAsig_y_Final = new Cola<>();
     }
 
-    public boolean cargarVehiculosExistentes() {
+    /*public boolean cargarVehiculosExistentes() {
         try {
             Robot r = new Robot();
             r.validarDatosBase("01", "Terminator", 80, 50, 120.5, 1);
@@ -37,11 +41,49 @@ public class GestorAutoMove {
             System.out.println("Error al cargar datos iniciales: " + e.getMessage());
         }
         return false;
+    }*/
+    //PREGUNTAR.
+    public boolean cargarVehiculosExistentes() {
+        try {
+            try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
+                ConversorVehiculos conversor = new ConversorVehiculos();
+                Robot r = new Robot();
+                r.validarDatosBase("01", "Terminator", 80, 50, 120.5, 1);
+                r.validarDatosRobot(1, 15.0);
+                DronAereo d = new DronAereo();
+                d.validarDatosBase("02", "Phantom", 90, 10, 45.0, 1);
+                d.validarDatosDron(25.0, 120.0);
+                VehiculoElectrico ve = new VehiculoElectrico();
+                ve.validarDatosBase("03", "TeslaBot", 100, 200, 300.0, 1);
+                ve.validarDatosElectrico(400.0, "2 horas");
+                VehiculoAutonomo[] iniciales = {r, d, ve};
+                for (VehiculoAutonomo v : iniciales) {
+                    RegistroVehiculo registro = conversor.aRegistro(v);
+                    if (archivo.buscar(registro.getCodigo()) != null) {
+                        return false;
+                    }
+                    archivo.guardar(registro);
+
+                    if (ABB.buscar(v) == null) {
+                        ABB.insertar(v);
+                    }
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return false;
+        }
     }
 
-    public boolean registrarNuevoVehiculo(VehiculoAutonomo v) {
+    public boolean registrarNuevoVehiculo(VehiculoAutonomo v) throws IOException {
         if (ABB.buscar(v) != null) {
             return false;
+        }
+        ConversorVehiculos conversor = new ConversorVehiculos();
+        RegistroVehiculo registro = conversor.aRegistro(v);
+        try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
+            archivo.guardar(registro);
         }
         ABB.insertar(v);
         return true;
@@ -53,10 +95,13 @@ public class GestorAutoMove {
         return ABB.buscar(aux);
     }
 
-    public boolean eliminarVehiculo(String codigo) {
+    public boolean eliminarVehiculo(String codigo) throws IOException {
         VehiculoAutonomo v = buscarVehiculo(codigo);
         if (v == null) {
             return false;
+        }
+        try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
+            archivo.eliminar(Integer.parseInt(codigo));
         }
         ABB.eliminar(v);
         return true;
@@ -74,14 +119,24 @@ public class GestorAutoMove {
         return lista;
     }
 
-    public boolean registrarMision(String cod, String origen, String des, int dist, double peso, int prio, int e) {
+    public boolean registrarMision(String cod, String origen, String des,
+            int dist, double peso, int prio, int e) throws IOException {
         Mision m = new Mision();
         m.validarMision(cod, origen, des, dist, peso, prio, e);
+        ConversorMisiones conversor = new ConversorMisiones();
+        try (ArchivoMisiones archivo = new ArchivoMisiones("MISIONES.DAT")) {
+            RegistroMisiones registro = conversor.aRegistro(m);
+            if (archivo.buscar(registro.getCodigo()) != null) {
+                return false;
+            }
+            archivo.guardar(registro);
+        }
         if (m.getEstado() == 1) {
             mPendientes.encolar(m);
         } else {
             mAsig_y_Final.encolar(m);
         }
+
         return true;
     }
 
@@ -101,7 +156,7 @@ public class GestorAutoMove {
         return disponibles;
     }
 
-    public boolean asignarVehiculo(String codigo) {
+    public boolean asignarVehiculo(String codigo) throws IOException {
         if (mPendientes.colaVacia()) {
             return false;
         }
@@ -113,16 +168,84 @@ public class GestorAutoMove {
         if (!vehiculo.puedeRealizarMision(mision)) {
             return false;
         }
-        vehiculo.actualizarEstado(2);
-        mPendientes.desencolar();
+        if (!actualizarEstadoVehiculo(codigo)) {
+            return false;
+        }
         mision.cambiarEstado(2);
+        ConversorMisiones cm = new ConversorMisiones();
+        try (ArchivoMisiones archivo = new ArchivoMisiones("MISIONES.DAT")) {
+            archivo.modificar(cm.aRegistro(mision));
+        }
+        mPendientes.desencolar();
         mAsig_y_Final.encolar(mision);
         return true;
     }
 
-    public boolean actualizarEstadoVehiculo(String codigo) {
+    public List<Mision> mostrarMisiones() throws IOException {
+        List<Mision> misiones = new ArrayList<>();
+        ConversorMisiones conversor = new ConversorMisiones();
+        try (ArchivoMisiones archivo = new ArchivoMisiones("MISIONES.DAT")) {
+            for (RegistroMisiones r : archivo.recuperarActivos()) {
+                misiones.add(conversor.aMision(r));
+            }
+        }
+        return misiones;
+    }
+
+    public boolean actualizarEstadoVehiculo(String codigo) throws IOException {
         VehiculoAutonomo vehiculo = buscarVehiculo(codigo);
+        if (vehiculo == null) {
+            return false;
+        }
         vehiculo.actualizarEstado(2);
+        ConversorVehiculos conversor = new ConversorVehiculos();
+        RegistroVehiculo registro = conversor.aRegistro(vehiculo);
+
+        try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
+            archivo.modificar(registro);
+        }
         return true;
+    }
+
+    public void guardarVehiculos() throws IOException {
+        try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
+            ConversorVehiculos conversor = new ConversorVehiculos();
+            for (VehiculoAutonomo v : ABB.inOrden()) {
+                RegistroVehiculo registro = conversor.aRegistro(v);
+                archivo.guardar(registro);
+            }
+        }
+    }
+
+    public void recuperarVehiculos() throws IOException {
+        if (vehiculosRecuperados) {
+            return;
+        }
+        try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
+            ConversorVehiculos conversor = new ConversorVehiculos();
+            for (RegistroVehiculo r : archivo.recuperarActivos()) {
+                VehiculoAutonomo v = conversor.aVehiculo(r);
+                ABB.insertar(v);
+            }
+        }
+        vehiculosRecuperados = true;
+    }
+
+    public void recuperarMisiones() throws IOException {
+        if (misionesRecuperadas) {
+            return;
+        }
+        ConversorMisiones conversor = new ConversorMisiones();
+        try (ArchivoMisiones archivo = new ArchivoMisiones("MISIONES.DAT")) {
+            for (RegistroMisiones r : archivo.recuperarActivos()) {
+                Mision m = conversor.aMision(r);
+                if (m.getEstado() == 1) {
+                    mPendientes.encolar(m);
+                } else {
+                    mAsig_y_Final.encolar(m);
+                }
+            }
+        }
+        misionesRecuperadas = true;
     }
 }

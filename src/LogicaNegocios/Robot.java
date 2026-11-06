@@ -11,6 +11,23 @@ public class Robot extends VehiculoAutonomo {
         this.velocidad_max = 0.0;
     }
 
+    @Override
+    public int getCodigoTipo() {
+        return 2;
+    }
+    @Override
+    public double getDatoNumerico1() {
+        return velocidad_max;
+    }
+    @Override
+    public double getDatoNumerico2() {
+        return tipo_terreno;
+    }
+    @Override
+    public String getDatoTexto() {
+        return "";
+    }
+
     protected double bateriaNecesaria(int distancia) {
         return 20; //el robot necesita al menos 20% de bateria para salir.
     }

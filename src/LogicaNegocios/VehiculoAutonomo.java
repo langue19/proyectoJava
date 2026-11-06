@@ -18,6 +18,11 @@ public abstract class VehiculoAutonomo implements Comparable<VehiculoAutonomo> {
         this.estado = 0;
     }
 
+    public abstract int getCodigoTipo();
+    public abstract double getDatoNumerico1();
+    public abstract double getDatoNumerico2();
+    public abstract String getDatoTexto();
+
     protected abstract double bateriaNecesaria(int distancia);
 //porque la formula depende de datos que la clase base no tiene, (necesitamos de la autonomia)
 

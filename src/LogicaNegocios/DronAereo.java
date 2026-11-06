@@ -11,16 +11,32 @@ public class DronAereo extends VehiculoAutonomo {
         this.altura_max = 0.0;
     }
 
+    @Override
+    public int getCodigoTipo() {
+        return 1;
+    }
+    @Override
+    public double getDatoNumerico1() {
+        return autonomia_vuelo;
+    }
+    @Override
+    public double getDatoNumerico2() {
+        return altura_max;
+    }
+    @Override
+    public String getDatoTexto() {
+        return "";
+    }
+
     protected double bateriaNecesaria(int distancia) {
         return distancia / autonomia_vuelo * 100; //Regla de tres. 
     }
 
     @Override
     protected boolean cumpleRestriccionPropia(Mision m) {
-        return m.getDistancia()<=autonomia_vuelo;
+        return m.getDistancia() <= autonomia_vuelo;
     }
-      
-    
+
     public void validarDatosDron(double autonomia_vuelo, double altura_max) {
         validarAutonomiaVuelo(autonomia_vuelo);
         validarAlturaMax(altura_max);

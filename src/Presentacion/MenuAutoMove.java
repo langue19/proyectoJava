@@ -1,6 +1,7 @@
 package Presentacion;
 
 import LogicaNegocios.*;
+import java.io.IOException;
 import java.util.List;
 
 public class MenuAutoMove {
@@ -8,8 +9,10 @@ public class MenuAutoMove {
     GestorAutoMove gs = new GestorAutoMove();
     GestorRed gsG = new GestorRed();
 
-    public void iniciar() {
+    public void iniciar() throws IOException {
         System.out.println("----------------------------BIENVENIDO USUARIO!----------------------------");
+        gs.recuperarVehiculos();
+        gs.recuperarMisiones();
         int opcion = 10;
         do {
             System.out.println("\n");
@@ -21,7 +24,7 @@ public class MenuAutoMove {
                         System.out.println("Vehiculos cargados correctamente!");
 
                     } else {
-                        System.out.println("Los vehiculos no fueron cargados!");
+                        System.out.println("Los vehiculos ya existen!");
                     }
                     break;
                 case 2:
@@ -109,13 +112,13 @@ public class MenuAutoMove {
         } while (opcionEst != 0);
     }
 
-    private void manejarMenuMisiones() {
+    private void manejarMenuMisiones() throws IOException {
         int opcionEst;
         do {
             System.out.println("\n_____MENU MISIONES_____");
             mostrarMenuMision();
             System.out.println("0. Volver al menu principal");
-            opcionEst = Consola.leerOpcion("Ingrese una opcion: ", 0, 1, 2, 3);
+            opcionEst = Consola.leerOpcion("Ingrese una opcion: ", 0, 1, 2, 3, 4);
 
             switch (opcionEst) {
                 case 1:
@@ -127,6 +130,9 @@ public class MenuAutoMove {
                 case 3:
                     asignarMision();
                     break;
+                case 4:
+                    mostrarMision();
+                    break;
                 case 0:
                     System.out.print("\n\n----------------------------BIENVENIDO USUARIO!----------------------------");
                     break;
@@ -137,14 +143,15 @@ public class MenuAutoMove {
     public void mostrarMenuMision() {
         System.out.println("1. Registrar mision de traslado.\n"
                 + "2. Determinar si un vehiculo se encuentra en condiciones.\n"
-                + "3. Asignar una mision.\n");
+                + "3. Asignar una mision.\n"
+                + "4. Mostrar misiones. \n");
     }
 
     public int leerOpcionMenu() {
         return Consola.leerOpcion("Ingrese una opcion: ", 0, 1, 2, 3, 4, 5, 6, 7);
     }
 
-    private void registrarVehiculo() {
+    private void registrarVehiculo() throws IOException {
         System.out.println("____REGISTRAR VEHICULO____");
         int tipo = leerTipoVehiculo();
         boolean registradoConExito = false;
@@ -189,7 +196,7 @@ public class MenuAutoMove {
         return Consola.leerOpcion("----> ", 1, 2, 3);
     }
 
-    public void eliminarV() {
+    public void eliminarV() throws IOException {
         String codigo;
         Consola.emitirMensaje("Ingrese el codigo del vehiculo a eliminar: ");
         try {
@@ -239,7 +246,7 @@ public class MenuAutoMove {
 
         if (v instanceof VehiculoElectrico) {
             VehiculoElectrico ve = (VehiculoElectrico) v;
-            detalleEspecifico = "\nTipo: Eléctrico"
+            detalleEspecifico = "\nTipo: Electrico"
                     + "\nAutonomia: " + ve.getAutonomia_km() + " km";
 
         } else if (v instanceof Robot) {
@@ -278,7 +285,7 @@ public class MenuAutoMove {
         );
     }
 
-    private void registrarMision() {
+    private void registrarMision() throws IOException {
         System.out.println("____REGISTRAR MISION____");
         System.out.println(" ");
         Consola.emitirMensaje("Codigo de mision: ");
@@ -318,17 +325,25 @@ public class MenuAutoMove {
 
     }
 
-    private void asignarMision() {
+    private void asignarMision() throws IOException {
         if (gs.vehiculoDisponible() != null) {
             System.out.println("_____ASIGNAR MISION____");
             System.out.println(" ");
             Consola.emitirMensaje("Ingresa el codigo del vehiculo para asignarle la mision: ");
             String codigo = Consola.leerString();
-            gs.asignarVehiculo(codigo);
+            if (gs.asignarVehiculo(codigo)) {
+                System.out.println("Mision asignada con exito!");
+            }
         } else {
             System.out.println("NO hay vehiculos o misiones disponibles!");
         }
 
+    }
+
+    public void mostrarMision() throws IOException {
+        for (Mision m : gs.mostrarMisiones()) {
+            System.out.println(m);
+        }
     }
 
     public void registrarEstacion() {
