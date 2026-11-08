@@ -20,36 +20,13 @@ public class GestorAutoMove {
         mAsig_y_Final = new Cola<>();
     }
 
-    /*public boolean cargarVehiculosExistentes() {
-        try {
-            Robot r = new Robot();
-            r.validarDatosBase("01", "Terminator", 80, 50, 120.5, 1);
-            r.validarDatosRobot(1, 15.0);
-            ABB.insertar(r);
-
-            DronAereo d = new DronAereo();
-            d.validarDatosBase("02", "Phantom", 90, 10, 45.0, 1);
-            d.validarDatosDron(25.0, 120.0);
-            ABB.insertar(d);
-
-            VehiculoElectrico ve = new VehiculoElectrico();
-            ve.validarDatosBase("03", "TeslaBot", 100, 200, 300.0, 1);
-            ve.validarDatosElectrico(400.0, "2 horas");
-            ABB.insertar(ve);
-            return true;
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error al cargar datos iniciales: " + e.getMessage());
-        }
-        return false;
-    }*/
-    //PREGUNTAR.
     public boolean cargarVehiculosExistentes() {
         try {
             try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
                 ConversorVehiculos conversor = new ConversorVehiculos();
                 Robot r = new Robot();
                 r.validarDatosBase("01", "Terminator", 80, 50, 120.5, 1);
-                r.validarDatosRobot(1, 15.0);
+                r.validarDatosRobot(1, 16.0);
                 DronAereo d = new DronAereo();
                 d.validarDatosBase("02", "Phantom", 90, 10, 45.0, 1);
                 d.validarDatosDron(25.0, 120.0);

@@ -161,10 +161,10 @@ public class MenuAutoMove {
                 VehiculoAutonomo vehiculo = null;
                 switch (tipo) {
                     case 1:
-                        vehiculo = pedirDatosRobot();
+                        vehiculo = pedirDatosDron();
                         break;
                     case 2:
-                        vehiculo = pedirDatosDron();
+                        vehiculo = pedirDatosRobot();
                         break;
                     case 3:
                         vehiculo = pedirDatosVehiculoElectrico();
@@ -190,8 +190,8 @@ public class MenuAutoMove {
 
     public int leerTipoVehiculo() {
         Consola.emitirMensaje("Seleccione el tipo de vehiculo:"
-                + "\n1 - Robot"
-                + "\n2 - Dron aereo"
+                + "\n1 - Dron aereo"
+                + "\n2 - Robot"
                 + "\n3 - Vehiculo electrico");
         return Consola.leerOpcion("----> ", 1, 2, 3);
     }

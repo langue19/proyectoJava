@@ -21,7 +21,7 @@ public class Mision {
     }
     public void validarMision(String cod_mision, String origen, String destino,
             int distancia, double peso, int prioridad, int estado) {
-        setCod_mision(cod_mision);
+        validarCod(cod_mision);
         validarCod(cod_mision);
         validarOrigen(origen);
         validarDestino(destino);
