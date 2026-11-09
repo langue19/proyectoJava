@@ -2,6 +2,7 @@ package LogicaNegocios;
 
 import AccesoDatos.*;
 import AccesoDatos.Archivos.*;
+import Interface.Recargable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,6 @@ public class GestorAutoMove {
             }
             return true;
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
             return false;
         }
     }
@@ -113,7 +113,6 @@ public class GestorAutoMove {
         } else {
             mAsig_y_Final.encolar(m);
         }
-
         return true;
     }
 
@@ -225,4 +224,15 @@ public class GestorAutoMove {
         }
         misionesRecuperadas = true;
     }
+
+    public List<VehiculoAutonomo> vehiculosQueNecesitanRecarga() {
+        List<VehiculoAutonomo> lista = new ArrayList<>();
+        for (VehiculoAutonomo v : ABB.inOrden()) {
+            if (v instanceof Recargable && ((Recargable) v).necesitaRecarga()) {
+                lista.add(v);
+            }
+        }
+        return lista;
+    }
+
 }

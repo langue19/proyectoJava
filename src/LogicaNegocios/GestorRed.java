@@ -16,14 +16,22 @@ public class GestorRed {
         grafo = new SimpleGraph<>(DefaultEdge.class);
     }
 
-    public boolean registrarEstacion(String cod, String nombre, String zona) {
-        Estacion e = new Estacion();
-        e.validarDatos(cod, nombre, zona);
-        if (grafo.addVertex(e)) {
-            return true;
-        } else {
+    public boolean existeRed() {
+        if (grafo == null) {
             return false;
         }
+        return true;
+    }
+
+    public boolean registrarEstacion(String cod, String nombre, String zona) {
+
+        Estacion e = new Estacion();
+        e.validarDatos(cod, nombre, zona);
+        if (buscarEstacion(cod) != null) {
+            return false;
+        }
+
+        return grafo.addVertex(e);
     }
 
     private Estacion buscarEstacion(String codigo) {
@@ -67,7 +75,6 @@ public class GestorRed {
         return lista;
     }
 
-
     public List<String> mostrarConexiones() {
         List<String> lista = new ArrayList<>();
 
@@ -98,17 +105,22 @@ public class GestorRed {
         return grafo.containsEdge(e1, e2);
     }
 
-
     public List<Estacion> consultarEstacionesVecinas(String codigo) {
-        if (grafo == null || grafo.vertexSet().isEmpty()) {
-            return null;
-        }
-        Estacion estacion = buscarEstacion(codigo);
-        if (estacion == null) {
-            return null;
-        }
+
         List<Estacion> lista = new ArrayList<>();
+
+        if (grafo == null || grafo.vertexSet().isEmpty()) {
+            return lista;
+        }
+
+        Estacion estacion = buscarEstacion(codigo);
+
+        if (estacion == null) {
+            return lista;
+        }
+
         for (DefaultEdge arista : grafo.edgesOf(estacion)) {
+
             Estacion origen = grafo.getEdgeSource(arista);
             Estacion destino = grafo.getEdgeTarget(arista);
 
@@ -118,24 +130,28 @@ public class GestorRed {
                 lista.add(origen);
             }
         }
+
         return lista;
     }
 
     public List<Estacion> recorridoDFS(String codigo) {
+
+        List<Estacion> recorrido = new ArrayList<>();
+
         if (grafo == null || grafo.vertexSet().isEmpty()) {
-            return null;
+            return recorrido;
         }
 
         Estacion inicio = buscarEstacion(codigo);
 
         if (inicio == null) {
-            return null;
+            return recorrido;
         }
-        List<Estacion> recorrido = new ArrayList<>();
+
         Iterator<Estacion> it = new DepthFirstIterator<>(grafo, inicio);
+
         while (it.hasNext()) {
-            Estacion estacion = it.next();
-            recorrido.add(estacion);
+            recorrido.add(it.next());
         }
 
         return recorrido;

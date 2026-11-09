@@ -45,6 +45,9 @@ public class MenuAutoMove {
                 case 7:
                     manejarMenuMisiones();
                     break;
+                case 8:
+                    mostrarNecesitanRecarga();
+                    break;
                 case 0:
                     System.out.println("Saliendo...");
                     break;
@@ -61,7 +64,20 @@ public class MenuAutoMove {
                 + "\n5 - Mostrar vehiculos."
                 + "\n6 - Red de Estaciones."
                 + "\n7 - Misiones."
+                + "\n8 - Mostrar autos a Recargar."
                 + "\n0 - Salir.");
+    }
+
+    private void mostrarNecesitanRecarga() {
+        List<VehiculoAutonomo> lista = gs.vehiculosQueNecesitanRecarga();
+        if (lista.isEmpty()) {
+            Consola.emitirMensajeln("Ningun vehiculo necesita recarga.");
+            return;
+        }
+        Consola.emitirMensajeln("\n---------------------------- VEHICULOS QUE NECESITAN RECARGA ----------------------------");
+        for (VehiculoAutonomo v : lista) {
+            MostrarVehiculo(v);
+        }
     }
 
     public void mostrarMenuEstaciones() {
@@ -87,23 +103,47 @@ public class MenuAutoMove {
                     gsG.crearRed();
                     break;
                 case 2:
-                    registrarEstacion();
+                    if (gsG.existeRed()) {
+                        registrarEstacion();
+                    } else {
+                        Consola.emitirMensaje("\nLa red aun no fue creada.\n");
+                    }
                     break;
                 case 3:
-                    registrarConex();
+                    if (gsG.existeRed()) {
+                        registrarConex();
+                    } else {
+                        Consola.emitirMensaje("\nLa red aun no fue creada.\n");
+                    }
                     break;
                 case 4:
-                    mostrarConexiones();
-                    mostrarEstaciones();
+                    if (gsG.existeRed()) {
+                        mostrarConexiones();
+                        mostrarEstaciones();
+                    } else {
+                        Consola.emitirMensaje("\nLa red aun no fue creada.\n");
+                    }
                     break;
                 case 5:
-                    consultarConexiones();
+                    if (gsG.existeRed()) {
+                        consultarConexiones();
+                    } else {
+                        Consola.emitirMensaje("\nLa red aun no fue creada.\n");
+                    }
                     break;
                 case 6:
-                    mostrarEstacionesVecinas();
+                    if (gsG.existeRed()) {
+                        mostrarEstacionesVecinas();
+                    } else {
+                        Consola.emitirMensaje("\nLa red aun no fue creada.\n");
+                    }
                     break;
                 case 7:
-                    mostrarRecorridoDFS();
+                    if (gsG.existeRed()) {
+                        mostrarRecorridoDFS();
+                    } else {
+                        Consola.emitirMensaje("\nLa red aun no fue creada.\n");
+                    }
                     break;
                 case 0:
                     System.out.print("\n\n----------------------------BIENVENIDO USUARIO!----------------------------");
@@ -148,7 +188,7 @@ public class MenuAutoMove {
     }
 
     public int leerOpcionMenu() {
-        return Consola.leerOpcion("Ingrese una opcion: ", 0, 1, 2, 3, 4, 5, 6, 7);
+        return Consola.leerOpcion("Ingrese una opcion: ", 0, 1, 2, 3, 4, 5, 6, 7, 8);
     }
 
     private void registrarVehiculo() throws IOException {
@@ -242,52 +282,11 @@ public class MenuAutoMove {
     }
 
     private void MostrarVehiculo(VehiculoAutonomo v) {
-        String detalleEspecifico = "";
-
-        if (v instanceof VehiculoElectrico) {
-            VehiculoElectrico ve = (VehiculoElectrico) v;
-            detalleEspecifico = "\nTipo: Electrico"
-                    + "\nAutonomia: " + ve.getAutonomia_km() + " km";
-
-        } else if (v instanceof Robot) {
-            Robot r = (Robot) v;
-            detalleEspecifico = "\nTipo: Robot"
-                    + "\nVelocidad maxima: " + r.getVelocidad_max() + " km/h";
-
-        } else if (v instanceof DronAereo) {
-            DronAereo d = (DronAereo) v;
-            detalleEspecifico = "\nTipo: Dron"
-                    + "\nAltura maxima: " + d.getAltura_max() + " m";
-        }
-        String estadoTexto;
-
-        switch (v.getEstado()) {
-            case 1:
-                estadoTexto = "Activo";
-                break;
-            case 2:
-                estadoTexto = "En mision";
-                break;
-            case 3:
-                estadoTexto = "En mantenimiento";
-                break;
-            default:
-                estadoTexto = "Desconocido";
-        }
-        Consola.emitirMensajeln(
-                "[" + v.getCod_ident() + "] " + v.getModelo()
-                + "\nNivel de bateria: " + v.getNivel_bat() + "%"
-                + "\nCapacidad maxima: " + v.getCapacidad_maxima()
-                + "\nKilometros recorridos: " + v.getKm_reco()
-                + "\nEstado: " + estadoTexto
-                + detalleEspecifico
-                + "\n-------------------------"
-        );
+        System.out.println(v);
     }
 
     private void registrarMision() throws IOException {
         System.out.println("____REGISTRAR MISION____");
-        System.out.println(" ");
         Consola.emitirMensaje("Codigo de mision: ");
         String cod = Consola.leerString();
         Consola.emitirMensaje("Origen: ");
@@ -305,11 +304,12 @@ public class MenuAutoMove {
         try {
             if (gs.registrarMision(cod, origen, des, distancia, peso, prio, estado)) {
                 Consola.emitirMensajeln("Mision registrada correctamente.");
+            } else {
+                Consola.emitirMensajeln("Ya existe una mision con ese codigo.");
             }
         } catch (IllegalArgumentException e) {
             Consola.emitirMensajeln("Error: " + e.getMessage());
         }
-
     }
 
     private void verificarDisponibilidad() {
@@ -333,6 +333,8 @@ public class MenuAutoMove {
             String codigo = Consola.leerString();
             if (gs.asignarVehiculo(codigo)) {
                 System.out.println("Mision asignada con exito!");
+            } else {
+                System.out.println("El vehiculo no existe.");
             }
         } else {
             System.out.println("NO hay vehiculos o misiones disponibles!");
@@ -386,10 +388,8 @@ public class MenuAutoMove {
     public void consultarConexiones() {
         System.out.println("Codigo de la primera estacion:");
         String cod11 = Consola.leerString();
-
         System.out.println("Codigo de la segunda estacion:");
         String cod22 = Consola.leerString();
-
         if (gsG.consultarConexionDirecta(cod11, cod22)) {
             System.out.println("La conexion entre las estaciones, existe!");
         } else {
@@ -400,18 +400,16 @@ public class MenuAutoMove {
     public void mostrarEstacionesVecinas() {
         Consola.emitirMensajeln("Ingrese el codigo de la estacion:");
         String codigo = Consola.leerString();
-
         List<Estacion> listaVecinas = gsG.consultarEstacionesVecinas(codigo);
-
         if (listaVecinas.isEmpty()) {
             Consola.emitirMensajeln(
                     "La estacion no existe o no tiene estaciones vecinas."
             );
             return;
         }
-
-        Consola.emitirMensajeln("\n----------------------------ESTACIONES VECINAS ----------------------------");
-
+        Consola.emitirMensajeln(
+                "\n---------------------------- ESTACIONES VECINAS ----------------------------"
+        );
         for (Estacion e : listaVecinas) {
             Consola.emitirMensajeln(e.getCod_id());
         }
@@ -420,16 +418,16 @@ public class MenuAutoMove {
     public void mostrarRecorridoDFS() {
         Consola.emitirMensajeln("Ingrese el codigo de la estacion inicial:");
         String codigo = Consola.leerString();
-
         List<Estacion> recorrido = gsG.recorridoDFS(codigo);
-
         if (recorrido.isEmpty()) {
-            Consola.emitirMensajeln("No hay estaciones para recorrer o el codigo no existe.");
+            Consola.emitirMensajeln(
+                    "No hay estaciones para recorrer o el codigo no existe."
+            );
             return;
         }
-
-        Consola.emitirMensajeln("\n---------------------------- RECORRIDO DFS ----------------------------");
-
+        Consola.emitirMensajeln(
+                "\n---------------------------- RECORRIDO DFS ----------------------------"
+        );
         for (Estacion e : recorrido) {
             Consola.emitirMensajeln(e.getCod_id());
         }
@@ -437,14 +435,11 @@ public class MenuAutoMove {
 
     public void mostrarConexiones() {
         List<String> listaConexiones = gsG.mostrarConexiones();
-
         if (listaConexiones == null || listaConexiones.isEmpty()) {
             Consola.emitirMensajeln("No hay conexiones registradas");
             return;
         }
-
         Consola.emitirMensajeln("\n---------------------------- CONEXIONES ENTRE ESTACIONES ----------------------------");
-
         for (String conexion : listaConexiones) {
             Consola.emitirMensajeln(conexion);
         }
@@ -452,14 +447,11 @@ public class MenuAutoMove {
 
     public void mostrarEstaciones() {
         List<Estacion> listaEstaciones = gsG.mostrarEstaciones();
-
         if (listaEstaciones.isEmpty()) {
             Consola.emitirMensajeln("No hay estaciones registradas");
             return;
         }
-
         Consola.emitirMensajeln("\n---------------------------- ESTACIONES REGISTRADAS ----------------------------");
-
         for (Estacion e : listaEstaciones) {
             Consola.emitirMensajeln(e.toString());
         }
