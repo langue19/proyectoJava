@@ -313,16 +313,16 @@ public class MenuAutoMove {
     }
 
     private void verificarDisponibilidad() {
-        if (gs.vehiculoDisponible() != null) {
-            List<VehiculoAutonomo> disponibles = gs.vehiculoDisponible();
+        List<VehiculoAutonomo> disponibles = gs.vehiculoDisponible();
+        if (!disponibles.isEmpty()) {
             System.out.println("_____VEHICULOS DISPONIBLES____");
+
             for (VehiculoAutonomo v : disponibles) {
                 System.out.println(v);
             }
         } else {
             System.out.println("NO hay vehiculos disponibles!");
         }
-
     }
 
     private void asignarMision() throws IOException {

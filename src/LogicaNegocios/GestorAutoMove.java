@@ -117,10 +117,10 @@ public class GestorAutoMove {
     }
 
     public List<VehiculoAutonomo> vehiculoDisponible() {
-        if (mPendientes.colaVacia()) {
-            return null;
-        }
         List<VehiculoAutonomo> disponibles = new ArrayList<>();
+        if (mPendientes.colaVacia()) {
+            return disponibles;
+        }
         NodoCola<Mision> frente = mPendientes.getFrente();
         Mision mision = frente.getDato();
         List<VehiculoAutonomo> todosLosVehiculos = ABB.inOrden();
