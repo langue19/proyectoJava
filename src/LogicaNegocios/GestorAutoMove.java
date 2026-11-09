@@ -2,6 +2,7 @@ package LogicaNegocios;
 
 import AccesoDatos.*;
 import AccesoDatos.Archivos.*;
+import Excepciones.VehiculoNoEncontradoException;
 import Interface.Recargable;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,20 +67,27 @@ public class GestorAutoMove {
         return true;
     }
 
-    public VehiculoAutonomo buscarVehiculo(String codigo) {
+    public VehiculoAutonomo buscarVehiculo(String codigo) throws VehiculoNoEncontradoException {
         DronAereo aux = new DronAereo();
         aux.validarCodigo(codigo);
-        return ABB.buscar(aux);
+
+        VehiculoAutonomo vehiculo = ABB.buscar(aux);
+        if (vehiculo == null) {
+            throw new VehiculoNoEncontradoException(codigo);
+        }
+
+        return vehiculo;
     }
 
-    public boolean eliminarVehiculo(String codigo) throws IOException {
+    public boolean eliminarVehiculo(String codigo) throws IOException, VehiculoNoEncontradoException {
+        // Si no lo encuentra, buscarVehiculo lanza la excepción automáticamente
         VehiculoAutonomo v = buscarVehiculo(codigo);
-        if (v == null) {
-            return false;
-        }
+
         try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
+            // Asegúrate de que archivo.eliminar reciba el tipo correcto (int o String según tu archivo)
             archivo.eliminar(Integer.parseInt(codigo));
         }
+
         ABB.eliminar(v);
         return true;
     }
@@ -132,7 +140,7 @@ public class GestorAutoMove {
         return disponibles;
     }
 
-    public boolean asignarVehiculo(String codigo) throws IOException {
+    public boolean asignarVehiculo(String codigo) throws IOException, VehiculoNoEncontradoException {
         if (mPendientes.colaVacia()) {
             return false;
         }
@@ -168,7 +176,7 @@ public class GestorAutoMove {
         return misiones;
     }
 
-    public boolean actualizarEstadoVehiculo(String codigo) throws IOException {
+    public boolean actualizarEstadoVehiculo(String codigo) throws IOException, VehiculoNoEncontradoException {
         VehiculoAutonomo vehiculo = buscarVehiculo(codigo);
         if (vehiculo == null) {
             return false;

@@ -1,5 +1,6 @@
 package Presentacion;
 
+import Excepciones.VehiculoNoEncontradoException;
 import LogicaNegocios.*;
 import java.io.IOException;
 import java.util.List;
@@ -236,20 +237,24 @@ public class MenuAutoMove {
         return Consola.leerOpcion("----> ", 1, 2, 3);
     }
 
-    public void eliminarV() throws IOException {
-        String codigo;
-        Consola.emitirMensaje("Ingrese el codigo del vehiculo a eliminar: ");
-        try {
-            codigo = Consola.leerString();
-            if (gs.eliminarVehiculo(codigo)) {
-                Consola.emitirMensajeln("Vehiculo eliminado!");
-            } else {
-                Consola.emitirMensajeln("Vehiculo no encontrado");
-            }
-        } catch (IllegalArgumentException e) {
-            Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
-        }
+   public void eliminarV() {
+    Consola.emitirMensaje("Ingrese el codigo del vehiculo a eliminar: ");
+    try {
+        String codigo = Consola.leerString();
+        gs.eliminarVehiculo(codigo);
+        Consola.emitirMensajeln("Vehiculo eliminado con exito!");
+        
+    } catch (VehiculoNoEncontradoException e) {
+        // Se dispara si el vehículo no se encuentra en el Árbol Binario de Búsqueda
+        Consola.emitirMensajeln(e.getMessage());
+    } catch (IllegalArgumentException e) {
+        // Se dispara si el código ingresado tiene un formato incorrecto
+        Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
+    } catch (IOException e) {
+        // Se dispara si ocurre un fallo al manipular el archivo VEHICULOS.DAT
+        Consola.emitirMensajeln("Error de E/S al actualizar el archivo de vehiculos: " + e.getMessage());
     }
+}
 
     public void mostrarV() {
         int op = leerTipoRecorrido();
@@ -327,20 +332,35 @@ public class MenuAutoMove {
 
     private void asignarMision() throws IOException {
         if (gs.vehiculoDisponible() != null) {
-            System.out.println("_____ASIGNAR MISION____");
-            System.out.println(" ");
+        System.out.println("_____ASIGNAR MISION____");
+        System.out.println();
+        
+        try {
             Consola.emitirMensaje("Ingresa el codigo del vehiculo para asignarle la mision: ");
             String codigo = Consola.leerString();
+            
+            // Si el vehículo existe pero no cumple condiciones (ej. estado != 1), retorna false
             if (gs.asignarVehiculo(codigo)) {
                 System.out.println("Mision asignada con exito!");
             } else {
-                System.out.println("El vehiculo no existe.");
+                System.out.println("No se pudo asignar la mision. El vehiculo no esta disponible o no es compatible.");
             }
-        } else {
-            System.out.println("NO hay vehiculos o misiones disponibles!");
+            
+        } catch (VehiculoNoEncontradoException e) {
+            // Se dispara si el ABB.buscar(aux) no encuentra el vehículo introducido
+            System.out.println(e.getMessage()); 
+        } catch (IllegalArgumentException e) {
+            // Se dispara si el código ingresado tiene un formato incorrecto
+            System.out.println("Error en los datos: " + e.getMessage());
+        } catch (IOException e) {
+            // Se dispara si falla la escritura en el archivo de misiones
+            System.out.println("Error de E/S al procesar el archivo: " + e.getMessage());
         }
-
+        
+    } else {
+        System.out.println("NO hay vehiculos o misiones disponibles!");
     }
+}
 
     public void mostrarMision() throws IOException {
         for (Mision m : gs.mostrarMisiones()) {
@@ -458,17 +478,21 @@ public class MenuAutoMove {
     }
 
     public void buscarV() {
-        String codigo;
         Consola.emitirMensaje("Ingrese el codigo del vehiculo a buscar: ");
         try {
-            codigo = Consola.leerString();
-            if (gs.buscarVehiculo(codigo) != null) {
-                Consola.emitirMensajeln("Vehiculo encontrado!");
-                System.out.println(gs.buscarVehiculo(codigo));
-            } else {
-                System.out.println("Veniculo no encontrado");
-            }
+            String codigo = Consola.leerString();
+
+            // Si no se encuentra o el código es inválido, saltará directamente a su respectivo catch
+            VehiculoAutonomo vehiculo = gs.buscarVehiculo(codigo);
+
+            Consola.emitirMensajeln("Vehiculo encontrado!");
+            System.out.println(vehiculo);
+
+        } catch (VehiculoNoEncontradoException e) {
+            // Captura cuando el vehículo no está en el ABB
+            Consola.emitirMensajeln(e.getMessage());
         } catch (IllegalArgumentException e) {
+            // Captura cuando la validación del código falla (ej. caracteres no permitidos)
             Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
         }
     }
