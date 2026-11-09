@@ -55,21 +55,21 @@ public class GestorAutoMove {
         }
     }
 
-   public boolean registrarNuevoVehiculo(VehiculoAutonomo v) throws IOException, CodigoDuplicadoException {
-    if (ABB.buscar(v) != null) {
-        throw new CodigoDuplicadoException("vehiculo", v.getCod_ident()); 
+    public boolean registrarNuevoVehiculo(VehiculoAutonomo v) throws IOException, CodigoDuplicadoException {
+        if (ABB.buscar(v) != null) {
+            throw new CodigoDuplicadoException("vehiculo", v.getCod_ident());
+        }
+
+        ConversorVehiculos conversor = new ConversorVehiculos();
+        RegistroVehiculo registro = conversor.aRegistro(v);
+
+        try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
+            archivo.guardar(registro);
+        }
+
+        ABB.insertar(v);
+        return true;
     }
-    
-    ConversorVehiculos conversor = new ConversorVehiculos();
-    RegistroVehiculo registro = conversor.aRegistro(v);
-    
-    try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
-        archivo.guardar(registro);
-    }
-    
-    ABB.insertar(v);
-    return true;
-}
 
     public VehiculoAutonomo buscarVehiculo(String codigo) throws VehiculoNoEncontradoException {
         DronAereo aux = new DronAereo();
@@ -108,32 +108,32 @@ public class GestorAutoMove {
         return lista;
     }
 
-   public boolean registrarMision(String cod, String origen, String des,
-        int dist, double peso, int prio, int e) throws IOException, CodigoDuplicadoException {
-    
-    Mision m = new Mision();
-    m.validarMision(cod, origen, des, dist, peso, prio, e);
-    
-    ConversorMisiones conversor = new ConversorMisiones();
-    
-    try (ArchivoMisiones archivo = new ArchivoMisiones("MISIONES.DAT")) {
-        RegistroMisiones registro = conversor.aRegistro(m);
-        
-        // Si ya existe, lanzamos la excepción en lugar de retornar false
-        if (archivo.buscar(registro.getCodigo()) != null) {
-            throw new CodigoDuplicadoException("mision", cod);
+    public boolean registrarMision(String cod, String origen, String des,
+            int dist, double peso, int prio, int e) throws IOException, CodigoDuplicadoException {
+
+        Mision m = new Mision();
+        m.validarMision(cod, origen, des, dist, peso, prio, e);
+
+        ConversorMisiones conversor = new ConversorMisiones();
+
+        try (ArchivoMisiones archivo = new ArchivoMisiones("MISIONES.DAT")) {
+            RegistroMisiones registro = conversor.aRegistro(m);
+
+            // Si ya existe, lanzamos la excepción en lugar de retornar false
+            if (archivo.buscar(registro.getCodigo()) != null) {
+                throw new CodigoDuplicadoException("mision", cod);
+            }
+
+            archivo.guardar(registro);
         }
-        
-        archivo.guardar(registro);
+
+        if (m.getEstado() == 1) {
+            mPendientes.encolar(m);
+        } else {
+            mAsig_y_Final.encolar(m);
+        }
+        return true;
     }
-    
-    if (m.getEstado() == 1) {
-        mPendientes.encolar(m);
-    } else {
-        mAsig_y_Final.encolar(m);
-    }
-    return true;
-}
 
     public List<VehiculoAutonomo> vehiculoDisponible() {
         List<VehiculoAutonomo> disponibles = new ArrayList<>();
@@ -242,6 +242,22 @@ public class GestorAutoMove {
             }
         }
         misionesRecuperadas = true;
+    }
+
+    public boolean recargarVehiculo(String codigo) throws VehiculoNoEncontradoException {
+        VehiculoAutonomo v = buscarVehiculo(codigo);
+        if (v == null) {
+            return false;
+        }
+        if (!(v instanceof Recargable)) {
+            return false;
+        }
+        Recargable r = (Recargable) v;
+        if (!r.necesitaRecarga()) {
+            return false;
+        }
+        r.recargar();
+        return true;
     }
 
     public List<VehiculoAutonomo> vehiculosQueNecesitanRecarga() {

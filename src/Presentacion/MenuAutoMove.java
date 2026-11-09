@@ -11,7 +11,7 @@ public class MenuAutoMove {
     GestorAutoMove gs = new GestorAutoMove();
     GestorRed gsG = new GestorRed();
 
-    public void iniciar() throws IOException {
+    public void iniciar() throws IOException, VehiculoNoEncontradoException {
         System.out.println("----------------------------BIENVENIDO USUARIO!----------------------------");
         gs.recuperarVehiculos();
         gs.recuperarMisiones();
@@ -70,15 +70,22 @@ public class MenuAutoMove {
                 + "\n0 - Salir.");
     }
 
-    private void mostrarNecesitanRecarga() {
+    private void mostrarNecesitanRecarga() throws VehiculoNoEncontradoException {
         List<VehiculoAutonomo> lista = gs.vehiculosQueNecesitanRecarga();
         if (lista.isEmpty()) {
             Consola.emitirMensajeln("Ningun vehiculo necesita recarga.");
             return;
         }
-        Consola.emitirMensajeln("\n---------------------------- VEHICULOS QUE NECESITAN RECARGA ----------------------------");
+        Consola.emitirMensajeln("\n-------- VEHICULOS QUE NECESITAN RECARGA --------");
         for (VehiculoAutonomo v : lista) {
             MostrarVehiculo(v);
+        }
+        Consola.emitirMensaje("\nIngrese el codigo del vehiculo que desea recargar: ");
+        String codigo = Consola.leerString();
+        if (gs.recargarVehiculo(codigo)) {
+            Consola.emitirMensajeln("Vehiculo recargado correctamente.");
+        } else {
+            Consola.emitirMensajeln("No se pudo recargar el vehiculo. Verifique el codigo.");
         }
     }
 
@@ -311,16 +318,16 @@ public class MenuAutoMove {
         int prio = Consola.leerInt();
         Consola.emitirMensaje("Estado de la mision:\n 1-Pendiente\n 2-Asignado\n 3-Finalizado\n----> ");
         int estado = Consola.leerInt();
-       try {
-        gs.registrarMision(cod, origen, des, distancia, peso, prio, estado);
-        Consola.emitirMensajeln("Mision registrada correctamente.");
-        
-    } catch (CodigoDuplicadoException e) {
-        Consola.emitirMensajeln(e.getMessage());
-        
-    } catch (IllegalArgumentException e) {
-        Consola.emitirMensajeln("Error: " + e.getMessage());
-    }
+        try {
+            gs.registrarMision(cod, origen, des, distancia, peso, prio, estado);
+            Consola.emitirMensajeln("Mision registrada correctamente.");
+
+        } catch (CodigoDuplicadoException e) {
+            Consola.emitirMensajeln(e.getMessage());
+
+        } catch (IllegalArgumentException e) {
+            Consola.emitirMensajeln("Error: " + e.getMessage());
+        }
     }
 
     private void verificarDisponibilidad() {
