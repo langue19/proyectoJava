@@ -140,7 +140,7 @@ public class GestorAutoMove {
         if (vehiculo == null || vehiculo.getEstado() != 1) {
             return false;
         }
-        Mision mision = mPendientes.getFrente().getDato();
+        Mision mision = mPendientes.consultarFrente();
         if (!vehiculo.puedeRealizarMision(mision)) {
             return false;
         }
