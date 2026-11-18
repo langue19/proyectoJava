@@ -71,14 +71,11 @@ public class GestorAutoMove {
         return true;
     }
 
-    public VehiculoAutonomo buscarVehiculo(String codigo) throws VehiculoNoEncontradoException {
+    public VehiculoAutonomo buscarVehiculo(String codigo){
         DronAereo aux = new DronAereo();
         aux.validarCodigo(codigo);
 
         VehiculoAutonomo vehiculo = ABB.buscar(aux);
-        if (vehiculo == null) {
-            throw new VehiculoNoEncontradoException(codigo);
-        }
 
         return vehiculo;
     }
@@ -244,7 +241,7 @@ public class GestorAutoMove {
         misionesRecuperadas = true;
     }
 
-    public boolean recargarVehiculo(String codigo) throws VehiculoNoEncontradoException {
+    public boolean recargarVehiculo(String codigo){
         VehiculoAutonomo v = buscarVehiculo(codigo);
         if (v == null) {
             return false;

@@ -11,7 +11,7 @@ public class MenuAutoMove {
     GestorAutoMove gs = new GestorAutoMove();
     GestorRed gsG = new GestorRed();
 
-    public void iniciar() throws IOException, VehiculoNoEncontradoException {
+    public void iniciar() throws IOException{
         System.out.println("----------------------------BIENVENIDO USUARIO!----------------------------");
         gs.recuperarVehiculos();
         gs.recuperarMisiones();
@@ -70,7 +70,7 @@ public class MenuAutoMove {
                 + "\n0 - Salir.");
     }
 
-    private void mostrarNecesitanRecarga() throws VehiculoNoEncontradoException {
+    private void mostrarNecesitanRecarga(){
         List<VehiculoAutonomo> lista = gs.vehiculosQueNecesitanRecarga();
         if (lista.isEmpty()) {
             Consola.emitirMensajeln("Ningun vehiculo necesita recarga.");
@@ -500,10 +500,6 @@ public class MenuAutoMove {
 
             Consola.emitirMensajeln("Vehiculo encontrado!");
             System.out.println(vehiculo);
-
-        } catch (VehiculoNoEncontradoException e) {
-            // Captura cuando el vehículo no está en el ABB
-            Consola.emitirMensajeln(e.getMessage());
         } catch (IllegalArgumentException e) {
             // Captura cuando la validación del código falla (ej. caracteres no permitidos)
             Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
