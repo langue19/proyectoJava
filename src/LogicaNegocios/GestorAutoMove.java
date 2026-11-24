@@ -13,7 +13,7 @@ public class GestorAutoMove {
 
     private final ArbolABB<VehiculoAutonomo> ABB;
     private final Cola<Mision> mPendientes;
-    private Cola<Mision> mAsig_y_Final;
+    private final Cola<Mision> mAsig_y_Final;
     private boolean vehiculosRecuperados = false;
     private boolean misionesRecuperadas = false;
 
