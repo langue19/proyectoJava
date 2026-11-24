@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 /**
  * Acceso directo POR POSICION; búsqueda por código mediante recorrido
  * secuencial.
+ * @param <T>
  */
 public class ArchivoAccesoDirecto<T extends RegistroFijo> implements AutoCloseable {
 

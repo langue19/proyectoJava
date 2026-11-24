@@ -28,6 +28,7 @@ public class Robot extends VehiculoAutonomo {
         return "";
     }
 
+    @Override
     protected double bateriaNecesaria(int distancia) {
         return 20; //el robot necesita al menos 20% de bateria para salir.
     }

@@ -28,6 +28,7 @@ public class DronAereo extends VehiculoAutonomo {
         return "";
     }
 
+    @Override
     protected double bateriaNecesaria(int distancia) {
         return distancia / autonomia_vuelo * 100; //Regla de tres. 
     }

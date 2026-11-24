@@ -33,6 +33,7 @@ public class VehiculoElectrico extends VehiculoAutonomo implements Recargable {
     
     
     //-----Restricciones para saber si está apto para realizar una mision-----
+    @Override
     protected double bateriaNecesaria(int distancia) {
         return distancia / autonomia_km * 100;
     }
@@ -43,10 +44,12 @@ public class VehiculoElectrico extends VehiculoAutonomo implements Recargable {
     }
 
     ///-----implementacion de Recargable-----
+    @Override
     public void recargar() {
         setNivel_bat(100);
     }
 
+    @Override
     public boolean necesitaRecarga() {
         return nivel_bat < 20;
     }

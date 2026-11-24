@@ -11,8 +11,8 @@ import java.util.List;
 
 public class GestorAutoMove {
 
-    private ArbolABB<VehiculoAutonomo> ABB;
-    private Cola<Mision> mPendientes;
+    private final ArbolABB<VehiculoAutonomo> ABB;
+    private final Cola<Mision> mPendientes;
     private Cola<Mision> mAsig_y_Final;
     private boolean vehiculosRecuperados = false;
     private boolean misionesRecuperadas = false;
@@ -29,6 +29,7 @@ public class GestorAutoMove {
      * Los errores de E/S se propagan (ya no se ocultan con catch Exception).
      *
      * @return true si se incorporo al menos un vehiculo nuevo
+     * @throws java.io.IOException
      */
     public boolean cargarVehiculosExistentes() throws IOException {
         Robot r = new Robot();
