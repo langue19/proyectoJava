@@ -10,7 +10,7 @@ public class Cola<G> {
         this.fondo = null;
     }
 
-    public NodoCola<G> getFrente() {
+    public NodoCola<G> getFrente() { //devuelve el nodo completo (incluyendo su enlace al nodo sge)
         return frente;
     }
 
@@ -24,7 +24,7 @@ public class Cola<G> {
         return frente == null;
     }
 
-    public G consultarFrente() {
+    public G consultarFrente() {   //devuelve directamente el dato almacenado (G)
         if (colaVacia()) {
             return null;
         }

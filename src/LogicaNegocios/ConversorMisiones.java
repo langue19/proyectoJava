@@ -13,11 +13,14 @@ public class ConversorMisiones {
                 m.getDistancia(),
                 m.getPeso(),
                 (byte) m.getPrioridad(),
-                (byte) m.getEstado()
+                (byte) m.getEstado(),
+                m.getVehiculoAsignado() == null ? 0 : Integer.parseInt(m.getVehiculoAsignado().getCod_ident())
         );
     }
 
     // RECUPERAR: RegistroMisiones -> Mision
+    // El vehiculo asignado NO se resuelve aca: lo hace la capa de negocio (GestorAutoMove)
+    // una vez que los vehiculos ya fueron recuperados.
     public Mision aMision(RegistroMisiones r) {
 
         Mision m = new Mision();

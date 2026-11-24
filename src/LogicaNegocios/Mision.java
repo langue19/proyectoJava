@@ -9,6 +9,7 @@ public class Mision {
     private double peso;
     private int prioridad; //1-Alta 2-Media 3-Baja 
     private int estado; // 1-Pendiente 2-Asignado 3-Finalizado
+    private VehiculoAutonomo vehiculoAsignado; // null mientras no tenga vehiculo
 
     public Mision() {
         this.cod_mision = "";
@@ -81,6 +82,14 @@ public class Mision {
         setEstado(estado);
     }
     
+    public VehiculoAutonomo getVehiculoAsignado() {
+        return vehiculoAsignado;
+    }
+
+    public void setVehiculoAsignado(VehiculoAutonomo vehiculoAsignado) {
+        this.vehiculoAsignado = vehiculoAsignado;
+    }
+
     public void cambiarEstado(int e){
         setEstado(e); 
     }
@@ -178,6 +187,7 @@ public class Mision {
                 + "\n | Distancia: " + distancia + " km"
                 + "\n | Peso: " + peso + " kg"
                 + "\n | Prioridad: " + prioridadTexto
-                + "\n | Estado: " + estadoTexto;
+                + "\n | Estado: " + estadoTexto
+                + (vehiculoAsignado != null ? "\n | Vehiculo asignado: " + vehiculoAsignado.getCod_ident() : "");
     }
 }

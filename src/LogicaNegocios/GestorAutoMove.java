@@ -23,36 +23,35 @@ public class GestorAutoMove {
         mAsig_y_Final = new Cola<>();
     }
 
-    public boolean cargarVehiculosExistentes() {
-        try {
-            try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
-                ConversorVehiculos conversor = new ConversorVehiculos();
-                Robot r = new Robot();
-                r.validarDatosBase("01", "Terminator", 80, 50, 120.5, 1);
-                r.validarDatosRobot(1, 16.0);
-                DronAereo d = new DronAereo();
-                d.validarDatosBase("02", "Phantom", 90, 10, 45.0, 1);
-                d.validarDatosDron(25.0, 120.0);
-                VehiculoElectrico ve = new VehiculoElectrico();
-                ve.validarDatosBase("03", "TeslaBot", 100, 200, 300.0, 1);
-                ve.validarDatosElectrico(400.0, "2 horas");
-                VehiculoAutonomo[] iniciales = {r, d, ve};
-                for (VehiculoAutonomo v : iniciales) {
-                    RegistroVehiculo registro = conversor.aRegistro(v);
-                    if (archivo.buscar(registro.getCodigo()) != null) {
-                        return false;
-                    }
-                    archivo.guardar(registro);
+    /**
+     * Carga los vehiculos de ejemplo. Cada uno pasa por registrarNuevoVehiculo
+     * (archivo + ABB). Los que ya existian se omiten sin cortar el proceso.
+     * Los errores de E/S se propagan (ya no se ocultan con catch Exception).
+     *
+     * @return true si se incorporo al menos un vehiculo nuevo
+     */
+    public boolean cargarVehiculosExistentes() throws IOException {
+        Robot r = new Robot();
+        r.validarDatosBase("1", "Terminator", 80, 50, 120.5, 1);
+        r.validarDatosRobot(1, 16.0);
+        DronAereo d = new DronAereo();
+        d.validarDatosBase("2", "Phantom", 90, 10, 45.0, 1);
+        d.validarDatosDron(25.0, 120.0);
+        VehiculoElectrico ve = new VehiculoElectrico();
+        ve.validarDatosBase("3", "TeslaBot", 100, 200, 300.0, 1);
+        ve.validarDatosElectrico(400.0, "2 horas");
 
-                    if (ABB.buscar(v) == null) {
-                        ABB.insertar(v);
-                    }
-                }
+        VehiculoAutonomo[] iniciales = {r, d, ve};
+        int cargados = 0;
+        for (VehiculoAutonomo v : iniciales) {
+            try {
+                registrarNuevoVehiculo(v);
+                cargados++;
+            } catch (CodigoDuplicadoException e) {
+                // ya estaba registrado: se omite y se continua con el siguiente
             }
-            return true;
-        } catch (Exception e) {
-            return false;
         }
+        return cargados > 0;
     }
 
     public boolean registrarNuevoVehiculo(VehiculoAutonomo v) throws IOException, CodigoDuplicadoException {
@@ -71,11 +70,14 @@ public class GestorAutoMove {
         return true;
     }
 
-    public VehiculoAutonomo buscarVehiculo(String codigo){
+    public VehiculoAutonomo buscarVehiculo(String codigo) throws VehiculoNoEncontradoException {
         DronAereo aux = new DronAereo();
         aux.validarCodigo(codigo);
 
         VehiculoAutonomo vehiculo = ABB.buscar(aux);
+        if (vehiculo == null) {
+            throw new VehiculoNoEncontradoException(codigo);
+        }
 
         return vehiculo;
     }
@@ -152,21 +154,34 @@ public class GestorAutoMove {
         if (mPendientes.colaVacia()) {
             return false;
         }
-        VehiculoAutonomo vehiculo = buscarVehiculo(codigo);
-        if (vehiculo == null || vehiculo.getEstado() != 1) {
+        VehiculoAutonomo vehiculo = buscarVehiculo(codigo); // lanza excepcion si no existe
+        if (vehiculo.getEstado() != 1) {
             return false;
         }
         Mision mision = mPendientes.consultarFrente();
         if (!vehiculo.puedeRealizarMision(mision)) {
             return false;
         }
-        if (!actualizarEstadoVehiculo(codigo)) {
-            return false;
-        }
+
+        int estadoPrevio = vehiculo.getEstado();
+        vehiculo.actualizarEstado(2);
         mision.cambiarEstado(2);
-        ConversorMisiones cm = new ConversorMisiones();
-        try (ArchivoMisiones archivo = new ArchivoMisiones("MISIONES.DAT")) {
-            archivo.modificar(cm.aRegistro(mision));
+        mision.setVehiculoAsignado(vehiculo);
+        try {
+            persistirVehiculo(vehiculo);
+            persistirMision(mision);
+        } catch (IOException | RuntimeException e) {
+            // Si algo falla, se deshace el cambio en memoria para no dejar
+            // diferencias entre los objetos y los archivos.
+            vehiculo.actualizarEstado(estadoPrevio);
+            mision.cambiarEstado(1);
+            mision.setVehiculoAsignado(null);
+            try {
+                persistirVehiculo(vehiculo);
+            } catch (IOException ignorada) {
+                // mejor esfuerzo: se propaga el error original
+            }
+            throw e;
         }
         mPendientes.desencolar();
         mAsig_y_Final.encolar(mision);
@@ -175,10 +190,9 @@ public class GestorAutoMove {
 
     public List<Mision> mostrarMisiones() throws IOException {
         List<Mision> misiones = new ArrayList<>();
-        ConversorMisiones conversor = new ConversorMisiones();
         try (ArchivoMisiones archivo = new ArchivoMisiones("MISIONES.DAT")) {
             for (RegistroMisiones r : archivo.recuperarActivos()) {
-                misiones.add(conversor.aMision(r));
+                misiones.add(construirMision(r));
             }
         }
         return misiones;
@@ -186,27 +200,39 @@ public class GestorAutoMove {
 
     public boolean actualizarEstadoVehiculo(String codigo) throws IOException, VehiculoNoEncontradoException {
         VehiculoAutonomo vehiculo = buscarVehiculo(codigo);
-        if (vehiculo == null) {
-            return false;
-        }
         vehiculo.actualizarEstado(2);
-        ConversorVehiculos conversor = new ConversorVehiculos();
-        RegistroVehiculo registro = conversor.aRegistro(vehiculo);
-
-        try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
-            archivo.modificar(registro);
-        }
+        persistirVehiculo(vehiculo);
         return true;
     }
 
-    public void guardarVehiculos() throws IOException {
+    /** Reescribe en VEHICULOS.DAT el estado actual del vehiculo. */
+    private void persistirVehiculo(VehiculoAutonomo v) throws IOException {
         try (ArchivoVehiculos archivo = new ArchivoVehiculos("VEHICULOS.DAT")) {
-            ConversorVehiculos conversor = new ConversorVehiculos();
-            for (VehiculoAutonomo v : ABB.inOrden()) {
-                RegistroVehiculo registro = conversor.aRegistro(v);
-                archivo.guardar(registro);
+            archivo.modificar(new ConversorVehiculos().aRegistro(v));
+        }
+    }
+
+    /** Reescribe en MISIONES.DAT el estado actual de la mision. */
+    private void persistirMision(Mision m) throws IOException {
+        try (ArchivoMisiones archivo = new ArchivoMisiones("MISIONES.DAT")) {
+            archivo.modificar(new ConversorMisiones().aRegistro(m));
+        }
+    }
+
+    /**
+     * Convierte un registro en Mision y restablece su relacion con el vehiculo
+     * usando el codigo guardado. Requiere que los vehiculos ya esten en el ABB.
+     */
+    private Mision construirMision(RegistroMisiones r) {
+        Mision m = new ConversorMisiones().aMision(r);
+        if (r.getCodigoVehiculo() > 0) {
+            try {
+                m.setVehiculoAsignado(buscarVehiculo(String.valueOf(r.getCodigoVehiculo())));
+            } catch (VehiculoNoEncontradoException e) {
+                // el vehiculo fue dado de baja: la mision queda sin relacion
             }
         }
+        return m;
     }
 
     public void recuperarVehiculos() throws IOException {
@@ -227,10 +253,9 @@ public class GestorAutoMove {
         if (misionesRecuperadas) {
             return;
         }
-        ConversorMisiones conversor = new ConversorMisiones();
         try (ArchivoMisiones archivo = new ArchivoMisiones("MISIONES.DAT")) {
             for (RegistroMisiones r : archivo.recuperarActivos()) {
-                Mision m = conversor.aMision(r);
+                Mision m = construirMision(r);
                 if (m.getEstado() == 1) {
                     mPendientes.encolar(m);
                 } else {
@@ -241,11 +266,8 @@ public class GestorAutoMove {
         misionesRecuperadas = true;
     }
 
-    public boolean recargarVehiculo(String codigo){
+    public boolean recargarVehiculo(String codigo) throws VehiculoNoEncontradoException, IOException {
         VehiculoAutonomo v = buscarVehiculo(codigo);
-        if (v == null) {
-            return false;
-        }
         if (!(v instanceof Recargable)) {
             return false;
         }
@@ -253,7 +275,14 @@ public class GestorAutoMove {
         if (!r.necesitaRecarga()) {
             return false;
         }
+        int bateriaPrevia = v.getNivel_bat();
         r.recargar();
+        try {
+            persistirVehiculo(v); // la recarga ahora tambien se guarda en el archivo
+        } catch (IOException e) {
+            v.setNivel_bat(bateriaPrevia); // se deshace el cambio en memoria
+            throw e;
+        }
         return true;
     }
 

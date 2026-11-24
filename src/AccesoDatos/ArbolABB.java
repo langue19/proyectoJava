@@ -14,12 +14,12 @@ public class ArbolABB<T extends Comparable<T>> {
         return raiz == null;
     }
     public void insertar(T dato) {
-        raiz = insertarRecursivo(raiz, dato);
+        raiz = insertarRecursivo(raiz, dato); //<---la recursividad devuelve un nodo 
     }
 
-    private NodoABB insertarRecursivo(NodoABB<T> nodo, T dato) {
+    private NodoABB<T> insertarRecursivo(NodoABB<T> nodo, T dato) {
         if (nodo == null) {
-            return new NodoABB(dato);
+            return new NodoABB<>(dato); //si llegamos a una posicion vacia, creamos un nodo con el dato recibido.
         }
         int comparacion = dato.compareTo(nodo.dato);
         if (comparacion < 0) {
@@ -27,7 +27,9 @@ public class ArbolABB<T extends Comparable<T>> {
         } else if (comparacion > 0) {
             nodo.derecho = insertarRecursivo(nodo.derecho, dato);
         }
-        return nodo;
+        return nodo; //devuelve el nodo actual, para mantener la estructura del árbol y 
+                     //permitir que las referencias de los nodos se actualicen correctamente 
+                     //al regresar de las llamadas recursivas. 
     }
     public T buscar(T dato) {
         return buscarRecursivo(raiz, dato);

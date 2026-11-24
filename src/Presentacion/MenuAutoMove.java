@@ -11,10 +11,15 @@ public class MenuAutoMove {
     GestorAutoMove gs = new GestorAutoMove();
     GestorRed gsG = new GestorRed();
 
-    public void iniciar() throws IOException{
+    public void iniciar() throws IOException {
         System.out.println("----------------------------BIENVENIDO USUARIO!----------------------------");
-        gs.recuperarVehiculos();
-        gs.recuperarMisiones();
+        try {
+            gs.recuperarVehiculos();
+            gs.recuperarMisiones(); // despues de los vehiculos: necesita encontrarlos en el ABB
+        } catch (IOException e) {
+            Consola.emitirMensajeln("No se pudo recuperar la informacion guardada: " + e.getMessage());
+            return;
+        }
         int opcion = 10;
         do {
             System.out.println("\n");
@@ -22,11 +27,14 @@ public class MenuAutoMove {
             opcion = leerOpcionMenu();
             switch (opcion) {
                 case 1:
-                    if (gs.cargarVehiculosExistentes()) {
-                        System.out.println("Vehiculos cargados correctamente!");
-
-                    } else {
-                        System.out.println("Los vehiculos ya existen!");
+                    try {
+                        if (gs.cargarVehiculosExistentes()) {
+                            System.out.println("Vehiculos cargados correctamente!");
+                        } else {
+                            System.out.println("Los vehiculos ya existen!");
+                        }
+                    } catch (IOException e) {
+                        System.out.println("Error de E/S al cargar los vehiculos: " + e.getMessage());
                     }
                     break;
                 case 2:
@@ -70,7 +78,7 @@ public class MenuAutoMove {
                 + "\n0 - Salir.");
     }
 
-    private void mostrarNecesitanRecarga(){
+    private void mostrarNecesitanRecarga() {
         List<VehiculoAutonomo> lista = gs.vehiculosQueNecesitanRecarga();
         if (lista.isEmpty()) {
             Consola.emitirMensajeln("Ningun vehiculo necesita recarga.");
@@ -82,10 +90,18 @@ public class MenuAutoMove {
         }
         Consola.emitirMensaje("\nIngrese el codigo del vehiculo que desea recargar: ");
         String codigo = Consola.leerString();
-        if (gs.recargarVehiculo(codigo)) {
-            Consola.emitirMensajeln("Vehiculo recargado correctamente.");
-        } else {
-            Consola.emitirMensajeln("No se pudo recargar el vehiculo. Verifique el codigo.");
+        try {
+            if (gs.recargarVehiculo(codigo)) {
+                Consola.emitirMensajeln("Vehiculo recargado correctamente.");
+            } else {
+                Consola.emitirMensajeln("No se pudo recargar el vehiculo (no es recargable o no lo necesita).");
+            }
+        } catch (VehiculoNoEncontradoException e) {
+            Consola.emitirMensajeln(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
+        } catch (IOException e) {
+            Consola.emitirMensajeln("Error de E/S al actualizar el archivo de vehiculos: " + e.getMessage());
         }
     }
 
@@ -344,7 +360,7 @@ public class MenuAutoMove {
     }
 
     private void asignarMision() throws IOException {
-        if (gs.vehiculoDisponible() != null) {
+        if (!gs.vehiculoDisponible().isEmpty()) {
             System.out.println("_____ASIGNAR MISION____");
             System.out.println();
 
@@ -500,6 +516,10 @@ public class MenuAutoMove {
 
             Consola.emitirMensajeln("Vehiculo encontrado!");
             System.out.println(vehiculo);
+
+        } catch (VehiculoNoEncontradoException e) {
+            // Captura cuando el vehículo no está en el ABB
+            Consola.emitirMensajeln(e.getMessage());
         } catch (IllegalArgumentException e) {
             // Captura cuando la validación del código falla (ej. caracteres no permitidos)
             Consola.emitirMensajeln("Error en los datos: " + e.getMessage());
